@@ -1,2 +1,2 @@
 # jean
-Sistema de inventario y seguimiento de productos para Embutidos Jossy
+Sistema de inventario y seguimiento de productos y materias primas para Embutidos Jossy.

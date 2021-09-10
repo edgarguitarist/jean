@@ -1,0 +1,104 @@
+<style>
+  .datosp {
+    background-color: #e3ecef;
+    border: 2px solid #78909c;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin: 15px;
+  }
+
+  form {
+    background: #fff;
+    margin: auto;
+    padding: 20px 50px;
+    border: 1px solid #d1d1d1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+  }
+  form p {
+    margin: 0;
+  }
+
+  .full-width {
+    grid-column: 1 / 3;
+  }
+</style>
+<div style="display: contents;">
+  <div class="datosp full-width" id="mostrar_data" required="">
+    <p>
+      <input
+        onclick="setAllCheckboxes('mostrar_data', this);"
+        type="checkbox"
+        id="checkbox"
+        name="all"
+        value="Todos"
+      /><label>Seleccionar Todos</label>
+    </p>
+    <p>
+      <input
+        onclick="setAllComplete('mostrar_data', this);"
+        type="checkbox"
+        id="checkbox"
+        name="checkbox[]"
+        value="Completo"
+      /><label>Completo</label>
+    </p>
+    <p>
+      <input
+        onclick="NosetAllCheckboxes('mostrar_data', this);"
+        type="checkbox"
+        id="checkbox"
+        name="checkbox[]"
+        value="tocino"
+      /><label>tocino</label>
+    </p>
+    <p>
+      <input
+        onclick="NosetAllCheckboxes('mostrar_data', this);"
+        type="checkbox"
+        id="checkbox"
+        name="checkbox[]"
+        value="Chuleta"
+      /><label>Chuleta</label>
+    </p>
+    <p>
+      <input
+        onclick="NosetAllCheckboxes('mostrar_data', this);"
+        type="checkbox"
+        id="checkbox"
+        name="checkbox[]"
+        value="Medallon"
+      /><label>Medallon</label>
+    </p>
+    <p>
+      <input
+        onclick="NosetAllCheckboxes('mostrar_data', this);"
+        type="checkbox"
+        id="checkbox"
+        name="checkbox[]"
+        value="Pierna de chancho"
+      /><label>Pierna de chancho</label>
+    </p>
+    <p>
+      <input
+        onclick="NosetAllCheckboxes('mostrar_data', this);"
+        type="checkbox"
+        id="checkbox"
+        name="checkbox[]"
+        value="Costilla"
+      /><label>Costilla</label>
+    </p>
+    <p>
+      <input
+        onclick="NosetAllCheckboxes('mostrar_data', this);"
+        type="checkbox"
+        id="checkbox"
+        name="checkbox[]"
+        value="Lomo de chancho"
+      /><label>Lomo de chancho</label>
+    </p>
+  </div>
+</div>

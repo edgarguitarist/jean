@@ -24,7 +24,7 @@ $namepdf = "Reporte_Ord_Emb - " . $hoy;
 				<form id="form_rep_ord_emb"  name="form_rep_ord_emb" method="post" style="padding: 0px; border: 0px; background: #00000000;">
 					<div class="tipo_reporte col2 full-width">
 						<!--<p>
-							<label for="Tipo De Materia Prima">Tipo De Materia Prima :</label>
+							<label for="Tipo de Materia Prima">Tipo de Materia Prima :</label>
 							<select name="tip_ma_m" id="tip_ma_m" required>
 								<option value="">Seleccionar Tipo M.Primas</option>
 								<?php

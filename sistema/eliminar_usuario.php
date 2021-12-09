@@ -60,7 +60,7 @@ if ($_SESSION['rol'] !=1) {
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <?php include "includes/scripts.php";?>
@@ -72,10 +72,10 @@ if ($_SESSION['rol'] !=1) {
 	<section id="container">
 	<div class="data_delete">
     <h2>¿Seguro que desea Eliminar el siguiente Usuario</h2>
-    <p>Cedula: <spam><?php echo $cedu_usu; ?></p>
-      <p>Nombre: <spam><?php echo $nomb_usu; ?></p>
-        <p>Usuario: <spam><?php echo $usua_usu; ?></p>
-          <p>Rol: <spam><?php echo $rol_usu; ?></p>
+    <p>Cedula: <span><?php echo $cedu_usu; ?></p>
+      <p>Nombre: <span><?php echo $nomb_usu; ?></p>
+        <p>Usuario: <span><?php echo $usua_usu; ?></p>
+          <p>Rol: <span><?php echo $rol_usu; ?></p>
           
           <form method="post" action="">
             <input type="hidden" name="id_usua" value="<?php echo $id_usua; ?>">

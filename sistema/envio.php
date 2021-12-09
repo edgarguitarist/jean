@@ -15,18 +15,17 @@ if (isset($_POST['s1des']) ){
 
     if (isset($_POST['checkbox']) ){
         if(is_array($_POST['checkbox'])){
-            while(list($key,$value) = each($_POST['checkbox'])){
-                ///recorremos el array y anidamos los values separados de una ','
-                $val = $val.$value.',';
-            }
+            $checkbox = $_POST['checkbox'];
+            $checkbox = implode(",", $checkbox);
+            $regs3= $checkbox;
         }
-        $check = substr($val, 0, -1);
-        $insert="INSERT INTO orden_despost(tip_mat_pri,lot_mat_pri,cor_pro) VALUES ('{$regs1[0]}','{$regs2[0]}','{$check}')";
+        //$check = substr($val, 0, -1); //quitamos la ultima coma
+        $insert="INSERT INTO orden_despost(tip_mat_pri,lot_mat_pri,cor_pro) VALUES ('{$regs1[0]}','{$regs2[0]}','{$regs3}')";
         $resultado_insert=mysqli_query($conexion,$insert);
         if($resultado_insert){
             //success    
             //echo '<br><br><h1>Datos Agregados</>'; 
-            $array = explode(',', $check);
+            $array = explode(',', $regs3);
             foreach ($array as $values)
             {
                 echo $values. ' ';
@@ -114,9 +113,9 @@ if (isset($_POST['s1des']) ){
 
     foreach ($conexion->query("SELECT * FROM prod_terminado WHERE cod_pro LIKE '%emb%'") as $nom) {
       $Let = substr($nom['cod_pro'], 0, 3);
-    };
+    }
 
-    //echo $Let;
+    
     
     while ($flag == 0) {
       $aux = $val;

@@ -11,7 +11,7 @@ if (!empty($_POST)) {
 
       ////////////////////////
 
-      $query = mysqli_query($conexion, "SELECT * FROM proveedor WHERE ced_pro = '$cedu_prove' AND estado = 1");
+      $query = mysqli_query($conexion, "SELECT *, ( SELECT nom_tip_emp FROM tipo_empresa WHERE id_tip_emp = pro.id_tip_emp ) AS tipo FROM proveedor pro WHERE pro.ced_pro = '$cedu_prove' AND pro.estado = 1");
       $result = mysqli_num_rows($query);
       $data = '';
       if ($result > 0) {
@@ -69,7 +69,7 @@ if (!empty($_POST)) {
 
     $insert = mysqli_query($conexion,"INSERT INTO mat_prima (cod_mat_pri,id_prov,id_tip_mat,peso_lle,id_usu) 
             VALUES('$salida','$id_proveed','$tipo_mate','$peso_llega','$id_usuar')");
-    echo "Registro De Materia Prima Correcto!";
+    echo "Registro de Materia Prima Correcto!";
     exit;   
   }
   exit;

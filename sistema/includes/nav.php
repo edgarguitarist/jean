@@ -1,16 +1,15 @@
  <nav>
    <ul>
-      <li><a href="index.php"><i class="fas fa-home"></i> Inicio</a></li>
-      <?php
+     <li><a href="index.php"><i class="fas fa-home"></i> Inicio</a></li>
+     <?php
       if ($_SESSION['rol'] == 1) {
-        # code..
       ?>
-      <li class="principal"><a href="usuario.php"><i class="fas fa-users"></i> Usuarios</a>
-        <ul>
-          <li><a href="usuario.php">Nuevo Usuario</a></li>
-          <li><a href="lista-usuario.php">Lista de Usuarios</a></li>
-        </ul>
-      </li>
+       <li class="principal"><a href="usuario.php"><i class="fas fa-users"></i> Usuarios</a>
+         <ul>
+           <li><a href="usuario.php">Nuevo Usuario</a></li>
+           <li><a href="lista-usuario.php">Lista de Usuarios</a></li>
+         </ul>
+       </li>
      <?php } ?>
 
      <li class="principal"><a href="proveedor.php"><i class="fas fa-truck"></i> Proveedores</a>
@@ -20,7 +19,7 @@
        </ul>
      </li>
 
-     <li class="principal"><a href="orden_produc_embu.php"><i class="fas fa-cog fa-spin fa-fw"></i> Produccion</a>
+     <li class="principal"><a href="materia_prima.php"><i class="fas fa-arrow-down"></i> Entrada</a>
        <ul>
          <li><a href="orden_produc_embu.php">Orden de Embutido <i class="fas fa-arrow-right"></i></a>
            <ul>
@@ -28,25 +27,27 @@
            </ul>
          </li>
          <li><a href="orden_desposte.php">Orden de Desposte</a></li>
+         <li><a href="materia_prima.php">Materia Prima</a></li>
        </ul>
      </li>
 
-     <li class="principal"><a href="produc_termi.php"><i class="fas fa-arrow-down"></i> Entrada</a>
+     <li class="principal"><a href="produc_proce.php"><i class="fas fa-cog fa-spin fa-fw"></i> Producción</a>
        <ul>
+         <li><a href="produc_proce.php">Producto Procesar</a></li>
+         
+         <li></li>
+       </ul>
+     </li>
 
-         <li><a href="produc_termi.php">Producto Terminado <i class="fas fa-arrow-right"></i></a>
+
+     <li class="principal"><a href="produc_termi.php"><i class="fas fa-arrow-up"></i> Salida</a>
+       <ul>
+       <li><a href="produc_termi.php">Producto Terminado <i class="fas fa-arrow-right"></i></a>
            <ul>
              <li><a href="produc_termi.php">Prod. Carnicos</a></li>
              <li><a href="produc_termi_emb.php">Prod. Embutidos</a></li>
            </ul>
          </li>
-         <li><a href="materia_prima.php">Materia Prima</a></li>
-       </ul>
-     </li>
-
-     <li class="principal"><a href="produc_proce.php"><i class="fas fa-arrow-up"></i> Salida</a>
-       <ul>
-         <li><a href="produc_proce.php">Producto Procesar</a></li>
          <li><a href="produc_final.php">Producto Final</a></li>
        </ul>
      </li>

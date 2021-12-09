@@ -7,7 +7,7 @@ if (isset($_GET['ord_desp'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 	<meta charset="UTF-8">
@@ -72,8 +72,8 @@ if (isset($_GET['ord_desp'])) {
 					</div>
 
 					<div class="wd30">
-						<label>Peso </label>
-						<input name="peso_lle" id="peso_lle" class="solo-numero" value="0" onfocus="checkSelect()" onkeyup="revisar(); checkPeso();" required>
+						<label>Peso </label> <!-- Mostrar alerta del tamaño de corte si se excede del peso común  -->
+						<input type="number" name="peso_lle" id="peso_lle" class="solo-numero" min="0" value="0" onfocus="checkSelect()" onkeyup="revisar(); checkPeso();" required>
 					</div>
 					<div class="wd30"></div>
 
@@ -82,7 +82,8 @@ if (isset($_GET['ord_desp'])) {
 			</div>
 
 			<h1 class="v-margin">Productos Terminados</h1>
-			<table>
+			<table border="0" class="table" id="example" aria-describedby="tabla">
+
 				<thead>
 					<tr>
 						<th class="textcenter">Codigo</th>
@@ -107,6 +108,7 @@ if (isset($_GET['ord_desp'])) {
 			</table>
 		</div>
 	</section>
+	<?php include "includes/script_ns.php"; ?>
 
 	<script>
 

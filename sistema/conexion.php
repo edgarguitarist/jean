@@ -1,7 +1,7 @@
 <?php
 	$conexion=mysqli_connect("localhost","root","","jossyem1_tesis_embutido");
 	
-	//if(!$conexion){echo "ERROR AL CONCECTAR CON LA BASE DE DATOS";}
+	//if(!$conexion){echo "ERROR AL CONECTAR CON LA BASE DE DATOS";}
 	//else{echo "CONECTADO A LA BASE DE DATOS";}
 	date_default_timezone_set('America/Guayaquil'); 
 	$fecha= date("d-m-Y");

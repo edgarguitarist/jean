@@ -2,10 +2,10 @@
 
 include "includes/scripts.php";
 include "conexion.php";
-$PorcentajeDeMerma = 0.1;
-if (isset($_POST['materia'])) {
-    $materia = $_POST['materia'];
-}
+
+$materia = isset($_POST['materia']) ? $_POST['materia'] : null;
+$cod_materia = isset($_POST['cod_materia']) ? $_POST['cod_materia'] : null;
+
 if (isset($_POST['materia2'])) {
     $materia2 = $_POST['materia2'];
 }
@@ -16,29 +16,27 @@ if (isset($_POST['fecha'])) {
     $fecha = $_POST['fecha'];
 }
 if (isset($_POST['fecha2'])) {
-    $fecha2 =  date("Y-m-d",strtotime($_POST['fecha2']."+ 1 days"));
+    $fecha2 =  date("Y-m-d", strtotime($_POST['fecha2'] . "+ 1 days"));
 }
 if (isset($_POST['dias'])) {
     $dias = $_POST['dias'];
 }
 
 
-
-$merma =0;
-$nombre = '' ;
+$PorcentajeDeMerma = 0.1;
+$merma = 0;
+$nombre = '';
 $html = '';
 //$boton_reporte="";
-$boton_reporte="";
+$boton_reporte = "";
 
 if (isset($_POST['frm'])) {
     $frm = $_POST['frm'];
 
-    if($frm == "MERMA"){
+    if ($frm == "MERMA") {
         if (isset($tipo)) {
             $html = '';
-        
-            if ($tipo == "1") { // completo
-                
+            if ($tipo == "1") { // completo 
                 $total = 0;
                 $ini = 0;
                 $fecha2 = date("Y-m-d", strtotime($fecha . "+ 1 days"));
@@ -50,24 +48,25 @@ if (isset($_POST['frm'])) {
                     $nombre = $tot['Nombre'];
                     $ini += 1;
                 }
-        
-                $merma = $total - ($total*$PorcentajeDeMerma);
-                $des=$total - $merma;
-                $labels = "'Producto', 'Merma'";
-                $datos= $merma . ", " . $des;
-        
-                $html = "<div style='width: 100%;'>
-                    <h1 style='text-align:center;'>".$nombre."</h1>
+                if ($cod_materia == 'todos') {
+
+                    $merma = $total - ($total * $PorcentajeDeMerma);
+                    $des = $total - $merma;
+                    $labels = "'Producto', 'Merma'";
+                    $datos = $merma . ", " . $des;
+
+                    $html = "<div style='width: 100%;'>
+                    <h1 style='text-align:center;'>" . $nombre . "</h1>
                     <canvas id='chart1' width='100' height='25'></canvas>
                     <script>
                     var ctx = document.getElementById('chart1');
                     var data = {
-                        labels: [".$labels;
-                $html .= "],
+                        labels: [" . $labels;
+                    $html .= "],
                         datasets: [{
                             label: 'Resultados',
-                            data: [".$datos;
-                $html .= "],
+                            data: [" . $datos;
+                    $html .= "],
                             backgroundColor: [
                                 '#325459','#C5BCC2'],
                             fontColor: '#FFFFFFFF', 
@@ -88,45 +87,88 @@ if (isset($_POST['frm'])) {
         
                     </script>
                     </div><BR>";
-                
-                if ($ini > 0) {
-                    $html .= $boton_reporte . "
+
+                    if ($ini > 0) {
+                        $html .= $boton_reporte . "
                 <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                 <thead>
+<tr style='background: #325459 !important;'>
+                <tr style='background: #325459 !important;'>
                 <th><center>Materia Prima</th>
                 <th><center>Peso por Producto</th>
                 <th><center>Peso Total</th>
                 <th><center>Producto Total</th>
-                </thead>";
-        
-        
-                    
-                    $html .= "<tr>" .
-                        "<td><center><b>" . $nombre . "</td>" .
-                        "<td><center>" . "---" . "</td>" .
-                        "<td><center><b class='camporesalta'>" . $total . "</td>" .
-                        "<td><center><b class='camporesalta'>" . $merma . "</td>" .
-                        "</tr>";
-                } else {
-                    $html = '';
-                }
-        
-        
-                foreach ($conexion->query($consulta) as $fila) {
-                    $merma = $fila['Peso'] - ($fila['Peso']*$PorcentajeDeMerma);
-                    $html .= "<tr>" .
-                        "<td><center>" . $fila['Codigo'] . "</td>" .
-                        "<td><center>" . $fila['Peso'] . "</td>" .
-                        "<td><center>" . "---" . "</td>" .
-                        "<td><center>" . $merma . "</td>" .
-                        "</tr>";
-                }
-        
-                
-                if ($html == '') {
-                    echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
-                } else {
-                    echo $html;
+                </tr></thead>";
+
+
+
+                        $html .= "<tr>" .
+                            "<td><center><b>" . $nombre . "</td>" .
+                            "<td><center>" . "---" . "</td>" .
+                            "<td><center><b class='camporesalta'>" . $total . "</td>" .
+                            "<td><center><b class='camporesalta'>" . $merma . "</td>" .
+                            "</tr>";
+                    } else {
+                        $html = '';
+                    }
+
+
+                    foreach ($conexion->query($consulta) as $fila) {
+                        $merma = $fila['Peso'] - ($fila['Peso'] * $PorcentajeDeMerma);
+                        $html .= "<tr>" .
+                            "<td><center>" . $fila['Codigo'] . "</td>" .
+                            "<td><center>" . $fila['Peso'] . "</td>" .
+                            "<td><center>" . "---" . "</td>" .
+                            "<td><center>" . $merma . "</td>" .
+                            "</tr>";
+                    }
+
+
+                    if ($html == '') {
+                        echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
+                    } else {
+                        echo $html;
+                    }
+                } else { // por codigo de materia prima
+                    $html = "<div style='width: 100%;'>
+                <h1 style='display:; text-align:center;'>" . $nombre . "</h1> <br>";
+                    $html .= "
+                <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
+                <thead>
+<tr style='background: #325459 !important;'>
+                <tr style='background: #325459 !important;'>
+                <th><center>Materia Prima</th>
+                <th><center>Peso por Producto</th>
+                <th><center>Peso Total</th>
+                <th><center>Producto Final</th>
+                </tr></thead>";
+                    $total = 0;
+                    $ini = 0;
+                    $consulta = "SELECT A.nom_tip_mat AS Nombre, B.cod_mat_pri AS Codigo, B.peso_lle AS Peso 
+                            FROM tipo_mat A ,mat_prima B 
+                            WHERE A.id_tip_mat = B.id_tip_mat AND B.cod_mat_pri = '$cod_materia' AND B.fech_reg_mat BETWEEN '$fecha' AND '$fecha2'";
+
+                    foreach ($conexion->query($consulta) as $fila) {
+                        $merma = $fila['Peso'] - ($fila['Peso'] * $PorcentajeDeMerma);
+                        $html .= "<tr>" .
+                            "<td><center>" . $fila['Codigo'] . "</td>" .
+                            "<td><center>" . $fila['Peso'] . "</td>" .
+                            "<td><center>" . "---" . "</td>" .
+                            "<td><center>" . $merma . "</td>" .
+                            "</tr>";
+                        $ini++;
+                    }
+                    if ($ini > 0) {
+                        $html .= "</table><br>";
+                    } else {
+                        $html = '';
+                    }
+
+                    if ($html == '') {
+                        echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1> <script>$cod_materia</script>";
+                    } else {
+                        echo $html;
+                    }
                 }
             } elseif ($tipo == "2") { // SOLO PRODUCTO ---> PRODUCTO ESPECIFICO
                 $fecha2 = date("Y-m-d", strtotime($fecha . "+ " . $dias . " days")); // SE SUMAN LOS DIAS SELECCIONADOS PARA CREAR UN RANGO DESDE LA FECHA INICIAL HASTA LOS DIAS AUMENTADOS
@@ -141,24 +183,24 @@ if (isset($_POST['frm'])) {
                         $nombre = $tot['Nombre'];
                         $ini += 1;
                     }
-        
-        
-                    $merma=$total - ($total*$PorcentajeDeMerma);
-                    $des=$total - $merma;
+
+
+                    $merma = $total - ($total * $PorcentajeDeMerma);
+                    $des = $total - $merma;
                     $labels = "'Producto', 'Merma'";
-                    $datos= $merma . ", " . $des;
-            
+                    $datos = $merma . ", " . $des;
+
                     $html = "<div style='width: 100%;'>
-                        <h1 style='text-align:center;'>".$nombre."</h1>
+                        <h1 style='text-align:center;'>" . $nombre . "</h1>
                         <canvas id='chart1' width='100' height='25'></canvas>
                         <script>
                         var ctx = document.getElementById('chart1');
                         var data = {
-                            labels: [".$labels;
+                            labels: [" . $labels;
                     $html .= "],
                             datasets: [{
                                 label: 'Resultados',
-                                data: [".$datos;
+                                data: [" . $datos;
                     $html .= "],
                                 backgroundColor: [
                                     '#325459','#C5BCC2'],
@@ -180,15 +222,17 @@ if (isset($_POST['frm'])) {
             
                         </script>
                         </div><BR>";
-        
+
                     if ($ini > 0) {
                         $html .= $boton_reporte . "<table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                         <thead>
+<tr style='background: #325459 !important;'>
+
                         <th><center>Materia Prima</th>
                         <th><center>Peso por Producto</th>
                         <th><center>Peso Total</th>
                         <th><center>Producto Total</th>
-                        </thead>";
+                        </tr></thead>";
                         $html .= "<tr>" .
                             "<td><center><b>" . $tot['Nombre'] . "</td>" .
                             "<td><center>" . "---" . "</td>" .
@@ -199,7 +243,7 @@ if (isset($_POST['frm'])) {
                     } else {
                         $html = '';
                     }
-        
+
                     if ($html == '') {
                         echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
                     } else {
@@ -209,11 +253,12 @@ if (isset($_POST['frm'])) {
                     $html .= $boton_reporte . "
                     <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                     <thead>
+<tr style='background: #325459 !important;'>
                     <th><center>Materia Prima</th>
                     <th><center>Peso por Producto</th>
                     <th><center>Peso Total</th>
                     <th><center>Producto Total</th>
-                    </thead>";
+                    </tr></thead>";
                     $total = 0;
                     $ini = 0;
                     $consulta = "SELECT A.nom_tip_mat AS Nombre, B.cod_mat_pri AS Codigo, SUM(B.peso_lle) AS Peso 
@@ -221,14 +266,14 @@ if (isset($_POST['frm'])) {
                                 WHERE A.id_tip_mat = B.id_tip_mat AND B.fech_reg_mat BETWEEN '$fecha' AND '$fecha2'
                                 GROUP BY B.id_tip_mat";
                     foreach ($conexion->query($consulta) as $tot) {
-                        $merma = $tot['Peso'] - ($tot['Peso']*$PorcentajeDeMerma);
+                        $merma = $tot['Peso'] - ($tot['Peso'] * $PorcentajeDeMerma);
                         $html .= "<tr>" .
-                        "<td><center><b>" . $tot['Nombre'] . "</td>" .
-                        "<td><center>" . "---" . "</td>" .
-                        "<td><center><b class='camporesalta'>" . $tot['Peso'] . "</td>" .
-                        "<td><center><b class='camporesalta'>" . $merma . "</td>" .
-                        "</tr>";
-        
+                            "<td><center><b>" . $tot['Nombre'] . "</td>" .
+                            "<td><center>" . "---" . "</td>" .
+                            "<td><center><b class='camporesalta'>" . $tot['Peso'] . "</td>" .
+                            "<td><center><b class='camporesalta'>" . $merma . "</td>" .
+                            "</tr>";
+
                         $ini += 1;
                     }
                     if ($ini > 0) {
@@ -236,7 +281,7 @@ if (isset($_POST['frm'])) {
                     } else {
                         $html = '';
                     }
-        
+
                     if ($html == '') {
                         echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
                     } else {
@@ -247,48 +292,53 @@ if (isset($_POST['frm'])) {
                 echo $html;  // no muestra nada
             }
         }
-    }
+    } // fin de la funcion MERMA
 
-    if($frm == "MATPRIMA"){
+    if ($frm == "MATPRIMA") {
         $total = 0;
         $ini = 0;
-        $pro= 0;
-        $npro= 0;
+        $pro = 0;
+        $npro = 0;
+
+
+
         $query = mysqli_query($conexion, "SELECT * 
-        FROM tipo_mat
-        WHERE id_tip_mat = $materia");
+    FROM tipo_mat
+    WHERE id_tip_mat = $materia");
         $data = mysqli_fetch_array($query);
-        $consulta = "   SELECT * 
+        if ($cod_materia == 'todos') {
+
+            $consulta = "   SELECT * 
                         FROM mat_prima
                         WHERE id_tip_mat = $materia AND fech_reg_mat BETWEEN '$fecha' AND '$fecha2'";
-        foreach ($conexion->query($consulta) as $tot) {
-            //$total += $tot['Peso'];
-            //$nombre = $tot['Nombre'];
-            $ini += 1;
-            if($tot['estado_mate']==1){
-                $pro+=1;
-            }else{
-                $npro+=1;
+            foreach ($conexion->query($consulta) as $tot) {
+                //$total += $tot['Peso'];
+                //$nombre = $tot['Nombre'];
+                $ini += 1;
+                if ($tot['estado_mate'] == 0) {
+                    $pro += 1;
+                } else {
+                    $npro += 1;
+                }
             }
-        }
 
-        //$merma = $total - ($total*$PorcentajeDeMerma);
-        //$des=$total - $merma;
-        $labels = "'Procesado', 'No Procesado'";
-        $datos= $pro . ", " . $npro;
+            //$merma = $total - ($total*$PorcentajeDeMerma);
+            //$des=$total - $merma;
+            $labels = "'Procesado', 'No Procesado'";
+            $datos = $pro . ", " . $npro;
 
-        $html = "<div style='width: 100%;'>
-            <h1 style='display:; text-align:center;'>".$data['nom_tip_mat']."</h1>
+            $html = "<div style='width: 100%;'>
+            <h1 style='display:; text-align:center;'>" . $data['nom_tip_mat'] . "</h1>
             <canvas id='chart1' width='100' height='25'></canvas>
             <script>
             var ctx = document.getElementById('chart1');
             var data = {
-                labels: [".$labels;
-        $html .= "],
+                labels: [" . $labels;
+            $html .= "],
                 datasets: [{
                     label: 'Resultados',
-                    data: [".$datos;
-        $html .= "],
+                    data: [" . $datos;
+            $html .= "],
                     backgroundColor: [
                         '#325459','#C5BCC2'],
                     fontColor: '#FFFFFFFF', 
@@ -309,131 +359,214 @@ if (isset($_POST['frm'])) {
 
             </script>
             </div><br>
-            <h4>Total de Registros: ".$ini."</h3><br>";       
+            <h4>Total de Registros: " . $ini . "</h3><br>";
 
-        //$html.= "<br><h1 style='text-align:center;'>".$data['nom_tip_mat']."</h1>";
+            //$html.= "<br><h1 style='text-align:center;'>".$data['nom_tip_mat']."</h1>";
 
-        $html .= $boton_reporte . "
+            $html .= $boton_reporte . "
             <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
             <thead>
+<tr style='background: #325459 !important;'>
             <th><center>Materia Prima</th>
             <th><center>Peso</th>
             <th><center>Fecha</th>
             <th><center>Hora</th>
             <th><center>Estado</th>
-            </thead>";
-        $total = 0;
-        $ini = 0;
-        $consulta = "SELECT * 
+            </tr></thead>";
+            $total = 0;
+            $ini = 0;
+            $consulta = "SELECT * 
                     FROM mat_prima
                     WHERE id_tip_mat = $materia AND fech_reg_mat BETWEEN '$fecha' AND '$fecha2'";
 
-        foreach ($conexion->query($consulta) as $tot) {
-            //$merma = $tot['Peso'] - ($tot['Peso']*$PorcentajeDeMerma);
-            $tiempo = explode(" ", $tot['fech_reg_mat']);
-            if($tot['estado_mate'] == 1){
-                $estado = "<span class='campoverde'>Procesado</span>";
-            }else{
-                $estado = "<span class='camporojo'>No Procesado</span>";
-            }                
-            $html .= "<tr>" .
-                "<td><center><b>" . $tot['cod_mat_pri'] . "</td>" .
-                "<td><center>" . $tot['peso_lle'] . "</td>" .
-                "<td><center>" . $tiempo[0] . "</td>" .
-                "<td><center>" . $tiempo[1] . "</td>" .
-                "<td style='text-align-last: center;'>".$estado."</td>" .
-                "</tr>";
+            foreach ($conexion->query($consulta) as $tot) {
+                //$merma = $tot['Peso'] - ($tot['Peso']*$PorcentajeDeMerma);
+                $tiempo = explode(" ", $tot['fech_reg_mat']);
 
-            $ini += 1;
-        }
-        if ($ini > 0) {
-            $html .= "</table><br>";
-        } else {
-            $html = '';
-        }
+                $estado = $tot['estado_mate'] == 0 ? "<span class='textoverde'>Procesado</span>" : "<span class='textorojo'>Sin Procesar</span>";
+                $html .= "<tr>" .
+                    "<td><center><b>" . $tot['cod_mat_pri'] . "</td>" .
+                    "<td><center>" . $tot['peso_lle'] . "</td>" .
+                    "<td><center>" . $tiempo[0] . "</td>" .
+                    "<td><center>" . $tiempo[1] . "</td>" .
+                    "<td style='text-align-last: center;'>" . $estado . "</td>" .
+                    "</tr>";
 
-        if ($html == '') {
-            echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
+                $ini += 1;
+            }
+            if ($ini > 0) {
+                $html .= "</table><br>";
+            } else {
+                $html = '';
+            }
+
+            if ($html == '') {
+                echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
+            } else {
+                echo $html;
+            }
         } else {
-            echo $html;
+            $html = "<div style='width: 100%;'>
+            <h1 style='display:; text-align:center;'>" . $data['nom_tip_mat'] . "</h1>";
+            $html .= "
+            <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
+            <thead>
+<tr style='background: #325459 !important;'>
+            <th><center>Materia Prima</th>
+            <th><center>Peso</th>
+            <th><center>Fecha</th>
+            <th><center>Hora</th>
+            <th><center>Estado</th>
+            </tr></thead>";
+            $total = 0;
+            $ini = 0;
+            $consulta = "SELECT * 
+                    FROM mat_prima
+                    WHERE cod_mat_pri = '$cod_materia' AND fech_reg_mat BETWEEN '$fecha' AND '$fecha2'";
+
+            foreach ($conexion->query($consulta) as $tot) {
+                //$merma = $tot['Peso'] - ($tot['Peso']*$PorcentajeDeMerma);
+                $tiempo = explode(" ", $tot['fech_reg_mat']);
+
+                $estado = $tot['estado_mate'] == 0 ? "<span class='textoverde'>Procesado</span>" : "<span class='textorojo'>Sin Procesar</span>";
+                $html .= "<tr>" .
+                    "<td><center><b>" . $tot['cod_mat_pri'] . "</td>" .
+                    "<td><center>" . $tot['peso_lle'] . "</td>" .
+                    "<td><center>" . $tiempo[0] . "</td>" .
+                    "<td><center>" . $tiempo[1] . "</td>" .
+                    "<td style='text-align-last: center;'>" . $estado . "</td>" .
+                    "</tr>";
+
+                $ini += 1;
+            }
+            if ($ini > 0) {
+                $html .= "</table><br>";
+            } else {
+                $html = '';
+            }
+
+            if ($html == '') {
+                echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1> <script>$cod_materia</script>";
+            } else {
+                echo $html;
+            }
         }
     }
 
-    if($frm == "PROTERM"){
-        if($tipo == "1"){ //Carne
+    if ($frm == "PROTERM") {
+        if ($tipo == "1") { //Carne
             switch ($materia) {
                 case 1: //Chancho ---> cha
-                    $codigo='cha';
+                    $codigo = 'cha';
                     break;
                 case 2:
-                    $codigo='chi';
-                   break;
+                    $codigo = 'chi';
+                    break;
                 case 3:
-                    $codigo='pol';
+                    $codigo = 'pol';
                     break;
                 case 4:
-                    $codigo='pav';
+                    $codigo = 'pav';
                     break;
                 case 6:
-                    $codigo='pes';
+                    $codigo = 'pes';
                     break;
                 case 99:
-                    $codigo='';
+                    $codigo = '';
                     break;
                 default:
                     echo $html; // no muestra nada
                     break;
             }
 
-            if($codigo!=''){
+            if ($codigo != '') {
                 $query = mysqli_query($conexion, "SELECT * 
                 FROM tipo_mat
                 WHERE id_tip_mat = $materia");
                 $data = mysqli_fetch_array($query);
-                $html.= "<br><h1 style='text-align:center;'>".$data['nom_tip_mat']."</h1>";
-                $html .= $boton_reporte . "
+                $html .= "<br><h1 style='text-align:center;'>" . $data['nom_tip_mat'] . "</h1><br>";
+               
+                $total = 0;
+                $ini = 0;
+                if ($cod_materia == 'todos') {
+                    $html .= $boton_reporte . "
                     <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                     <thead>
+<tr style='background: #325459 !important;'>
                     <th style='display:none;'><center>Materia Prima</th>
                     <th><center>Corte</th>
                     <th><center>Peso</th>
                     <th><center>Fecha</th>
                     <th><center>Hora</th>
-                    </thead>";
-                $total = 0;
-                $ini = 0;
-                $consulta = "   SELECT *, SUM(peso) AS SUMA 
+                    </tr></thead>";
+                    $consulta = "   SELECT *, SUM(peso) AS SUMA 
                                 FROM prod_terminado
                                 WHERE cod_pro Like '%$codigo%' AND fecha_ingre BETWEEN '$fecha' AND '$fecha2'
                                 GROUP BY cortes";
-                foreach ($conexion->query($consulta) as $tot) {
-                    $tiempo = explode(" ", $tot['fecha_ingre']); 
-                    $html .= "<tr>" .
-                        "<td style='display:none;'><center><b>" . $tot['cod_pro'] . "</td>" .
-                        "<td><center><b>" . $tot['cortes'] . "</td>" .
-                        "<td><center>" . $tot['SUMA'] . "</td>" .
-                        "<td><center>" . $tiempo[0] . "</td>" .
-                        "<td><center>" . $tiempo[1] . "</td>" .
-                        "</tr>";
-                    $ini += 1;
-                }
-                if ($ini > 0) {$html .= "</table><br>";} else {$html = '';}
-                if ($html == '') {echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";} else {echo $html;}
-            }else{
-                $query = mysqli_query($conexion, "SELECT * 
-                FROM tipo_mat
-                WHERE id_tip_mat = $materia");
-                $data = mysqli_fetch_array($query);
-                $html.= "<br><h1 style='text-align:center;'>Todos</h1>";
-                $html .= $boton_reporte . "
+                    foreach ($conexion->query($consulta) as $tot) {
+                        $tiempo = explode(" ", $tot['fecha_ingre']);
+                        $html .= "<tr>" .
+                            "<td style='display:none;'><center><b>" . $tot['cod_pro'] . "</td>" .
+                            "<td><center><b>" . $tot['cortes'] . "</td>" .
+                            "<td><center>" . $tot['SUMA'] . "</td>" .
+                            "<td><center>" . $tiempo[0] . "</td>" .
+                            "<td><center>" . $tiempo[1] . "</td>" .
+                            "</tr>";
+                        $ini ++;
+                    }
+                } else {
+                    $html .= $boton_reporte . "
                     <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                     <thead>
+<tr style='background: #325459 !important;'>
                     <th><center>Materia Prima</th>
                     <th><center>Corte</th>
                     <th><center>Peso</th>
                     <th><center>Fecha</th>
                     <th><center>Hora</th>
-                    </thead>";
+                    </tr></thead>";
+                    $consulta = "SELECT *, SUM(peso) AS SUMA 
+                                FROM prod_terminado
+                                WHERE cod_pro ='$cod_materia' AND fecha_ingre BETWEEN '$fecha' AND '$fecha2'";
+                    foreach ($conexion->query($consulta) as $tot) {
+                        $tiempo = $tot['fecha_ingre'] != null ? explode(" ", $tot['fecha_ingre']) : ['',''];
+                        
+                        $html .= "<tr>" .
+                            "<td><center><b>" . $tot['cod_pro'] . "</td>" .
+                            "<td><center><b>" . $tot['cortes'] . "</td>" .
+                            "<td><center>" . $tot['SUMA'] . "</td>" .
+                            "<td><center>" . $tiempo[0] . "</td>" .
+                            "<td><center>" . $tiempo[1] . "</td>" .
+                            "</tr>";
+                        $ini = $tiempo[0] != '' ? $ini + 1 : $ini;
+                    }
+                }
+                if ($ini > 0) {
+                    $html .= "</table><br>";
+                } else {
+                    $html = '';
+                }
+                if ($html == '') {
+                    echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
+                } else {
+                    echo $html;
+                }
+            } else {
+                $query = mysqli_query($conexion, "SELECT * 
+                FROM tipo_mat
+                WHERE id_tip_mat = $materia");
+                $data = mysqli_fetch_array($query);
+                $html .= "<br><h1 style='text-align:center;'>Todos</h1><br>";
+                $html .= $boton_reporte . "
+                    <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
+                    <thead>
+<tr style='background: #325459 !important;'>
+                    <th><center>Materia Prima</th>
+                    <th><center>Corte</th>
+                    <th><center>Peso</th>
+                    <th><center>Fecha</th>
+                    <th><center>Hora</th>
+                    </tr></thead>";
                 $total = 0;
                 $ini = 0;
                 $consulta = "   SELECT *, SUM(peso) AS SUMA, CASE
@@ -453,47 +586,55 @@ if (isset($_POST['frm'])) {
                                 WHERE cod_pro NOT LIKE '%emb%' AND fecha_ingre BETWEEN '$fecha' AND '$fecha2'
                                 GROUP BY cortes
                                 ORDER BY cod_pro";
-                $ctrl='';
-                $last='';
+                $ctrl = '';
+                $last = '';
                 foreach ($conexion->query($consulta) as $tot) {
                     $tiempo = explode(" ", $tot['fecha_ingre']);
-                    $ctrl=$tot['t_mat'];
-                    if($ctrl == $last){
+                    $ctrl = $tot['t_mat'];
+                    if ($ctrl == $last) {
                         $html .= "<tr>" .
-                        "<td ><center><b>" ."" . "</td>" .
-                        "<td><center><b>" . $tot['cortes'] . "</td>" .
-                        "<td><center>" . $tot['SUMA'] . "</td>" .
-                        "<td><center>" . $tiempo[0] . "</td>" .
-                        "<td><center>" . $tiempo[1] . "</td>" .
-                        "</tr>";
-                    }else{
+                            "<td ><center><b>" . "" . "</td>" .
+                            "<td><center><b>" . $tot['cortes'] . "</td>" .
+                            "<td><center>" . $tot['SUMA'] . "</td>" .
+                            "<td><center>" . $tiempo[0] . "</td>" .
+                            "<td><center>" . $tiempo[1] . "</td>" .
+                            "</tr>";
+                    } else {
                         $html .= "<tr>" .
-                        "<td ><center><b>" .$tot['t_mat'] . "</td>" .
-                        "<td><center><b>" . $tot['cortes'] . "</td>" .
-                        "<td><center>" . $tot['SUMA'] . "</td>" .
-                        "<td><center>" . $tiempo[0] . "</td>" .
-                        "<td><center>" . $tiempo[1] . "</td>" .
-                        "</tr>";
+                            "<td ><center><b>" . $tot['t_mat'] . "</td>" .
+                            "<td><center><b>" . $tot['cortes'] . "</td>" .
+                            "<td><center>" . $tot['SUMA'] . "</td>" .
+                            "<td><center>" . $tiempo[0] . "</td>" .
+                            "<td><center>" . $tiempo[1] . "</td>" .
+                            "</tr>";
                     }
-                    $last=$tot['t_mat'];                    
+                    $last = $tot['t_mat'];
                     $ini += 1;
                 }
-                if ($ini > 0) {$html .= "</table><br>";} else {$html = '';}
-                if ($html == '') {echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";} else {echo $html;}
+                if ($ini > 0) {
+                    $html .= "</table><br>";
+                } else {
+                    $html = '';
+                }
+                if ($html == '') {
+                    echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
+                } else {
+                    echo $html;
+                }
             }
-                    
-        }else if($tipo == "2"){ // Embutido
+        } else if ($tipo == "2") { // Embutido
 
-            $html.= "<br><h1 style='text-align:center;'>Embutido</h1>";
+            $html .= "<br><h1 style='text-align:center;'>Embutido</h1>";
             $html .= $boton_reporte . "
                 <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                 <thead>
+<tr style='background: #325459 !important;'>
                 <th style='display:none;'><center>Materia Prima</th>
                 <th><center>Corte</th>
                 <th><center>Peso</th>
                 <th><center>Fecha</th>
                 <th><center>Hora</th>
-                </thead>";
+                </tr></thead>";
             $total = 0;
             $ini = 0;
             $consulta2 = "SELECT *, SUM(A.peso) AS SUMA, (SELECT MAX(B.fecha_ingre) 
@@ -505,7 +646,7 @@ if (isset($_POST['frm'])) {
             ";
 
             foreach ($conexion->query($consulta2) as $tot2) {
-                $tiempo = explode(" ", $tot2['FECHAF']); 
+                $tiempo = explode(" ", $tot2['FECHAF']);
                 $html .= "<tr>" .
                     "<td style='display:none;'><center><b>" . $tot2['cod_pro'] . "</td>" .
                     "<td><center><b>" . $tot2['cortes'] . "</td>" .
@@ -515,66 +656,74 @@ if (isset($_POST['frm'])) {
                     "</tr>";
                 $ini += 1;
             }
-            if ($ini > 0) {$html .= "</table><br>";} else {$html = '';}
-            if ($html == '') {echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";} else {echo $html;}
-            
+            if ($ini > 0) {
+                $html .= "</table><br>";
+            } else {
+                $html = '';
+            }
+            if ($html == '') {
+                echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
+            } else {
+                echo $html;
+            }
+
 
             //echo "<h1>NO HAY DATOS DE EMBUTIDOS</h1>";  // no muestra nada porque no hay informacion
-        }else {
+        } else {
             echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";  // no muestra nada
         }
-
     }
 
-///////////////////////////////////////////////PRODUCTO FINAL
+    ///////////////////////////////////////////////PRODUCTO FINAL
 
-    if($frm == "PROFINAL"){
-        if($tipo == "1"){ //Carne
+    if ($frm == "PROFINAL") {
+        if ($tipo == "1") { //Carne
             switch ($materia) {
                 case 1: //Chancho ---> cha
-                    $cod='cha';
-                    $codigo='chancho';
+                    $cod = 'cha';
+                    $codigo = 'chancho';
                     break;
                 case 2:
-                    $cod='chi';
-                    $codigo='chivo';
-                break;
+                    $cod = 'chi';
+                    $codigo = 'chivo';
+                    break;
                 case 3:
-                    $cod='pol';
-                    $codigo='pollo';
+                    $cod = 'pol';
+                    $codigo = 'pollo';
                     break;
                 case 4:
-                    $cod='pav';
-                    $codigo='pavo';
+                    $cod = 'pav';
+                    $codigo = 'pavo';
                     break;
                 case 6:
-                    $cod='pes';
-                    $codigo='pescado';
+                    $cod = 'pes';
+                    $codigo = 'pescado';
                     break;
                 case 99:
-                    $cod='';
-                    $codigo='';
+                    $cod = '';
+                    $codigo = '';
                     break;
                 default:
                     echo $html; // no muestra nada
                     break;
             }
 
-            if($codigo!=''){
+            if ($codigo != '') {
                 $query = mysqli_query($conexion, "SELECT * 
                 FROM tipo_mat
                 WHERE id_tip_mat = $materia");
                 $data = mysqli_fetch_array($query);
-                $html.= "<br><h1 style='text-align:center;'>".$data['nom_tip_mat']."</h1>";
+                $html .= "<br><h1 style='text-align:center;'>" . $data['nom_tip_mat'] . "</h1>";
                 $html .= $boton_reporte . "
                     <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                     <thead>
+<tr style='background: #325459 !important;'>
                     <th style='display:none;'><center>Materia Prima</th>
                     <th><center>Corte</th>
                     <th><center>Peso</th>
                     <th><center>Fecha</th>
                     <th><center>Hora</th>
-                    </thead>";
+                    </tr></thead>";
                 $total = 0;
                 $ini = 0;
                 $consulta = "   SELECT *, SUM(peso) AS SUMA 
@@ -582,7 +731,7 @@ if (isset($_POST['frm'])) {
                                 WHERE cortes Like '%$codigo%' AND fecha_ingreso BETWEEN '$fecha' AND '$fecha2'
                                 GROUP BY cortes";
                 foreach ($conexion->query($consulta) as $tot) {
-                    $tiempo = explode(" ", $tot['fecha_ingreso']); 
+                    $tiempo = explode(" ", $tot['fecha_ingreso']);
                     $html .= "<tr>" .
                         "<td style='display:none;'><center><b>" . $tot['id_prod_final'] . "</td>" .
                         "<td><center><b>" . $tot['cortes'] . "</td>" .
@@ -592,23 +741,32 @@ if (isset($_POST['frm'])) {
                         "</tr>";
                     $ini += 1;
                 }
-                if ($ini > 0) {$html .= "</table><br>";} else {$html = '';}
-                if ($html == '') {echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";} else {echo $html;}
-            }else{
+                if ($ini > 0) {
+                    $html .= "</table><br>";
+                } else {
+                    $html = '';
+                }
+                if ($html == '') {
+                    echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
+                } else {
+                    echo $html;
+                }
+            } else {
                 $query = mysqli_query($conexion, "SELECT * 
                 FROM tipo_mat
                 WHERE id_tip_mat = $materia");
                 $data = mysqli_fetch_array($query);
-                $html.= "<br><h1 style='text-align:center;'>Todos</h1>";
+                $html .= "<br><h1 style='text-align:center;'>Todos</h1><br>";
                 $html .= $boton_reporte . "
                     <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                     <thead>
+<tr style='background: #325459 !important;'>
                     <th><center>Materia Prima</th>
                     <th><center>Corte</th>
                     <th><center>Peso</th>
                     <th><center>Fecha</th>
                     <th><center>Hora</th>
-                    </thead>";
+                    </tr></thead>";
                 $total = 0;
                 $ini = 0;
                 $consulta = "   SELECT *, SUM(peso) AS SUMA, CASE
@@ -628,47 +786,55 @@ if (isset($_POST['frm'])) {
                                 WHERE cortes LIKE '% de %' AND fecha_ingreso BETWEEN '$fecha' AND '$fecha2'
                                 GROUP BY cortes
                                 ORDER BY cortes";
-                $ctrl='';
-                $last='';
+                $ctrl = '';
+                $last = '';
                 foreach ($conexion->query($consulta) as $tot) {
                     $tiempo = explode(" ", $tot['fecha_ingreso']);
-                    $ctrl=$tot['t_mat'];
-                    if($ctrl == $last){
+                    $ctrl = $tot['t_mat'];
+                    if ($ctrl == $last) {
                         $html .= "<tr>" .
-                        "<td ><center><b>" ."" . "</td>" .
-                        "<td><center><b>" . $tot['cortes'] . "</td>" .
-                        "<td><center>" . $tot['SUMA'] . "</td>" .
-                        "<td><center>" . $tiempo[0] . "</td>" .
-                        "<td><center>" . $tiempo[1] . "</td>" .
-                        "</tr>";
-                    }else{
+                            "<td ><center><b>" . "" . "</td>" .
+                            "<td><center><b>" . $tot['cortes'] . "</td>" .
+                            "<td><center>" . $tot['SUMA'] . "</td>" .
+                            "<td><center>" . $tiempo[0] . "</td>" .
+                            "<td><center>" . $tiempo[1] . "</td>" .
+                            "</tr>";
+                    } else {
                         $html .= "<tr>" .
-                        "<td ><center><b>" .$tot['t_mat'] . "</td>" .
-                        "<td><center><b>" . $tot['cortes'] . "</td>" .
-                        "<td><center>" . $tot['SUMA'] . "</td>" .
-                        "<td><center>" . $tiempo[0] . "</td>" .
-                        "<td><center>" . $tiempo[1] . "</td>" .
-                        "</tr>";
+                            "<td ><center><b>" . $tot['t_mat'] . "</td>" .
+                            "<td><center><b>" . $tot['cortes'] . "</td>" .
+                            "<td><center>" . $tot['SUMA'] . "</td>" .
+                            "<td><center>" . $tiempo[0] . "</td>" .
+                            "<td><center>" . $tiempo[1] . "</td>" .
+                            "</tr>";
                     }
-                    $last=$tot['t_mat'];                    
+                    $last = $tot['t_mat'];
                     $ini += 1;
                 }
-                if ($ini > 0) {$html .= "</table><br>";} else {$html = '';}
-                if ($html == '') {echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";} else {echo $html;}
+                if ($ini > 0) {
+                    $html .= "</table><br>";
+                } else {
+                    $html = '';
+                }
+                if ($html == '') {
+                    echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
+                } else {
+                    echo $html;
+                }
             }
-                    
-        }else if($tipo == "2"){ // Embutido
+        } else if ($tipo == "2") { // Embutido
 
-            $html.= "<br><h1 style='text-align:center;'>Embutido</h1>";
+            $html .= "<br><h1 style='text-align:center;'>Embutido</h1>";
             $html .= $boton_reporte . "
                 <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                 <thead>
+<tr style='background: #325459 !important;'>
                 <th style='display:none;'><center>Materia Prima</th>
                 <th><center>Corte</th>
                 <th><center>Peso</th>
                 <th><center>Fecha</th>
                 <th><center>Hora</th>
-                </thead>";
+                </tr></thead>";
             $total = 0;
             $ini = 0;
             $consulta2 = "  SELECT *, SUM(peso) AS SUMA, MAX(fecha_ingreso) AS FECHAF 
@@ -677,7 +843,7 @@ if (isset($_POST['frm'])) {
                             GROUP BY cortes";
 
             foreach ($conexion->query($consulta2) as $tot2) {
-                $tiempo = explode(" ", $tot2['FECHAF']); 
+                $tiempo = explode(" ", $tot2['FECHAF']);
                 $html .= "<tr>" .
                     "<td style='display:none;'><center><b>" . $tot2['id_prod_final'] . "</td>" .
                     "<td><center><b>" . $tot2['cortes'] . "</td>" .
@@ -687,30 +853,38 @@ if (isset($_POST['frm'])) {
                     "</tr>";
                 $ini += 1;
             }
-            if ($ini > 0) {$html .= "</table><br>";} else {$html = '';}
-            if ($html == '') {echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";} else {echo $html;}
-            
+            if ($ini > 0) {
+                $html .= "</table><br>";
+            } else {
+                $html = '';
+            }
+            if ($html == '') {
+                echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
+            } else {
+                echo $html;
+            }
+
 
             //echo "<h1>NO HAY DATOS DE EMBUTIDOS</h1>";  // no muestra nada porque no hay informacion
-        }else {
+        } else {
             echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";  // no muestra nada
         }
-
     }
 
-    if($frm == "ORDEMB"){
-        
-        $html.= "<br><h1 style='text-align:center;'>Orden de Embutidos</h1><br>";
+    if ($frm == "ORDEMB") {
+
+        $html .= "<br><h1 style='text-align:center;'>Orden de Embutidos</h1><br>";
 
         $html .= $boton_reporte . "
             <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
             <thead>
+<tr style='background: #325459 !important;'>
             <th><center>Nombre</th>
             <th><center>Cantidad</th>
             <th><center>Fecha</th>
             <th><center>Hora</th>
             <th><center>Estado</th>
-            </thead>";
+            </tr></thead>";
         $ini = 0;
         $consulta = "SELECT * 
                     FROM orden_embut
@@ -719,17 +893,17 @@ if (isset($_POST['frm'])) {
         foreach ($conexion->query($consulta) as $tot) {
             //$merma = $tot['Peso'] - ($tot['Peso']*$PorcentajeDeMerma);
             $tiempo = explode(" ", $tot['fecha_ord_emb']);
-            if($tot['estado'] == 0){
-                $estado = "<span class='campoverde'>Procesado</span>";
-            }else{
-                $estado = "<span class='camporojo'>No Procesado</span>";
-            }                
+            if ($tot['estado'] == 0) {
+                $estado = "<span class='textoverde'>Procesado</span>";
+            } else {
+                $estado = "<span class='textorojo'>No Procesado</span>";
+            }
             $html .= "<tr>" .
                 "<td><center><b>" . $tot['nom_ord'] . "</td>" .
                 "<td><center>" . $tot['cant_ord'] . "</td>" .
                 "<td><center>" . $tiempo[0] . "</td>" .
                 "<td><center>" . $tiempo[1] . "</td>" .
-                "<td style='text-align-last: center;'>".$estado."</td>" .
+                "<td style='text-align-last: center;'>" . $estado . "</td>" .
                 "</tr>";
 
             $ini += 1;
@@ -746,11 +920,6 @@ if (isset($_POST['frm'])) {
             echo $html;
         }
     }
-
-
-}else {
+} else {
     echo $html;  // no muestra nada
 }
-
-
-

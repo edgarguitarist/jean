@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if ($_SESSION['rol'] !=1 AND $_SESSION['rol'] !=2) {
+if ($_SESSION['rol'] !=1 && $_SESSION['rol'] !=2) {
 	header("location: login.php");
 }
 
@@ -11,11 +11,11 @@ include "conexion.php";
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <?php include "includes/scripts.php";?>
-  <title>Sisteme Produccion</title>
+  <title>Sistema de Producción</title>
 </head>
 <body>
   <?php include "includes/header.php";?>
@@ -33,7 +33,7 @@ include "conexion.php";
     ?>
 		
 
-		<h1>Lista De Proveedor</h1>		
+		<h1>Lista de Proveedor</h1>		
 	    <a href="proveedor.php" class="btn_nusuario">Crear Proveedor</a>
 	    <form action="buscar_proveedor.php" method="GET" class="form_buscar">
 	    	<input type="text" name="busqueda" id="busqueda" placeholder="Buscar" value="<?php echo $busqueda; ?>">
@@ -56,7 +56,7 @@ include "conexion.php";
 	    		<th>Correo Empresa</th>
 	    		<th>Telefono Empresa</th>
 	    		<th>Tipo Proveedor</th>
-	    		<th>Fecha De Registro</th>
+	    		<th>Fecha de Registro</th>
 	    		<th>Acciones</th>
 	    	</tr>
 	    	<?php

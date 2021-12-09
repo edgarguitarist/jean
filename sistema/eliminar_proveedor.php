@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['rol'] !=1 AND $_SESSION['rol'] !=2) {
+if ($_SESSION['rol'] !=1 && $_SESSION['rol'] !=2) {
   header("location: login.php");
 }
      include "conexion.php";
@@ -57,7 +57,7 @@ if ($_SESSION['rol'] !=1 AND $_SESSION['rol'] !=2) {
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <?php include "includes/scripts.php";?>
@@ -70,12 +70,12 @@ if ($_SESSION['rol'] !=1 AND $_SESSION['rol'] !=2) {
 	<div class="data_delete">
     <h2>¿Seguro que desea Eliminar el siguiente Proveedor?</h2>
     <h2>Contacto</h2>
-    <p>Cedula: <spam><?php echo $cedu_pro; ?></p>
-      <p>Nombre: <spam><?php echo $nomb_pro; ?></p>
+    <p>Cedula: <span><?php echo $cedu_pro; ?></p>
+      <p>Nombre: <span><?php echo $nomb_pro; ?></p>
         <h2>Empresa</h2>
-        <p>Ruc Empresa: <spam><?php echo $ruc_empe; ?></p>
-          <p>Nombre Empresa: <spam><?php echo $nom_empe; ?></p>
-             <p>Tipo Empresa: <spam><?php echo $tip_empe; ?></p>
+        <p>Ruc Empresa: <span><?php echo $ruc_empe; ?></p>
+          <p>Nombre Empresa: <span><?php echo $nom_empe; ?></p>
+             <p>Tipo Empresa: <span><?php echo $tip_empe; ?></p>
           
           <form method="post" action="">
             <input type="hidden" name="id_prov" value="<?php echo $id_prov; ?>">

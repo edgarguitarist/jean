@@ -3,7 +3,7 @@ session_start();
 include "conexion.php"; // Mostrar de la tabla    prod_procesar
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 	<meta charset="UTF-8">
@@ -48,22 +48,20 @@ include "conexion.php"; // Mostrar de la tabla    prod_procesar
 						</select>
 					</div>
 					<div class="wd30">
-						<label>Peso </label>
+						<label>Peso</label>
 						<input name="peso_lle" id="peso_lle" class="solo-numero" value="0" onfocus="checkSelect();" onkeyup="revisar2(); checkPeso2();" required>
 					</div>
 					<div class="wd30">
 						<h4 id="msg_error_pro" class="msg_error v-margin" hidden>Primero debe Seleccionar un Producto</h4>
-						<h4 id="msg_error_pro2" class="msg_error v-margin" hidden>El peso ingresado supera el peso de llegada del producto</h4>
-						<?php
-							//echo $data['chorizon cervecero'];
-						?>
+						<h4 id="msg_error_pro2" class="msg_error v-margin" hidden>El peso ingresado supera el peso de llegada del producto</h4>						
 					</div>
 					<input id="submitemb" type="submit" value="Guardar Producto" class="btn_guardar" style="width: auto; padding: 10px;" disabled>
 				</form>
 			</div>
 
 			<h1 class="v-margin">Productos Terminados</h1>
-			<table>
+			<table border="0" class="table" id="example" aria-describedby="tabla">
+
 				<thead>
 					<tr>
 						<th class="textcenter">Codigo</th>
@@ -90,6 +88,7 @@ include "conexion.php"; // Mostrar de la tabla    prod_procesar
 		</div>
 
 	</section>
+	<?php include "includes/script.php"; ?>
 
 	<script>
 		function checkPeso2() {

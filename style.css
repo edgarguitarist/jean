@@ -7,6 +7,10 @@
 body {
     overflow-x: hidden;
     font-family: "Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
+    /* No aceptado, rompe el scroll y el carousel de imagenes*/
+    /* zoom: 80%;
+    min-zoom: 75%;
+    max-zoom: 100%; */ 
 }
 
 .text-muted {

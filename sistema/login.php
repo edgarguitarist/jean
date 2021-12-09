@@ -9,7 +9,7 @@ if (!empty($_SESSION['active'])) {
     if (!empty($_POST)) {
         $alert = '';
         if (empty($_POST['usuario']) || empty($_POST['clave'])) {
-            $alert = '<p class="msg_error">Los Campos Asingados Son Obligatorio</p>';
+            $alert = '<p class="msg_error">Los Campos Asignados son Obligatorios</p>';
         } else {
             require_once "conexion.php";
             $user = mysqli_real_escape_string($conexion, $_POST['usuario']);
@@ -45,7 +45,7 @@ if (!empty($_SESSION['active'])) {
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -85,7 +85,7 @@ if (!empty($_SESSION['active'])) {
             <div class="<?php echo $clase; ?>" style="<?php echo $display; ?>"><?php echo isset($alert) ? $alert : ''; ?> </div>
             <div class="<?php echo $clase2; ?>" style="<?php echo $display2; ?>"><?php echo isset($alert2) ? $alert2 : ''; ?> </div>
             <input type="submit" value="INGRESAR" style="width: auto; padding: 10px;">
-            <div class="csess" style=" font-size: 18px; color: #013C80; text-align: end;"><a class="csess" style="color: #013C80" href="forgot_password.php">Olvide mi Contraseña</a></div>
+            <div class="csess" style=" font-size: 18px; color: #013C80; text-align: end;"><a class="csess" style="color: #013C80" href="forgot_password.php">Olvidé mi Contraseña</a></div>
         </form>
     </section>
 </body>

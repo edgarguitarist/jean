@@ -8,7 +8,7 @@ $queryL = mysqli_query($conexion,"SELECT cor_pro FROM orden_despost WHERE lot_ma
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
 	<title>Factura</title>

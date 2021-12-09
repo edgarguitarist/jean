@@ -11,11 +11,11 @@ include "conexion.php";
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <?php include "includes/scripts.php";?>
-  <title>Sisteme Produccion</title>
+  <title>Sistema de Producción</title>
 </head>
 <body>
   <?php include "includes/header.php";?>
@@ -33,7 +33,7 @@ include "conexion.php";
     ?>
 		
 
-		<h1>Lista De Usuario</h1>
+		<h1>Lista de Usuario</h1>
 	    <a href="usuario.php" class="btn_nusuario">Crear Usuario</a>
 	    <form action="buscar_usuario.php" method="GET" class="form_buscar">
 	    	<input type="text" name="busqueda" id="busqueda" placeholder="Buscar" value="<?php echo $busqueda; ?>">
@@ -52,7 +52,7 @@ include "conexion.php";
 	    		<th>Correo</th>
 	    		<th>Usuario</th>
 	    		<th>Rol</th>
-	    		<th>Fecha De Registro</th>
+	    		<th>Fecha de Registro</th>
 	    		<th>Acciones</th>
 	    	</tr>
 	    	<?php

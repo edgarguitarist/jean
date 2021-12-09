@@ -5,7 +5,7 @@ function validar() {
   var valor;
   var acu = 0;
   if (number == "") {
-    alert("No has ingresado ningún dato, porfavor ingresar los datos correspondientes.");
+    alert("No has ingresado ningún dato, por favor ingresar los datos correspondientes.");
     $('input[type="submit"]').attr('disabled','disabled');
   } else {
     for (var i = 0; i < dto; i++) {
@@ -115,8 +115,6 @@ function mostrarPassword2(){
 function validar1() {
   var cad = document.getElementById("cedula").value.trim();
   var salida = document.getElementById("salida");
-  var submito = document.getElementById("submito");
-  //var submito = document.formu.submito;
   var total = 0;
   var longitud = cad.length;
   var longcheck = longitud - 1;
@@ -156,7 +154,6 @@ function validar1() {
 
         success: function (resultado) {
           existe = resultado;
-          //console.log('respuesta ',resultado);
           if (existe == "1") {
             salida.innerHTML = "Cedula Ya Existe";
             salida.style.color = "red";
@@ -189,7 +186,6 @@ function validar3() {
   var cad = document.getElementById("ced_proveedor").value.trim();
   var salida = document.getElementById("salida");
   var salida2 = document.getElementById("salida2");
-  //var submito = document.formu.submito;
   var total = 0;
   var longitud = cad.length;
   var longcheck = longitud - 1;
@@ -229,19 +225,16 @@ function validar3() {
 
         success: function (resultado) {
           existe = resultado;
-          //console.log('respuesta ',resultado);
           if (existe == "1") {
             salida.innerHTML = "Cedula valida";
             salida.style.color = "green";
             salida2.innerHTML = "";
             salida2.style.color = "";
-            //$('input[type="submit"]').attr('disabled',false);
           } else {
             salida.innerHTML = "Cedula valida";
             salida.style.color = "green";
             salida2.innerHTML = "Proveedor no Encontrado";
             salida2.style.color = "red";
-            //$('input[type="submit"]').attr('disabled','disabled');
           }
         },
         error: function (resultado) {
@@ -265,8 +258,6 @@ function validar3() {
 function validar2() {
   var cad = document.getElementById("cedula").value.trim();
   var salida = document.getElementById("salida");
-  var submito = document.getElementById("submito");
-  //var submito = document.formu.submito;
   var total = 0;
   var longitud = cad.length;
   var longcheck = longitud - 1;
@@ -306,7 +297,6 @@ function validar2() {
 
         success: function (resultado) {
           existe = resultado;
-          //console.log('respuesta ',resultado);
           if (existe == "1") {
             salida.innerHTML = "";
             salida.style.color = "red";
@@ -364,13 +354,15 @@ $(document).ready(function () {
 
 ///////DESHABILITAR EL COPIAR Y PEGAR
 $(document).ready(function(){
-  $('input[type="text"]').on('paste', function(e){
-    e.preventDefault();
-    //alert('Esta acción está prohibida');
+  $('input').on('paste', function(e){
+    e.preventDefault();    
   })
   
-  $('input[type="text"]').on('copy', function(e){
+  $('input').on('copy', function(e){
     e.preventDefault();
-    //alert('Esta acción está prohibida');
   })
+
+
+
+
 })

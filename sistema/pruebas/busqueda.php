@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if ($_SESSION['rol'] !=1 AND $_SESSION['rol'] !=2) {
+if ($_SESSION['rol'] !=1 && $_SESSION['rol'] !=2) {
 	header("location: login.php");
 }
 
@@ -32,7 +32,7 @@ if (!empty($_POST)) {
 	    		<th>Correo Empresa</th>
 	    		<th>Telefono Empresa</th>
 	    		<th>Tipo Proveedor</th>
-	    		<th>Fecha De Registro</th>
+	    		<th>Fecha de Registro</th>
 	    		<th>Acciones</th>
             </tr>";
 

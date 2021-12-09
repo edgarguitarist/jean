@@ -61,7 +61,7 @@ $(document).ready(function () {
 
 //OCULTAR MOSTRAR DATA
 
-function ocultardata(){		
+function ocultardata() {
   var mostrar = document.getElementById("mostrar_data");
   var imprimir = document.getElementById("btn-export");
   mostrar.style.display = "none";
@@ -90,13 +90,10 @@ $(document).ready(function () {
   return false;
 });
 
-
 //////////////////////////////////
 ///////////////////BALANZA/////////////
 
 $(document).ready(function () {
-  //;
-
   function obtener_datos() {
     $.ajax({
       url: "conex_balanza.php",
@@ -104,7 +101,6 @@ $(document).ready(function () {
       async: true,
       success: function (data) {
         $("#peso_lle").val(data);
-        //$("#peso_lle").attr("disabled", "disabled"); REHABILITAR
       },
     });
   }
@@ -118,7 +114,7 @@ var s1des = 0;
 var s2des = 0;
 var vacio = "";
 
-/////////////////////selecionar serie o lote//////////////////////////////
+/////////////////////seleccionar serie o lote//////////////////////////////
 $(document).ready(function () {
   $("#tip_ma").change(function () {
     $("#tip_ma option:selected").each(function () {
@@ -130,18 +126,30 @@ $(document).ready(function () {
   });
 });
 
-/////////////////////selecionar materia produc_final//////////////////////////////
+
+/////////////////////Obtener Cortes//////////////////////////////
+$(document).ready(function () {
+  $("#tip_ma_m").change(function () {
+    $("#tip_ma_m option:selected").each(function () {
+      obt_cod = $(this).val();
+      $.post("prueba2.php", { obt_cod: obt_cod }, function (data) {
+        $("#obt_cod").html(data);
+      });
+    });
+  });
+});
+
+/////////////////////seleccionar materia produc_final//////////////////////////////
 $(document).ready(function () {
   $("#prod_terminado").change(function () {
     $("#prod_terminado option:selected").each(function () {
-      id_mat = $(this).val();      
+      id_mat = $(this).val();
       $.post("prueba2.php", { id_mat: id_mat }, function (data) {
         $("#cortes").html(data);
       });
     });
   });
 });
-
 
 //////////////////Elegir cortes///////////////////////////////////
 $(document).ready(function () {
@@ -192,7 +200,6 @@ $(document).ready(function () {
   });
 });
 
-
 ////////////////////////AGREGAR PRODUCTO TERMINADO/////////////////////
 
 $(document).ready(function () {
@@ -204,52 +211,57 @@ $(document).ready(function () {
     $.ajax({
       type: "POST",
       url: "envio.php",
-      data: $(this).serialize() + "&selordpro=" + selordpro + "&selpro=" + selpro,
-      success: function (response) { 
-        setTimeout( function() { /*window.location.href = "http://jossyemb-produc.com/sistema/produc_termi.php";*/ location.reload(); }, 50 ); //recarga tras 50 milisegundos
-         //cambiar para subir 12345
+      data:
+        $(this).serialize() + "&selordpro=" + selordpro + "&selpro=" + selpro,
+      success: function (response) {
+        setTimeout(function () {
+          /*window.location.href = "http://jossyemb-produc.com/sistema/produc_termi.php";*/ location.reload();
+        }, 50); //recarga tras 50 milisegundos
+        //cambiar para subir 12345
       },
     });
-
   });
 });
 
 $(document).ready(function () {
   $("#prod_termina_emb").submit(function (e) {
     var selordpro = $("#ord_desp").val();
-    var proemb =1;
+    var proemb = 1;
     //e.preventDefault();
     //e.stopImmediatePropagation();
     $.ajax({
       type: "POST",
       url: "envio.php",
-      data: $(this).serialize() + "&selordpro=" + selordpro + "&proemb=" + proemb,
-      success: function (response) {        
-        setTimeout( function() { window.location.href = "http://jossyemb-produc.com/sistema/produc_termi_emb.php"; }, 50 ); //recarga tras 50 milisegundos
+      data:
+        $(this).serialize() + "&selordpro=" + selordpro + "&proemb=" + proemb,
+      success: function (response) {
+        setTimeout(function () {
+          window.location.href =
+            "http://jossyemb-produc.com/sistema/produc_termi_emb.php";
+        }, 50); //recarga tras 50 milisegundos
         location.reload(); //cambiar para subir 12345
       },
     });
-
   });
 });
 
 ///////DESHABILITAR EL COPIAR Y PEGAR
-$(document).ready(function(){
-  $('input[type="text"]').on('paste', function(e){
+$(document).ready(function () {
+  $('input[type="text"]').on("paste", function (e) {
     e.preventDefault();
     //alert('Esta acción está prohibida');
-  })
-  
-  $('input[type="text"]').on('copy', function(e){
-    e.preventDefault();
-    //alert('Esta acción está prohibida');
-  })
+  });
 
-  $('input[type="text"]').on('cut', function(e){
+  $('input[type="text"]').on("copy", function (e) {
     e.preventDefault();
     //alert('Esta acción está prohibida');
-  })
-})
+  });
+
+  $('input[type="text"]').on("cut", function (e) {
+    e.preventDefault();
+    //alert('Esta acción está prohibida');
+  });
+});
 
 ////////////////////////////////////////////////////////////////
 function checkSelect() {
@@ -262,35 +274,35 @@ function checkSelect() {
   }
 }
 
-function revisar(){
-  gg = Number(document.getElementById('peso_lle').value);
+function revisar() {
+  gg = Number(document.getElementById("peso_lle").value);
   var selpro = $("#ord_desp").val();
   var selcor = $("#id_cortes").val();
-  submito = document.getElementById('add_prod_ter');
+  submito = document.getElementById("add_prod_ter");
 
-  if( selpro!= null){
+  if (selpro != null) {
     $("#msg_error_pro").hide();
   }
 
-  if(selpro != null && selcor != null && gg > 0){
-    if(checkPeso()){
+  if (selpro != null && selcor != null && gg > 0) {
+    if (checkPeso()) {
       submito.disabled = false;
     }
     //console.log(selpro, selcor, gg)
-  }else{
+  } else {
     submito.disabled = true;
   }
 }
-function revisar2(){
-  var gg = Number(document.getElementById('peso_lle').value);
+function revisar2() {
+  var gg = Number(document.getElementById("peso_lle").value);
   var selpro = $("#ord_desp").val();
-  submito = document.getElementById('submitemb');
-  if(selpro != null && gg > 0){
-    if(checkPeso2()){
+  submito = document.getElementById("submitemb");
+  if (selpro != null && gg > 0) {
+    if (checkPeso2()) {
       submito.disabled = false;
     }
     //console.log(selpro, gg)
-  }else{
+  } else {
     submito.disabled = true;
     //console.log(selpro, limpio.length)
   }
@@ -325,21 +337,19 @@ $(document).ready(function () {
         url: "envio.php",
         data: $(this).serialize() + "&s1des=" + s1des + "&s2des=" + s2des,
         success: function (response) {
-          $("#mostrar_respuesta").html(response);
-
+          //$("#mostrar_data").html(response);
+          console.log(response);
           $.post("prueba2.php", { id_estado: s1des }, function (data) {
             $("#seri_despost").html(data);
           });
           $("#seri_despost").val("");
-
-          generarPDF(s1des, s2des);
+          //generarPDF(s1des, s2des);
           location.reload();
         },
       });
     }
   });
 });
-
 
 ///////////////////////////RECETA///////////////////////////////////
 ////////////////////////AGREGAR A LISTA RECETAS/////////////////////
@@ -365,7 +375,7 @@ $(document).ready(function () {
       success: function (response) {
         //console.log(response);
         if (response != "error") {
-          var info = JSON.parse(response);          
+          var info = JSON.parse(response);
           $("#detalle_venta").html(info.detalle);
 
           //$("#detalle_venta").html(response);
@@ -380,13 +390,12 @@ $(document).ready(function () {
         }
         viewProcesar();
       },
-      error: function (error) { },
+      error: function (error) {},
     });
   });
 });
 
 ///////////////Retorna Prod term/////////////////////////////
-
 
 ///////////LIMPIAR LISTA/////////////////
 $(document).ready(function () {
@@ -407,7 +416,7 @@ $(document).ready(function () {
             location.reload();
           }
         },
-        error: function (error) { },
+        error: function (error) {},
       });
     }
   });
@@ -436,7 +445,7 @@ $(document).ready(function () {
             console.log("no data receta");
           }
         },
-        error: function (error) { },
+        error: function (error) {},
       });
     }
   });
@@ -480,65 +489,65 @@ function generarPDF(cliente, factura) {
     $url,
     "factura",
     "left=" +
-    x +
-    ",top=" +
-    y +
-    ",height=" +
-    alto +
-    ",width" +
-    ancho +
-    ",scrollbar=si,location=no,resizable=si,menubar=no"
+      x +
+      ",top=" +
+      y +
+      ",height=" +
+      alto +
+      ",width" +
+      ancho +
+      ",scrollbar=si,location=no,resizable=si,menubar=no"
   );
 }
 
 ////////////////////////REPORTES//////////////////////////////////
 //////////////////////////FIXED
-$(document).ready(function() {
-  $("#tipo_reporte").change(function() {
-    $("#tipo_reporte option:selected").each(function() {
+$(document).ready(function () {
+  $("#tipo_reporte").change(function () {
+    $("#tipo_reporte option:selected").each(function () {
       sel = $(this).val();
-      ocultardata()
-      $('#tip_ma_m').val('');	
+      ocultardata();
+      $("#tip_ma_m").val("");
       $("#tip_ma_m option[value='0']").remove();
       if (sel == 2) {
-        var data = '';
+        var data = "";
         data = "<option value='0'>Todos</option>";
         $(data).appendTo("#tip_ma_m");
-        $('#dias').prop('disabled', false);					
-      } else if (sel == 1) {        
+        $("#dias").prop("disabled", false);
+      } else if (sel == 1) {
         $("#tip_ma_m option[value='0']").remove();
-        $('#dias').prop('disabled', 'disabled');
-        $('#dias').val('1');					
+        $("#dias").prop("disabled", "disabled");
+        $("#dias").val("1");
       }
     });
   });
 });
 
-$(document).ready(function() {
-  $("#tip_ma_m").change(function() {
-    $("#tip_ma_m option:selected").each(function() {
-      ocultardata()
+$(document).ready(function () {
+  $("#tip_ma_m").change(function () {
+    $("#tip_ma_m option:selected").each(function () {
+      ocultardata();
     });
   });
 });
 
-$(document).ready(function() {
-  $("#tip_pro").change(function() {
-    $("#tip_pro option:selected").each(function() {
-      ocultardata()
+$(document).ready(function () {
+  $("#tip_pro").change(function () {
+    $("#tip_pro option:selected").each(function () {
+      ocultardata();
       var pro = $("#tip_pro").val();
       var cars = document.getElementById("cars");
       var embs = document.getElementById("embs");
-      if(pro == '1'){
+      if (pro == "1") {
         cars.style.display = "block";
         $("#tip_ma_m").prop("required", true);
         embs.style.display = "none";
         $("#tip_emb").removeAttr("required");
-        document.getElementById("tip_ma_m").disabled=false; //Otra Forma
-      }else if(pro == '2'){
+        document.getElementById("tip_ma_m").disabled = false; //Otra Forma
+      } else if (pro == "2") {
         //cars.style.display = "none";
-        $('#tip_ma_m').val('');
-        document.getElementById("tip_ma_m").disabled=true; //Otra Forma
+        $("#tip_ma_m").val("");
+        document.getElementById("tip_ma_m").disabled = true; //Otra Forma
         $("#tip_emb").removeAttr("required");
         $("#tip_ma_m").removeAttr("required");
         //embs.style.display = "block";
@@ -548,25 +557,25 @@ $(document).ready(function() {
   });
 });
 
-$(document).ready(function() {
-  $("#tip_prod").change(function() {
-    $("#tip_prod option:selected").each(function() {
+$(document).ready(function () {
+  $("#tip_prod").change(function () {
+    $("#tip_prod option:selected").each(function () {
       var pro = $("#tip_prod").val();
-      if(pro == '1'){
+      if (pro == "1") {
         $("#prod_terminado").prop("required", true);
-        document.getElementById("prod_terminado").disabled=false; //Otra Forma
-        $("#nom_cortes").html('Cortes :');
+        document.getElementById("prod_terminado").disabled = false; //Otra Forma
+        $("#nom_cortes").html("Cortes :");
         $("#cortes").empty();
-      }else if(pro == '2'){        
-        $('#prod_terminado').val('');
-        document.getElementById("prod_terminado").disabled=true; //Otra Forma
+      } else if (pro == "2") {
+        $("#prod_terminado").val("");
+        document.getElementById("prod_terminado").disabled = true; //Otra Forma
         $("#prod_terminado").removeAttr("required");
-        $("#nom_cortes").html('Embutidos :');
+        $("#nom_cortes").html("Embutidos :");
         $.ajax({
           type: "POST",
           url: "prueba2.php",
-          data: $(this).serialize() + '&action=' + 'embutidos',
-          success: function(data) {
+          data: $(this).serialize() + "&action=" + "embutidos",
+          success: function (data) {
             $("#cortes").html(data);
           },
         });
@@ -575,23 +584,36 @@ $(document).ready(function() {
   });
 });
 
-
-$(document).ready(function() {
-  $("#form_reporte").submit(function(e) {
+$(document).ready(function () {
+  $("#form_reporte").submit(function (e) {
     var tipo = $("#tipo_reporte").val();
     var materia = $("#tip_ma_m").val();
+    var cod_materia = $("#obt_cod").val();
     var fecha = $("#start_date").val();
     var dias = $("#dias").val();
-    var frm = "MERMA"; 
+    var frm = "MERMA";
     var mostrar = document.getElementById("mostrar_data");
-    var btn_export = document.getElementById('btn-export');
+    var btn_export = document.getElementById("btn-export");
     e.preventDefault();
     e.stopImmediatePropagation();
     $.ajax({
       type: "POST",
       url: "t_reporte.php",
-      data: $(this).serialize() + "&frm=" + frm + "&tipo=" + tipo + "&materia=" + materia + "&fecha=" + fecha + "&dias=" + dias,
-      success: function(response) {
+      data:
+        $(this).serialize() +
+        "&frm=" +
+        frm +
+        "&tipo=" +
+        tipo +
+        "&cod_materia=" +
+        cod_materia +
+        "&materia=" +
+        materia +
+        "&fecha=" +
+        fecha +
+        "&dias=" +
+        dias,
+      success: function (response) {
         $("#mostrar_data").html(response);
         //
         mostrar.style.display = "block";
@@ -601,21 +623,33 @@ $(document).ready(function() {
   });
 });
 
-$(document).ready(function() {
-  $("#form_rep_mat").submit(function(e) {    
+$(document).ready(function () {
+  $("#form_rep_mat").submit(function (e) {
     var materia = $("#tip_ma_m").val();
+    var cod_materia = $("#obt_cod").val();
     var fecha = $("#start_date").val();
     var fecha2 = $("#end_date").val();
-    var frm = "MATPRIMA"; 
+    var frm = "MATPRIMA";
     var mostrar = document.getElementById("mostrar_data");
-    var btn_export = document.getElementById('btn-export');
+    var btn_export = document.getElementById("btn-export");
     e.preventDefault();
     e.stopImmediatePropagation();
     $.ajax({
       type: "POST",
       url: "t_reporte.php",
-      data: $(this).serialize() + "&frm=" + frm + "&materia=" + materia + "&fecha=" + fecha + "&fecha2=" + fecha2,
-      success: function(response) {
+      data:
+        $(this).serialize() +
+        "&frm=" +
+        frm +
+        "&cod_materia=" +
+        cod_materia +
+        "&materia=" +
+        materia +
+        "&fecha=" +
+        fecha +
+        "&fecha2=" +
+        fecha2,
+      success: function (response) {
         $("#mostrar_data").html(response);
         mostrar.style.display = "block";
         btn_export.style.display = "block";
@@ -624,23 +658,77 @@ $(document).ready(function() {
   });
 });
 
-$(document).ready(function() {
-  $("#form_rep_prot").submit(function(e) {
+$(document).ready(function () {
+  $("#form_rep_prot").submit(function (e) {
+    var tipo = $("#tip_pro").val();
+    var materia = $("#tip_ma_m").val();
+    var materia2 = $("#tip_emb").val();
+    var cod_materia = $("#obt_cod").val();
+    var fecha = $("#start_date").val();
+    var fecha2 = $("#end_date").val();
+    var frm = "PROTERM";
+    var mostrar = document.getElementById("mostrar_data");
+    var btn_export = document.getElementById("btn-export");
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    $.ajax({
+      type: "POST",
+      url: "t_reporte.php",
+      data:
+        $(this).serialize() +
+        "&frm=" +
+        frm +
+        "&tipo=" +
+        tipo +
+        "&cod_materia=" +
+        cod_materia +
+        "&materia=" +
+        materia +
+        "&materia2=" +
+        materia2 +
+        "&fecha=" +
+        fecha +
+        "&fecha2=" +
+        fecha2,
+      success: function (response) {
+        $("#mostrar_data").html(response);
+        mostrar.style.display = "block";
+        btn_export.style.display = "block";
+      },
+    });
+  });
+});
+
+$(document).ready(function () {
+  $("#form_rep_prof").submit(function (e) {
     var tipo = $("#tip_pro").val();
     var materia = $("#tip_ma_m").val();
     var materia2 = $("#tip_emb").val();
     var fecha = $("#start_date").val();
     var fecha2 = $("#end_date").val();
-    var frm = "PROTERM"; 
+    var frm = "PROFINAL";
     var mostrar = document.getElementById("mostrar_data");
-    var btn_export = document.getElementById('btn-export');
+    var btn_export = document.getElementById("btn-export");
     e.preventDefault();
     e.stopImmediatePropagation();
     $.ajax({
       type: "POST",
       url: "t_reporte.php",
-      data: $(this).serialize() + "&frm=" + frm + "&tipo=" + tipo + "&materia="  + materia + "&materia2="  + materia2 + "&fecha=" + fecha + "&fecha2=" + fecha2,
-      success: function(response) {
+      data:
+        $(this).serialize() +
+        "&frm=" +
+        frm +
+        "&tipo=" +
+        tipo +
+        "&materia=" +
+        materia +
+        "&materia2=" +
+        materia2 +
+        "&fecha=" +
+        fecha +
+        "&fecha2=" +
+        fecha2,
+      success: function (response) {
         $("#mostrar_data").html(response);
         mostrar.style.display = "block";
         btn_export.style.display = "block";
@@ -649,50 +737,28 @@ $(document).ready(function() {
   });
 });
 
-
-$(document).ready(function() {
-  $("#form_rep_prof").submit(function(e) {
-    var tipo = $("#tip_pro").val();
-    var materia = $("#tip_ma_m").val();
-    var materia2 = $("#tip_emb").val();
-    var fecha = $("#start_date").val();
-    var fecha2 = $("#end_date").val();
-    var frm = "PROFINAL"; 
-    var mostrar = document.getElementById("mostrar_data");
-    var btn_export = document.getElementById('btn-export');
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    $.ajax({
-      type: "POST",
-      url: "t_reporte.php",
-      data: $(this).serialize() + "&frm=" + frm + "&tipo=" + tipo + "&materia="  + materia + "&materia2="  + materia2 + "&fecha=" + fecha + "&fecha2=" + fecha2,
-      success: function(response) {
-        $("#mostrar_data").html(response);
-        mostrar.style.display = "block";
-        btn_export.style.display = "block";
-      },
-    });
-  });
-});
-
-
-
-
-$(document).ready(function() {
-  $("#form_rep_ord_emb").submit(function(e) {    
+$(document).ready(function () {
+  $("#form_rep_ord_emb").submit(function (e) {
     //var materia = $("#tip_ma_m").val();
     var fecha = $("#start_date").val();
     var fecha2 = $("#end_date").val();
-    var frm = "ORDEMB"; 
+    var frm = "ORDEMB";
     var mostrar = document.getElementById("mostrar_data");
-    var btn_export = document.getElementById('btn-export');
+    var btn_export = document.getElementById("btn-export");
     e.preventDefault();
     e.stopImmediatePropagation();
     $.ajax({
       type: "POST",
       url: "t_reporte.php",
-      data: $(this).serialize() + "&frm=" + frm + "&fecha=" + fecha + "&fecha2=" + fecha2,
-      success: function(response) {
+      data:
+        $(this).serialize() +
+        "&frm=" +
+        frm +
+        "&fecha=" +
+        fecha +
+        "&fecha2=" +
+        fecha2,
+      success: function (response) {
         $("#mostrar_data").html(response);
         mostrar.style.display = "block";
         btn_export.style.display = "block";
@@ -701,15 +767,14 @@ $(document).ready(function() {
   });
 });
 
-
-$(document).ready(function() {
-  $("#form_pro_fin").submit(function(e) {    
+$(document).ready(function () {
+  $("#form_pro_fin").submit(function (e) {
     var materia = $("#prod_terminado").val();
     var combo = document.getElementById("cortes");
     var corte = combo.options[combo.selectedIndex].text;
     var court = $("#cortes").val();
     var peso = $("#peso-fin").val();
-    var diff= court-peso;
+    var diff = court - peso;
     var frm = "PRODTERM";
     var mostrar = document.getElementById("mostrar_data");
     e.preventDefault();
@@ -717,16 +782,25 @@ $(document).ready(function() {
     $.ajax({
       type: "POST",
       url: "prueba2.php",
-      data: $(this).serialize() + "&frm=" + frm + "&materia=" + materia + "&corte=" + corte + "&peso=" + peso,
-      success: function(response) {
+      data:
+        $(this).serialize() +
+        "&frm=" +
+        frm +
+        "&materia=" +
+        materia +
+        "&corte=" +
+        corte +
+        "&peso=" +
+        peso,
+      success: function (response) {
         $("#mostrar_data").html(response);
-        mostrar.style.display = "block";    //hacer que se actualice el peso //jkll
+        mostrar.style.display = "block"; //hacer que se actualice el peso //jkll
         $("#prod_terminado option:selected").each(function () {
-          id_mat = $(this).val();      
+          id_mat = $(this).val();
           $.post("prueba2.php", { id_mat: id_mat }, function (data) {
             $("#cortes").html(data);
             $("#cortes").val(diff);
-            $("#peso-fin").val('');
+            $("#peso-fin").val("");
             $("#peso-fin").focus();
           });
         });
@@ -735,9 +809,8 @@ $(document).ready(function() {
   });
 });
 
-
-function blockday(){
-  $('#dias').prop('disabled', 'disabled');
+function blockday() {
+  $("#dias").prop("disabled", "disabled");
 }
 
 /*
@@ -785,14 +858,14 @@ function genPDF(name) {
   html2canvas(document.getElementById("pdf_container"), {
     useCORS: true,
     onrendered: (canvas) => {
-	  cabecera.style.display = "none";
+      cabecera.style.display = "none";
       let doc = new jsPDF("p", "mm", "a4");
-	  
+
       //Obtengo la dimensión en pixeles en base a la documentación
       // https://github.com/MrRio/jsPDF/blob/ddbfc0f0250ca908f8061a72fa057116b7613e78/jspdf.js#L59
       let a4Size = {
         w: convertPointsToUnit(595.28, "px"),
-        h: convertPointsToUnit(841.89, "px")
+        h: convertPointsToUnit(841.89, "px"),
       };
 
       let canvastoPrint = document.createElement("canvas");
@@ -807,7 +880,7 @@ function genPDF(name) {
 
       let printed = 0,
         page = 0;
-		
+
       while (printed < canvas.height) {
         //Tomo la imagen en proporcion a el ancho y alto.
         ctx.drawImage(
@@ -836,9 +909,9 @@ function genPDF(name) {
         printed += rezised; //actualizo lo que ya imprimi
         page++; // actualizo mi pagina
       }
-	  
-      doc.save( name + ".pdf");
-    }
+
+      doc.save(name + ".pdf");
+    },
   });
 
   function convertPointsToUnit(points, unit) {
@@ -890,7 +963,6 @@ function del_tempo_lista_receta(correlativo) {
         var info = JSON.parse(response);
 
         $("#detalle_venta").html(info.detalle);
-        //$("#contador").val(info.total);
         $("#rol").val("");
         $("#cantidad_rece").val("0");
       } else {
@@ -898,13 +970,15 @@ function del_tempo_lista_receta(correlativo) {
       }
       viewProcesar();
     },
-    error: function (error) { },
+    error: function (error) {
+      console.log(error);
+    },
   });
 }
 
 /////// TRAER DATOS A LA PAGINA SI SALES RECETAS//////////////////
-function serchForDetalle(id) {
-  var action = "serchForDetalle";
+function searchForDetalle(id) {
+  var action = "searchForDetalle";
   var user = id;
   $.ajax({
     url: "list_receta.php",
@@ -928,11 +1002,11 @@ function serchForDetalle(id) {
       }
       viewProcesar();
     },
-    error: function (error) { },
+    error: function (error) {},
   });
 }
 
-////////////////VER -OCULATAR BOTON CREAR RECETA/////////
+////////////////VER - OCULTAR BOTON CREAR RECETA/////////
 function viewProcesar() {
   if ($("#detalle_venta tr").length > 0) {
     $("#crear_receta22").show();
@@ -959,7 +1033,7 @@ function viewProcesar() {
 //   });
 // });
 //}
-/////////////////////selecionar Crear Recetas//////////////////////////////
+/////////////////////seleccionar Crear Recetas//////////////////////////////
 // $(document).ready(function(){
 // $("#tip_mat").change(function () {
 
@@ -975,28 +1049,27 @@ function viewProcesar() {
 
 //Modales de Menu - OTROS - Registros
 
-
 $(document).ready(function () {
-  $('.add_materia_prima').click(function (e) {
+  $(".add_materia_prima").click(function (e) {
     e.preventDefault();
-    $('#modal_materia').fadeIn();
+    $("#modal_materia").fadeIn();
   });
 });
 
 $(document).ready(function () {
-  $('.add_corte').click(function (e) {
+  $(".add_corte").click(function (e) {
     e.preventDefault();
-    $('#modal_corte').fadeIn();
+    $("#modal_corte").fadeIn();
   });
 });
 
 function closeModal() {
-  $('.modal').fadeOut();
-  $('#tip_mat_prim').val("");
-  $('#tipo_corte').val("");
-  $('#alerta-materia').html("");
-  $('#alerta-corte').html("");
-  location.reload()
+  $(".modal").fadeOut();
+  $("#tip_mat_prim").val("");
+  $("#tipo_corte").val("");
+  $("#alerta-materia").html("");
+  $("#alerta-corte").html("");
+  location.reload();
 }
 
 $(document).ready(function () {
@@ -1031,44 +1104,39 @@ $(document).ready(function () {
   });
 });
 
-
-
 //**********fUNCIONES DE ORDEN DE DESPOSTE PARA CHECKBOXES**********//
 
 function setAllCheckboxes(divId, sourceCheckbox) {
   divElement = document.getElementById(divId);
-  inputElements = divElement.getElementsByTagName('input');
+  inputElements = divElement.getElementsByTagName("input");
 
   for (i = 0; i < inputElements.length; i++) {
-    if (inputElements[i].type != 'checkbox')
-      continue;
+    if (inputElements[i].type != "checkbox") continue;
     inputElements[i].checked = sourceCheckbox.checked;
     console.log("si");
-    if (inputElements[1].checked = true) {
+    if ((inputElements[1].checked = true)) {
       inputElements[1].checked = false;
     }
   }
-
 }
 
 function setAllComplete(divId, sourceCheckbox) {
   divElement = document.getElementById(divId);
-  inputElements = divElement.getElementsByTagName('input');
+  inputElements = divElement.getElementsByTagName("input");
 
   for (i = 0; i < inputElements.length; i++) {
-    if (sourceCheckbox.checked = true) {
+    if ((sourceCheckbox.checked = true)) {
       inputElements[i].checked = false;
     }
   }
-
 }
 
 function NosetAllCheckboxes(divId, sourceCheckbox) {
   divElement = document.getElementById(divId);
-  inputElements = divElement.getElementsByTagName('input');
+  inputElements = divElement.getElementsByTagName("input");
   var aux = 0;
   for (i = 2; i < inputElements.length; i++) {
-    if (inputElements[i].checked == false) {
+    if (!inputElements[i].checked) {
       inputElements[0].checked = false;
       aux = aux + 1;
     }
@@ -1082,15 +1150,14 @@ function NosetAllCheckboxes(divId, sourceCheckbox) {
     inputElements[1].checked = false;
     console.log("true");
   }
-
 }
 
 ////MERMA/////
 function sleep(milliseconds) {
   var start = new Date().getTime();
   for (var i = 0; i < 1e7; i++) {
-   if ((new Date().getTime() - start) > milliseconds) {
-    break;
-   }
+    if (new Date().getTime() - start > milliseconds) {
+      break;
+    }
   }
- }
+}

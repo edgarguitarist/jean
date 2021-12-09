@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['rol'] != 1 and $_SESSION['rol'] != 2) {
+if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 	header("location: login.php");
 }
 include "conexion.php";
@@ -9,7 +9,7 @@ include "conexion.php";
 if (!empty($_POST)) {
 	$alert = '';
 	if (empty($_POST['rol_lis_re']) || empty($_POST['cant_lis'])) {
-		$alert = '<p class="msg_error">Los Campos Asingados Son Obligatorio</p>';
+		$alert = '<p class="msg_error">Los Campos Asignados son Obligatorios</p>';
 	} else {
 		$nombre_orde     = $_POST['rol_lis_re'];
 		$canti_orde    = $_POST['cant_lis'];
@@ -26,7 +26,7 @@ if (!empty($_POST)) {
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 	<meta charset="UTF-8">
@@ -35,11 +35,9 @@ if (!empty($_POST)) {
 	<title>Sistema de Producción</title>
 
 	<script>
-	
-	function limp (){
-		$("#alerta").hide
-	}
-	
+		function limp() {
+			$("#alerta").hide
+		}
 	</script>
 
 </head>
@@ -49,7 +47,7 @@ if (!empty($_POST)) {
 	<script type="text/javascript" src="funciones.js"></script>
 	<section id="container">
 		<div class="title_page">
-			<h1>Orden De Produccion de Embutido</h1>
+			<h1>Orden de Producción de Embutido</h1>
 			<div class="datos_cliente">
 				<div class="action_cliente">
 					<h4>Datos</h4>
@@ -78,13 +76,13 @@ if (!empty($_POST)) {
 																	A.nom_rece");
 						$result_rol = mysqli_num_rows($query_rol);
 						?>
-						<select name="rol_lis_re" id="rol_lis_re" onchange="reset_sub()">							
+						<select name="rol_lis_re" id="rol_lis_re" onchange="reset_sub()">
 							<option value="">Seleccionar Ingrediente</option>
 							<?php
 							if ($result_rol > 0) {
 								while ($rol = mysqli_fetch_array($query_rol)) {
-									if ($rol["EXISTE"] == "NO"){
-							?>									
+									if ($rol["EXISTE"] == "NO") {
+							?>
 										<option value="<?php echo $rol["nom_rece"]; ?>"><?php echo $rol["nom_rece"] ?></option>
 							<?php  	}
 								}
@@ -111,10 +109,10 @@ if (!empty($_POST)) {
 					<div class="wd30"></div>
 					<input id="submito" type="submit" value="Generar Orden de Embutido" class="btn_guardar" style="width: auto; padding: 10px;" disabled>
 				</form>
-				<h1 class="v-margin">Lista De Ingredientes</h1>
-				<table>
+				<h1 class="v-margin">Lista de Ingredientes</h1>
+				<table border="0" class="table" id="example" aria-describedby="tabla">
 					<thead>
-						<tr>
+						<tr style="background: #325459 !important;">
 							<th class="textcenter" width="100px">Codigo</th>
 							<th class="textcenter">Ingrediente</th>
 							<th class="textcenter" width="100px">Cantidad</th>
@@ -125,13 +123,14 @@ if (!empty($_POST)) {
 					</tbody>
 				</table>
 			</div>
-			<div id="alerta" class="alert"><?php //echo isset($alert) ? $alert : ''; ?></div>
+			<div id="alerta" class="alert"><?php //echo isset($alert) ? $alert : ''; 
+											?></div>
 		</div>
 	</section>
-	
-	<script type="text/javascript">
+	<!-- <?php //include "includes/script.php"; ?> -->
 
-		function reset_sub(){
+	<script type="text/javascript">
+		function reset_sub() {
 			submito = document.getElementById('submito');
 			submito.disabled = true;
 		}
@@ -140,7 +139,7 @@ if (!empty($_POST)) {
 		function viewRevisar() {
 			gg = document.getElementById('est_info').value;
 			submito = document.getElementById('submito');
-			if (gg==1 || gg=='1') {
+			if (gg == 1 || gg == '1') {
 				submito.disabled = false;
 				//console.log(gg,"yes")
 			} else {
@@ -148,8 +147,7 @@ if (!empty($_POST)) {
 				//console.log(gg,"no")
 			}
 		}
-
-
 	</script>
 </body>
+
 </html>

@@ -1,13 +1,13 @@
 <?php 
 session_start();
 
-if ($_SESSION['rol'] !=1 AND $_SESSION['rol'] !=2 AND $_SESSION['rol'] !=3 )  {
+if ($_SESSION['rol'] !=1 && $_SESSION['rol'] !=2 && $_SESSION['rol'] !=3 )  {
 	header("location: login.php");
 }
 include "conexion.php";
  ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <?php include "includes/scripts.php";?>

@@ -9,7 +9,7 @@ include "conexion.php";
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 	<meta charset="UTF-8">
@@ -42,7 +42,7 @@ include "conexion.php";
 						<input type="tex" name="nombr_rece" id="nombr_rece" placeholder="Nombre Recetas" maxlength="30" class="letras" required>
 					</div>
 					<div class="wd60" style="align-self: center;">
-						<h4 id="msg_error" class="msg_error" hidden>La cantidad minima permitida es de 15 lbs.</h4>
+						<h4 id="msg_error" class="msg_error" hidden>La cantidad mínima permitida es de 15 lbs.</h4>
 					</div>
 
 					<div class="wd30">
@@ -82,11 +82,11 @@ include "conexion.php";
 
 
 				</form>
-				<h1 class="v-margin">Lista De Ingredientes</h1>
+				<h1 class="v-margin">Lista de Ingredientes</h1>
 
 				<table>
 					<thead>
-						<tr>
+						<tr style="background: #325459 !important;">
 							<th class="textcenter" width="100px">Items</th>
 							<th class="textcenter">Ingrediente</th>
 							<th class="textcenter" width="100px">Cantidad</th>
@@ -98,7 +98,7 @@ include "conexion.php";
 					</tbody>
 				</table>
 				<div>
-					<h4 id="msg_error_ing" class="msg_error v-margin" hidden>Cantidad minima de ingredientes es 2.</h4>
+					<h4 id="msg_error_ing" class="msg_error v-margin" hidden>Cantidad mínima de ingredientes es 2.</h4>
 					<input type="submit" value="Crear Receta" class="btn_guardar" id="crear_receta22" style="display: none; width: auto; padding: 10px;">
 				</div>
 
@@ -108,7 +108,7 @@ include "conexion.php";
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var usuarioid = '<?php echo $_SESSION['idUser']; ?>';
-			serchForDetalle(usuarioid);
+			searchForDetalle(usuarioid);
 		});
 
 

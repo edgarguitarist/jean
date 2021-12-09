@@ -13,5 +13,39 @@
             "database": "jossyem1_tesis_embutido",
             "password": ""
         }
+    ],
+    "cSpell.language": "es-ES,es",
+    "cSpell.words": [
+        "checkbox",
+        "despost",
+        "embj",
+        "Jossy",
+        "pages",
+        "paginador",
+        "Selected",
+        "wrapper"
+    ],
+    "cSpell.ignoreWords": [
+        "ACTU",
+        "Carn",
+        "Submenus",
+        "busuario",
+        "camporesalta",
+        "camporojo",
+        "textorojo",
+        "textoresalta",
+        "textoverde",
+        "campoverde",
+        "csess",
+        "datosdes",
+        "datosp",
+        "fourtable",
+        "intext",
+        "nusuario",
+        "photouser",
+        "textcenter",
+        "textleft",
+        "textright",
+        "threetable"
     ]
 }

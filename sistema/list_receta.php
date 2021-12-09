@@ -61,7 +61,7 @@ if (!empty($_POST)) {
 
 
   ///////////////////////////////////////extrar datos///////////////////////////
-  if ($_POST['action'] == 'serchForDetalle') {
+  if ($_POST['action'] == 'searchForDetalle') {
     if (empty($_POST['user'])) {
       echo 'error1serch';
     } else {
@@ -208,7 +208,7 @@ if (!empty($_POST)) {
   if ($_POST['action'] == 'addMateriaPrima') {
 
     if (empty($_POST['tip_mat_prim'])) {
-      $html = '<p class="msg_error">Los Campos Asingados Son Obligatorio</p>';
+      $html = '<p class="msg_error">Los Campos Asignados son Obligatorios</p>';
     } else {
 
       $tip_mat_pri = $_POST['tip_mat_prim'];
@@ -233,7 +233,7 @@ if (!empty($_POST)) {
   ///////////////// agregar corte con modal //////////////////////
   if ($_POST['action'] == 'addCorte') {
     if (empty($_POST['tipo_corte'])) {
-      $html = '<p class="msg_error">Los Campos Asingados Son Obligatorio</p>';
+      $html = '<p class="msg_error">Los Campos Asignados son Obligatorios</p>';
     } else {
       $sufijo = $_POST['sufijo'];
       $tipo = ucfirst($_POST['tipo_corte']);
@@ -245,15 +245,15 @@ if (!empty($_POST)) {
       $result = mysqli_fetch_array($verificar);
 
       if ($result > 0) {
-        $html = '<p class="msg_error">El Tipo De Corte ya Existe</p>';
+        $html = '<p class="msg_error">El Tipo de Corte ya Existe</p>';
       } else {
         $insert = mysqli_query($conexion, "INSERT INTO tipo_cortes(tipo_mat_despo,cortes) 
       VALUES('$codi_tipo_mat','$tip_cortes')");
 
         if ($insert) {
-          $html = '<p class="msg_guardar">El Tipo De Corte fue Registrado Correctamente.</p>';
+          $html = '<p class="msg_guardar">El Tipo de Corte fue Registrado Correctamente.</p>';
         } else {
-          $html = '<p class="msg_error">Error Al Registrar Tipo De Corte.</p>';
+          $html = '<p class="msg_error">Error Al Registrar Tipo de Corte.</p>';
         }
       }
     }

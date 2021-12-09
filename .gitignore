@@ -1,1 +1,4 @@
 sistema/enviar_correo.php
+bd/
+default/
+*.sql

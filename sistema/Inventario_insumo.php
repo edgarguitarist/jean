@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['rol'] != 1 and $_SESSION['rol'] != 2) {
+if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 	header("location: login.php");
 }
 include "conexion.php";
@@ -10,7 +10,7 @@ include "conexion.php";
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 	<meta charset="UTF-8">
@@ -23,7 +23,7 @@ include "conexion.php";
 
 	<section id="container">
 
-		<h1>Lista De Insumo</h1>
+		<h1>Lista de Insumo</h1>
 		<a href="insumo.php" class="btn_nusuario">Crear Insumo</a>
 		<form action="buscar_proveedor.php" method="get" class="form_buscar">
 			<input type="text" name="busqueda" id="busqueda" placeholder="Buscar">

@@ -6,7 +6,7 @@ if (!empty($_POST)) {
 
 	$alert = '';
 	if (empty($_POST['prod_proce']) || empty($_POST['peso_sali'])) {
-		$alert = '<p class="msg_error">Los Campos Asingados Son Obligatorio</p>';
+		$alert = '<p class="msg_error">Los Campos Asignados son Obligatorios</p>';
 	} else {
 
 		$prod_procesa   =  $_POST['prod_proce'];
@@ -26,12 +26,12 @@ if (!empty($_POST)) {
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 	<meta charset="UTF-8">
 	<?php include "includes/scripts.php"; ?>
-	<title>Sisteme Produccion</title>
+	<title>Sistema de Producción</title>
 </head>
 
 <body>
@@ -49,7 +49,7 @@ if (!empty($_POST)) {
 				<form name="registra_desposte" id="registra_desposte" class="datos" action="" method="post">
 
 					<div class="wd30">
-						<label for="Tipo De Materia Prima">Orden A Procesar :</label>
+						<label for="Tipo de Materia Prima">Orden A Procesar :</label>
 						<?php
 						$query_tipo = mysqli_query($conexion, "SELECT * FROM orden_despost WHERE estado=1");
 						$result_tipo = mysqli_num_rows($query_tipo);
@@ -77,11 +77,11 @@ if (!empty($_POST)) {
 						<input type="submit" value="Agregar Producto" class="btn_guardar" style="width: auto; padding: 10px;">
 					</div>
 				</form>
-				<h1>Lista De Cortes</h1>
+				<h1>Lista de Cortes</h1>
 
 				<table>
 					<thead>
-						<tr>
+						<tr style="background: #325459 !important;">
 							<th class="textcenter" width="100px">Cortes</th>
 						</tr>
 					</thead>

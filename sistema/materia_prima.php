@@ -8,14 +8,14 @@ include "conexion.php";
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 	<meta charset="UTF-8">
 	<?php include "includes/scripts.php"; ?>
 	<title>Sistema de Producción</title>
 	<script>
-		function getProveedor(){
+		function getProveedor() {
 			var pro = $("#ced_proveedor").val();
 			var action = "searchProveedor";
 			var salida2 = document.getElementById("salida2");
@@ -23,58 +23,64 @@ include "conexion.php";
 				url: "ajax.php",
 				type: "POST",
 				async: true,
-				data: { action: action, cliente: pro },
-				success: function (response) {
-				if (response == 0) {
-					//limpiar campos
-					$("#idproveedor").val("");
-					$("#nom_proveedor").val("");
-					$("#ruc_empresa").val("");
-					$("#nom_empresa").val("");
-					$('input[type="submit"]').attr('disabled','disabled');
-				} else {
-					//mostras datos
-					var data = $.parseJSON(response);
-					$("#idproveedor").val(data.id_prov);
-					$("#nom_proveedor").val(data.nom_pro);
-					$("#ruc_empresa").val(data.ruc_emp);
-					$("#nom_empresa").val(data.nom_emp);
-
-					//bloquear campos
-					$("#nom_proveedor").attr("disabled", "disabled");
-					$("#ruc_empresa").attr("disabled", "disabled");
-					$("#nom_empresa").attr("disabled", "disabled");
-					salida2.innerHTML='';
-
-					//$('input[type="submit"]').attr('disabled',false);
-				}
+				data: {
+					action: action,
+					cliente: pro
 				},
-				error: function (error) { },
+				success: function(response) {
+					if (response == 0) {
+						//limpiar campos
+						$("#idproveedor").val("");
+						$("#nom_proveedor").val("");
+						$("#ruc_empresa").val("");
+						$("#nom_empresa").val("");
+						$("#tipo_empresa").val("");
+						$('input[type="submit"]').attr('disabled', 'disabled');
+					} else {
+						//mostras datos
+						var data = $.parseJSON(response);
+						$("#idproveedor").val(data.id_prov);
+						$("#nom_proveedor").val(data.raz_emp);
+						$("#ruc_empresa").val(data.ruc_emp);
+						$("#nom_empresa").val(data.nom_emp);
+						$("#tipo_empresa").val(data.tipo);
+
+						//bloquear campos
+						$("#nom_proveedor").attr("disabled", "disabled");
+						$("#ruc_empresa").attr("disabled", "disabled");
+						$("#nom_empresa").attr("disabled", "disabled");
+						salida2.innerHTML = '';
+
+						//$('input[type="submit"]').attr('disabled',false);
+					}
+				},
+				error: function(error) {},
 			});
 		}
 
-		function revisar(){
+		function revisar() {
 			var prov = $("#ruc_empresa").val();
 			var mat = $("#tipo_mate").val();
 			var pes = $("#peso_lle").val();
 			var salida2 = document.getElementById("salida2");
 
 			//console.log(prov, mat, pes);
-			if(prov!='' && mat !='' && pes!= '')
-			{
-				$('input[type="submit"]').attr('disabled',false);
-				salida2.innerHTML='';
-			}else{
-				$('input[type="submit"]').attr('disabled','disabled');
-				salida2.innerHTML='Por Favor llene todos los campos!';
-				salida2.style.color='red';
+			if (prov != '' && mat != '' && pes != '') {
+				$('input[type="submit"]').attr('disabled', false);
+				salida2.innerHTML = '';
+			} else {
+				$('input[type="submit"]').attr('disabled', 'disabled');
+				salida2.innerHTML = 'Por Favor llene todos los campos!';
+				salida2.style.color = 'red';
 			}
-		}
 
+			// CHECK: validar pesos de llegada
+
+		}
 	</script>
 </head>
 
-<body onmousemove="revisar();">
+<body>
 	<?php include "includes/header.php"; ?>
 	<?php include "includes/modal.php"; ?>
 	<script type="text/javascript" src="funciones.js"></script>
@@ -93,28 +99,47 @@ include "conexion.php";
 					}
 					?>
 				</div>
-				<form name="registra_materia_prima" id="registra_materia_prima" class="datos">
+				<form name="registra_materia_prima" id="registra_materia_prima" class="datos" onchange="revisar();">
 					<input type="hidden" name="action" value="addCliente">
 					<input type="hidden" id="idproveedor" name="idproveedor" value="">
 					<div class="wd30">
-						<label>Cedula</label>
-						<input type="text" name="ced_proveedor" id="ced_proveedor" placeholder="Ingrese Cedula Proveedor" maxlength="10" class="solo-numero" onkeyup="getProveedor(); validar3();" onblur="validar3();" autofocus required>
+						<label for="ced_proveedor">Nombre Proveedor</label> <!-- DOIT: Cambiar por un Select de los Proveedores -->
+						<!-- <input type="text" name="ced_proveedor" id="ced_proveedor" placeholder="Ingrese Cedula Proveedor" maxlength="10" class="solo-numero" onkeyup="getProveedor(); validar3();" onblur="validar3();" autofocus required> -->
+
+						<?php
+						$query_pro = mysqli_query($conexion, "SELECT * FROM proveedor");
+						$result_pro = mysqli_num_rows($query_pro);
+						?>
+						<select name="ced_proveedor" id="ced_proveedor" onchange="getProveedor()" required>
+							<option value="">Seleccionar Proveedor</option>
+							<?php
+							if ($result_pro > 0) {
+								while ($pro = mysqli_fetch_array($query_pro)) {
+							?>
+									<option value="<?php echo $pro["ced_pro"]; ?>"><?php echo $pro["nom_pro"] . " " . $pro["ape_pro"] ?></option>
+							<?php
+								}
+							}
+							?>
+						</select>
 						<label id="salida" style="font-size:1em; font-weight: bold;"></label>
 					</div>
-					<div class="wd30"></div>
-					<div class="wd30"></div>
-
 					<div class="wd30">
-						<label>Nombre</label>
+						<label>Nombre Empresa</label>
+						<input type="text" name="nom_empresa" id="nom_empresa" disabled>
+					</div>
+					<div class="wd30"></div>
+					<div class="wd30">
+						<label>Tipo Empresa</label>
+						<input type="text" name="tipo_empresa" id="tipo_empresa" disabled>
+					</div>
+					<div class="wd30">
+						<label>Razon</label>
 						<input type="text" name="nom_proveedor" id="nom_proveedor" disabled>
 					</div>
 					<div class="wd30">
 						<label>Ruc Empresa</label>
 						<input type="text" name="ruc_empresa" id="ruc_empresa" disabled>
-					</div>
-					<div class="wd30">
-						<label>Nombre Empresa</label>
-						<input type="text" name="nom_empresa" id="nom_empresa" disabled>
 					</div>
 					<div class="wd30">
 						<label for="Materia Prima">Materia Prima:</label>
@@ -138,7 +163,7 @@ include "conexion.php";
 						</select>
 					</div>
 					<div class="wd30">
-						<label>Peso De Llegada</label>
+						<label>Peso de Llegada</label>
 						<input type="number" name="peso_lle" id="peso_lle" value="0" required>
 					</div>
 					<div class="wd30">

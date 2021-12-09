@@ -28,7 +28,7 @@ $namepdf = "Reporte_Pro_Fin - " . $hoy;
 					<div class="tipo_reporte col2 full-width">						
                         
                         <p>
-                            <label for="Tipo De Materia Prima">Tipo De Producto :</label>
+                            <label for="Tipo de Materia Prima">Tipo de Producto :</label>
 							<select name="tip_pro" id="tip_pro" required>
 								<option value="">Seleccionar Tipo de Producto</option>
 								<option value="1">Carnes</option>
@@ -37,7 +37,7 @@ $namepdf = "Reporte_Pro_Fin - " . $hoy;
                         </p>                       
                         
                         <p id="cars" style="display: block">
-							<label for="Tipo De Materia Prima">Tipo De Materia Prima :</label>
+							<label for="Tipo de Materia Prima">Tipo de Materia Prima :</label>
 							<select name="tip_ma_m" id="tip_ma_m" required>
 								<option value="">Seleccionar Tipo de Materia Prima</option>
 								<option value="99">Todos</option>
@@ -57,7 +57,7 @@ $namepdf = "Reporte_Pro_Fin - " . $hoy;
                         
 
                         <p id="embs" style="display: none">
-							<label for="Tipo De Embutido">Tipo de Embutido :</label>
+							<label for="Tipo de Embutido">Tipo de Embutido :</label>
 							<select onchange="ocultardata();" name="tip_emb" id="tip_emb" required>
 								<option value="">Seleccionar Tipo de Embutido</option>
                                 <?php

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['rol'] != 1 and $_SESSION['rol'] != 2) {
+if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
     header("location: login.php");
 }
 include "conexion.php";
@@ -21,7 +21,7 @@ include "conexion.php";
     <script type="text/javascript" src="funciones.js"></script>
     <section id="container">
         <div class="title_pages">
-            <h1>Orden De Desposte</h1>
+            <h1>Orden de Desposte</h1>
             <div class="alert"><?php echo isset($alert) ? $alert : ''; ?></div>
             <div class="datos_desposte">
                 <div class="action_orden">
@@ -31,7 +31,7 @@ include "conexion.php";
                 <form id="form1" name="form1" method="post" action="envio.php" style="padding: 0px; border: 0px; background: #00000000;">
                     <div class="datosdes full-width">
                         <p>
-                            <label for="Tipo De Materia Prima">Tipo De Materia Prima :</label>
+                            <label for="Tipo de Materia Prima">Tipo de Materia Prima :</label>
                             <?php
                             $query_tipo = mysqli_query($conexion, "SELECT * FROM tipo_mat");
                             $result_tipo = mysqli_num_rows($query_tipo);
@@ -49,7 +49,7 @@ include "conexion.php";
                             </select>
                         </p>
                         <p>
-                            <label>Serie - Lote De Materia</label>
+                            <label>Serie - Lote de Materia</label>
                             <select name="seri_despost" id="seri_despost" required="">
                             </select>
                         </p>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['rol'] != 1 and $_SESSION['rol'] != 2) {
+if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 	header("location: login.php");
 }
 include "conexion.php";
@@ -20,7 +20,20 @@ $namepdf = "Reporte_Merma - " . $hoy;
 
 <script>
 
+//desabilitar el select obt_cod
 
+function verify(){
+
+	var select = document.getElementById("tipo_reporte").value;
+	if(select != "1"){
+		document.getElementById("obt_cod").disabled = true;
+		document.getElementById("obt_cod").required = false;
+}else{
+	document.getElementById("obt_cod").disabled = false;
+	//quitar el required del input obt_cod
+	document.getElementById("obt_cod").required = true;
+}
+}
 
 </script>
 
@@ -35,7 +48,7 @@ $namepdf = "Reporte_Merma - " . $hoy;
 					<div class="tipo_reporte col2 full-width">
 						<p>
 							<label>Tipo de Reporte</label>
-							<select name="tipo_reporte" id="tipo_reporte" required>
+							<select name="tipo_reporte" id="tipo_reporte" onchange="verify()" required>
 								<option value="">Seleccionar un Tipo</option>
 								
 								<?php
@@ -52,7 +65,7 @@ $namepdf = "Reporte_Merma - " . $hoy;
 							</select>
 						</p>
 						<p>
-							<label for="Tipo De Materia Prima">Tipo De Materia Prima :</label>
+							<label for="Tipo de Materia Prima">Tipo de Materia Prima :</label>
 							<select name="tip_ma_m" id="tip_ma_m" required>
 								<option value="">Seleccionar Tipo M.Primas</option>
 								
@@ -68,6 +81,11 @@ $namepdf = "Reporte_Merma - " . $hoy;
 								} ?>
 							</select>
 						</p>
+						<p>
+							<label for="obt_cod">Materia Prima :</label>
+							<select name="obt_cod" id="obt_cod" required></select>
+						</p>
+						<!--<p></p> Extrañamente no necesario -->
 						<p style="display:inline-flex;">
 							<label for="fecha1" class="form" style="margin: 0px;">Fecha:</label>
 							<input id="start_date" type="date" class="f16" name="start_date" step="1" min="2020-01-01" max="<?php echo $fecha; ?>" value="<?php echo "2020-02-25";//Dia de prueba  //echo date("Y-m-d"); ?>">
@@ -81,8 +99,8 @@ $namepdf = "Reporte_Merma - " . $hoy;
 
 							</select>
 						</p>
-						<p style="text-align: center;">
-							<input type="submit" name="submit" id="generar" value="Generar" class="btn_guardar_usuario full-width" style="width: auto; padding: 10px;" />
+						<p class="full-width" style="text-align: center;">
+							<input type="submit" name="submit" id="generar" value="Generar" class="btn_guardar_usuario " style="width: auto; padding: 10px;" />
 						</p>
 					</div>
 				</form>
@@ -96,7 +114,7 @@ $namepdf = "Reporte_Merma - " . $hoy;
 				<span>.</span>
 				<div id="cabecera" style="display: none;">
 					<table id="factura_head">
-						<tr>
+						<tr >
 							<td class="logo_factura">
 								<div>
 									<img src="img/embj.jpg">

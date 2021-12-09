@@ -8,7 +8,7 @@ if (!empty($_POST)) {
 
 	$alert = '';
 	if (empty($_POST['cedula']) || empty($_POST['nombre']) || empty($_POST['apellido']) || empty($_POST['celular']) || empty($_POST['direccion']) || empty($_POST['correo']) || empty($_POST['rol']) || empty($_POST['usuario'])) {
-		$alert = '<p class="msg_error">Los Campos Asingados Son Obligatorio</p>';
+		$alert = '<p class="msg_error">Los Campos Asignados son Obligatorios</p>';
 	} else {
 
 
@@ -97,7 +97,7 @@ if ($result_sql == 0) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 	<meta charset="UTF-8">
@@ -132,35 +132,35 @@ $(document).ready(function () {
 			<div class="alert"><?php echo isset($alert) ? $alert : ''; ?></div>
 
 			<form class="form_register5" action="" method="post">
-				<h1 class="full-width">Datos De Usuario</h1>
+				<h1 class="full-width">Datos de Usuario</h1>
 				<input type="hidden" name="id_usuar" value="<?php echo $id_usu; ?>">
 				<p class="full-width">
-					<label for="">Cedula De Usuario:</label>
+					<label for="">Cedula de Usuario:</label>
 					<input type="text" name="cedula" id="cedula" placeholder="Ingrese Cedula" maxlength="10" class="solo-numero" onblur="validar2()" onkeyup="validar2()" value="<?php echo $cedu_usu; ?>" required>
 					<label id="salida"></label>
 				</p>				
 				<p class="full-width">
-					<label for="">Nombre De Usuario:</label>
+					<label for="">Nombre de Usuario:</label>
 					<input type="text" name="nombre" id="nombre" placeholder="Ingres	e Nombre Completo" maxlength="50" class="letras" value="<?php echo $nomb_usu; ?>" required>
 				</p>
 				<p class="full-width">
-					<label for="">Apellido De Usuario:</label>
+					<label for="">Apellido de Usuario:</label>
 					<input type="text" name="apellido" id="apellido" placeholder=" Ingrese Apellido Completo" maxlength="50" class="letras" value="<?php echo $apel_usu; ?>" required>
 				</p>
 				<p class="full-width">
-					<label for="">Celular De Usuario:</label>
-					<input type="text" name="celular" id="celular" placeholder=" Ingrese Acelular" maxlength="10" class="solo-numero" value="<?php echo $celu_usu; ?>" required>
+					<label for="">Celular de Usuario:</label>
+					<input type="text" name="celular" id="celular" placeholder=" Ingrese el Celular" maxlength="10" class="solo-numero" value="<?php echo $celu_usu; ?>" required>
 				</p>
 				<p class="full-width">
-					<label for="">Telefono De Usuario:</label>
+					<label for="">Telefono de Usuario:</label>
 					<input type="text" name="telefono" id="telefono" placeholder=" Ingrese Telefono" maxlength="10"  class="solo-numero" value="<?php echo $tele_usu; ?>" required>
 				</p>
 				<p class="full-width">
-					<label for="">Direcion De Usuario:</label>
-					<input type="text" name="direccion" id="direccion" placeholder=" Ingrese direccion De Usuario" maxlength="60" value="<?php echo $dire_usu; ?>" required>
+					<label for="">Dirección de Usuario:</label>
+					<input type="text" name="direccion" id="direccion" placeholder=" Ingrese direccion de Usuario" maxlength="60" value="<?php echo $dire_usu; ?>" required>
 				</p>
 				<p class="full-width">
-					<label for="">Correo De Usuario:</label>
+					<label for="">Correo de Usuario:</label>
 					<input type="email" name="correo" id="correo" placeholder="Ingrese Correo electronico" maxlength="60" value="<?php echo $corr_usu; ?>" required>
 				</p>
 
@@ -189,11 +189,11 @@ $(document).ready(function () {
 					</select>
 				</p>
 				<p class="full-width">
-					<label for="">Ingrese ID De Usuario:</label>
+					<label for="usuario">Ingrese ID de Usuario:</label>
 					<input type="text" name="usuario" id="usuario" placeholder="Ingrese ID de Usuario" maxlength="15" class="letras" value="<?php echo $usua_usu; ?>" required>
 				</p>
 				<p class="full-width">
-					<label for="">Ingrese Clave:</label>
+					<label for="clave">Ingrese Clave:</label>
 					<input type="password" name="clave" id="clave" placeholder="Ingrese Clave" maxlength="15" required>
 				</p>
 				<p class="full-width">

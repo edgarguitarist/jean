@@ -2,7 +2,7 @@
 <div class="lista-ingrediente ">
 	<div class="datos">
 		<div class="wd30" id="ingre">
-			<label for="Tipo De Materia Prima">Tipo Materia Prima :</label>
+			<label for="Tipo de Materia Prima">Tipo Materia Prima :</label>
 			<?php
 			$query_tipo = mysqli_query($conexion, "SELECT * FROM tipo_mat");
 			$result_tipo = mysqli_num_rows($query_tipo);

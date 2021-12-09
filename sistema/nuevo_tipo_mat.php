@@ -11,7 +11,7 @@ if (!empty($_POST))
 	$alert='';
      if(empty($_POST['tip_mat_prim']))
      {
-     	$alert='<p class="msg_error">Los Campos Asingados Son Obligatorio</p>';
+     	$alert='<p class="msg_error">Los Campos Asignados son Obligatorios</p>';
      }else{
 
 
@@ -44,7 +44,7 @@ if($insert){
  ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   
@@ -57,13 +57,13 @@ if($insert){
 		<section id="container">
 
  	   <div class="form_register">
- 		<h1>Registrar Tipo De Materia Prima</h1>
+ 		<h1>Registrar Tipo de Materia Prima</h1>
  		<hr>
  		<div class="alert"><?php echo isset($alert) ? $alert : ''; ?></div>
 
  		<form class="form_register5" action="" method="post">
  			<h1>Datos</h1>
- 			    <label for="">Tipo De Materia Prima:</label>
+ 			    <label for="">Tipo de Materia Prima:</label>
 				<input type="text" name="tip_mat_prim" id="tip_mat_prim" placeholder="Ingrese Tipo" maxlength="20" required="" class="letras">
 				<br>
                 

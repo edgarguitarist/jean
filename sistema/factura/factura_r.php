@@ -14,7 +14,7 @@ $tipo=$tipo/983;
 
 //$codigo = $regs2['cod_mat_pri'];
 //$queryL = mysqli_query($conexion,"SELECT cor_pro FROM orden_despost WHERE lot_mat_pri = '$codigo'");
-$PorcentajeDeMerma = 0.441;
+$PorcentajeDeMerma = 0.1;
 $merma =0;
 $nombre = '' ;
 /*

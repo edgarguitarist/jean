@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Olvide mi Contraseña</title>
+    <title>Olvidé mi Contraseña</title>
     <?php include "includes/scripts.php";?>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <script src="https://uniwebsidad.com/static/libros/ejemplos/bootstrap-3/js/jquery.min.js" type="text/javascript"></script>
@@ -40,7 +40,7 @@
 
     <section id="container_login">
         <form method="POST" action="enviar_correo.php" style="display: block;">
-            <h3>Olvide mi Contraseña</h3>
+            <h3>Olvidé mi Contraseña</h3>
             <img src="img/correo.png" alt="correo" width="40%">
             <input type="text" name="email" placeholder="Ingrese su Correo">
             

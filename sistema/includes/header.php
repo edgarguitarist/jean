@@ -24,7 +24,7 @@ switch ($_SESSION['rol']){
 <header>
     <div class="header">
 
-        <h1>Sistema Produccion</h1>
+        <h1>Sistema de Producción</h1>
         <div class="optionsBar">
             <p>Ecuador, <?php echo fechaC(); ?></p>
             <span>|</span>

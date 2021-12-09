@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <?php include "includes/scripts.php";?>
-  <title>Sisteme Produccion</title>
+  <title>Sistema de Producción</title>
 </head>
 <body>
   <?php include "includes/header.php";?>

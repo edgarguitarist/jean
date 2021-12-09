@@ -29,4 +29,4 @@ $(".carousel").swipe({
     },
     allowPageScroll:"vertical"
   
-  });
+  });;

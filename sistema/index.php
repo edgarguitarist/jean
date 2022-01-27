@@ -24,7 +24,7 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2 && $_SESSION['rol'] != 3) {
 	<section id="container">
 		<div class="container_index">
 			<h1>Bienvenido al Sistema de Embutidos Jossy</h1>
-			<img src="img/embj.jpg" width="35%" alt="LOGO">
+			<img src="img/embj.jpg" class="wd30 logo" alt="LOGO">
 		</div>
 	</section>
 </body>

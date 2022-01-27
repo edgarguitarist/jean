@@ -46,23 +46,25 @@ include "conexion.php";
 					<th>Usuario</th>
 					<th>Rol</th>
 					<th>Fecha de Registro</th>
+					<th>Estado</th>
 					<th>Acciones</th>
 				</tr>
 			</thead>
 			<tbody>
 
 				<?php
-				$query = mysqli_query($conexion, "SELECT u.id_usu, u.ced_usu, u.ape_usu, u.nom_usu, u.cel_usu, u.tel_usu, u.dir_usu, u.cor_usu, u.usu_usu, t.rol_tip_usu, u.fech_reg_usu FROM usuario u INNER JOIN tipo_usuario t ON u.cod_tip_usu = t.cod_tip_usu 
-	    		WHERE estado = 1 ORDER BY u.ape_usu ASC");
+				$query = mysqli_query($conexion, "SELECT u.id_usu, u.ced_usu, u.ape_usu, u.nom_usu, u.cel_usu, u.tel_usu, u.dir_usu, u.cor_usu, u.usu_usu, t.rol_tip_usu, u.fech_reg_usu, u.estado FROM usuario u INNER JOIN tipo_usuario t ON u.cod_tip_usu = t.cod_tip_usu 
+	    		ORDER BY u.ape_usu ASC");
 				mysqli_close($conexion);
 
 				$result = mysqli_num_rows($query);
 				if ($result > 0) {
 					while ($data = mysqli_fetch_array($query)) {
-
+						$estado = $data['estado'] == 1 ? 'Activo' : 'Inactivo';
 				?>
 						<tr>
-							<!-- <td><?php //echo $data["id_usu"]; ?></td> -->
+							<!-- <td><?php //echo $data["id_usu"]; 
+										?></td> -->
 							<td><?php echo $data["ced_usu"]; ?></td>
 							<td><?php echo $data["ape_usu"]; ?></td>
 							<td><?php echo $data["nom_usu"]; ?></td>
@@ -73,14 +75,17 @@ include "conexion.php";
 							<td><?php echo $data["usu_usu"]; ?></td>
 							<td><?php echo $data["rol_tip_usu"]; ?></td>
 							<td><?php echo $data["fech_reg_usu"]; ?></td>
+							<td><?= $estado ?></td>
 							<td>
-								<a class="link_edit" href="editar_usuario.php?id=<?php echo $data["id_usu"]; ?>">Editar</a>
-								|
-
-								<?php if ($data["id_usu"] != 1) {
+								<a class="link_edit" href="editar_usuario.php?id=<?php echo $data["id_usu"]; ?>">Editar</a>|
+								<?php if ($data["id_usu"] != 1 && $data["estado"] == 1) {
 								?>
-									<a class="link_delete" href="eliminar_usuario.php?id=<?php echo $data["id_usu"]; ?>">Eliminar</a>
-								<?php  } ?>
+									<a class="link_delete" href="eliminar_usuario.php?id=<?= $data["id_usu"]; ?>">Eliminar</a>
+
+								<?php  } else if ($data["estado"] == 0) {
+								?>
+									<a class="link_delete" href="restablecer.php?id=<?= $data["id_usu"]; ?>&who=usuario">Restablecer</a>
+								<?php } ?>
 							</td>
 
 						</tr>
@@ -94,8 +99,9 @@ include "conexion.php";
 
 
 	</section>
-	
-	<?php include "includes/script.php"; ?> <!-- Necesario para la tabla -->
+
+	<?php include "includes/script.php"; ?>
+	<!-- Necesario para la tabla -->
 </body>
 
 </html>

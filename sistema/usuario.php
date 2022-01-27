@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['rol'] != 1) {
+if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 	header("location: login.php");
 }
 
@@ -32,11 +32,12 @@ if (!empty($_POST)) {
 		} else {
 			$insert = mysqli_query($conexion, "INSERT INTO usuario(ced_usu,nom_usu,ape_usu,cel_usu,tel_usu,dir_usu,cor_usu,cod_tip_usu,usu_usu,cla_usu) 
 			VALUES('$cedula_usu','$nombre_usu','$apellido_usu','$celular_usu','$telefono_usu','$direccion_usu','$correo_usu','$codigo_tipo_usu','$usuario_usu','$clave_usu')");
+			$error = mysqli_errno($conexion);
 
 			if ($insert) {
 				$alert = '<p class="msg_guardar">Usuario Registrado Correctamente.</p>';
 			} else {
-				$alert = '<p class="msg_error">Error Al Registrar Usuario.</p>';
+				$alert = '<p class="msg_error">Error Al Registrar Usuario.'.$error.'</p>';
 			}
 		}
 	}
@@ -145,8 +146,6 @@ if (!empty($_POST)) {
 
 			</form>
 		</div>
-		<!-- <div class="alert"><?php //echo isset($alert) ? $alert : ''; 
-								?></div> -->
 	</section>
 
 </body>

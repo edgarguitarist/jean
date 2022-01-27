@@ -62,6 +62,20 @@ if ($_SESSION['rol'] !=1 && $_SESSION['rol'] !=2) {
   <meta charset="UTF-8">
   <?php include "includes/scripts.php";?>
   <title>Sistema de Producción</title>
+  <style>
+    .wd-115 {
+      width: 115vw;
+    }
+
+    .center {
+      text-align: center;
+
+    }
+    p{
+      font-size: 20px;
+      font-weight: 500;
+    }
+  </style>
 </head>
 <body>
   <?php include "includes/header.php";?>
@@ -78,9 +92,11 @@ if ($_SESSION['rol'] !=1 && $_SESSION['rol'] !=2) {
              <p>Tipo Empresa: <span><?php echo $tip_empe; ?></p>
           
           <form method="post" action="">
+            <div class="wd-115 center">
             <input type="hidden" name="id_prov" value="<?php echo $id_prov; ?>">
             <a href="lista-proveedor.php" class="btn_cancel">Cancelar</a>
-            <input type="submit" value="Aceptar" class="btn_ok" style="width: auto; padding: 10px;">
+            <input type="submit" value="Aceptar" class="btn_ok">
+            </div>
           </form>
 
   </div>

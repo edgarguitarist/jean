@@ -20,7 +20,7 @@ include "conexion.php";
 
 </head>
 
-<body>
+<body class="z-75">
 	<?php include "includes/header.php"; ?>
 
 	<section id="container">
@@ -47,6 +47,7 @@ include "conexion.php";
 					<th>Telefono Empresa</th>
 					<th>Tipo Proveedor</th>
 					<th>Fecha de Registro</th>
+					<th>Estado</th>
 					<th>Acciones</th>
 				</tr>
 			</thead>
@@ -56,8 +57,7 @@ include "conexion.php";
 
 				/////////////////////////////
 
-				$query = mysqli_query($conexion, "SELECT  u.id_prov, u.ced_pro, u.ape_pro, u.nom_pro, u.cel_pro, u.cor_pro, u.dir_pro, u.ruc_emp, u.raz_emp, u.nom_emp, u.dir_emp, u.cor_emp, u.tel_emp, t.nom_tip_emp, u.fech_reg_pro FROM proveedor u INNER JOIN tipo_empresa t ON u.id_tip_emp = t.id_tip_emp  
-	    		WHERE estado = 1 ORDER BY u.id_prov ASC");
+				$query = mysqli_query($conexion, "SELECT  u.id_prov, u.ced_pro, u.ape_pro, u.nom_pro, u.cel_pro, u.cor_pro, u.dir_pro, u.ruc_emp, u.raz_emp, u.nom_emp, u.dir_emp, u.cor_emp, u.tel_emp, t.nom_tip_emp, u.fech_reg_pro, u.estado FROM proveedor u INNER JOIN tipo_empresa t ON u.id_tip_emp = t.id_tip_emp ORDER BY u.id_prov ASC");
 				mysqli_close($conexion);
 
 				$result = mysqli_num_rows($query);
@@ -65,6 +65,8 @@ include "conexion.php";
 					while ($data = mysqli_fetch_array($query)) {
 						$formato_fe = 'Y-m-d H:i:s';
 						$fecha = DateTime::createFromFormat($formato_fe, $data["fech_reg_pro"]);
+						$estado = $data['estado'] == 1 ? 'Activo' : 'Inactivo';
+
 				?>
 						<tr>
 							<!-- <td><?php //echo $data["id_prov"]; 
@@ -83,14 +85,19 @@ include "conexion.php";
 							<td><?php echo $data["tel_emp"]; ?></td>
 							<td><?php echo $data["nom_tip_emp"]; ?></td>
 							<td><?php echo $fecha->format('d-m-Y'); ?></td>
+							<td><?= $estado ?></td>
 							<td>
 								<a class="link_edit" href="editar_proveedor.php?id=<?php echo $data["id_prov"]; ?>">Editar</a>
-								|
+								<?php if ($_SESSION['rol'] == 1 && $data["estado"] == 1) {
+									?>
+									|
+									<a class="link_delete" href="eliminar_proveedor.php?id=<?= $data["id_prov"]; ?>">Eliminar</a>
 
-								<?php if ($_SESSION['rol'] == 1) {
+								<?php  } else if ($data["estado"] == 0) {
 								?>
-									<a class="link_delete" href="eliminar_proveedor.php?id=<?php echo $data["id_prov"]; ?>">Eliminar</a>
-								<?php  } ?>
+									<a class="link_delete" href="restablecer.php?id=<?= $data["id_prov"]; ?>&who=proveedor">Restablecer</a>
+								<?php } ?>
+								
 							</td>
 
 						</tr>

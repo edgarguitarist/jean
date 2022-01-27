@@ -42,7 +42,7 @@ if (isset($_GET['ord_desp'])) {
 							$data = array("prueba" => 1);
 							if ($result_rol1 > 0) {
 								while ($rol = mysqli_fetch_array($query_rol1)) {
-									$peso=$rol["peso"]-$rol["suma"];
+									$peso = $rol["peso"] - $rol["suma"];
 									$data[$rol["codigo"]] = $peso;
 							?>
 									<option value="<?php echo $rol["codigo"]; ?>"><?php echo $rol["codigo"] ?></option>
@@ -59,7 +59,7 @@ if (isset($_GET['ord_desp'])) {
 						<h4 id="msg_error_pro2" class="msg_error v-margin" hidden>El peso ingresado supera el peso de llegada del producto</h4>
 
 						<?php
-							//echo $data['Cha-35'];
+						//echo $data['Cha-35'];
 						?>
 
 					</div>
@@ -95,7 +95,7 @@ if (isset($_GET['ord_desp'])) {
 				<tbody id="mostrar_data_proter">
 					<!--contenido desde lista_receta-->
 					<?php
-					$queryL = mysqli_query($conexion, "SELECT * FROM prod_terminado WHERE cod_pro NOT LIKE '%EMB%' ORDER BY cod_pro");
+					$queryL = mysqli_query($conexion, "SELECT * FROM prod_terminado WHERE cod_pro NOT LIKE '%EMB%' ORDER BY fecha_ingre DESC");
 					while ($list = mysqli_fetch_array($queryL)) { ?>
 						<tr>
 							<td><?php echo $list["cod_pro"]; ?></td>
@@ -108,13 +108,12 @@ if (isset($_GET['ord_desp'])) {
 			</table>
 		</div>
 	</section>
-	<?php include "includes/script_ns.php"; ?>
+
 
 	<script>
-
 		function checkPeso() {
 			var selpro = $("#ord_desp").val();
-  			var selcor = $("#id_cortes").val();	
+			var selcor = $("#id_cortes").val();
 			submito = document.getElementById('add_prod_ter');
 			var arreglo = <?php echo json_encode($data); ?>
 
@@ -124,7 +123,7 @@ if (isset($_GET['ord_desp'])) {
 				if (valor >= gg) {
 					$("#msg_error_pro2").hide();
 					//console.log(valor, gg, "si");
-					if(selcor!=null){
+					if (selcor != null) {
 						submito.disabled = false;
 						return true;
 					}
@@ -139,8 +138,22 @@ if (isset($_GET['ord_desp'])) {
 				return false;
 			}
 		}
+		position_sort_table = 3
+		order_sort_table = "desc"
+		//obtener la url
+		var url = window.location.href;
+		//buscar si existe el string 'yes'
+		var res = url.search('yes');
+		//si existe el string 'yes'
+		if (res > 0) {
+			//recargar la pagina
+			//console.log("si");
+			//url.split('&complete=yes');
+			window.location.href = url.split('&complete=yes')[0];
+		}
+		
 	</script>
-
+	<?php include "includes/script_sort.php"; ?>
 </body>
 
 </html>

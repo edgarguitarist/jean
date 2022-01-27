@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['rol'] != 1) {
+if (!isset($_SESSION['rol'])) {
 	header("location: login.php");
 }
 include "conexion.php";

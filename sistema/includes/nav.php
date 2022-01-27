@@ -2,24 +2,24 @@
    <ul>
      <li><a href="index.php"><i class="fas fa-home"></i> Inicio</a></li>
      <?php
-      if ($_SESSION['rol'] != 3) {
+      if ($_SESSION['rol'] == 1) {
       ?>
        <li class="principal"><a href="usuario.php"><i class="fas fa-users"></i> Usuarios</a>
          <ul>
            <li><a href="usuario.php">Nuevo Usuario</a></li>
-           <?php if ($_SESSION['rol'] == 1) { ?>
+           
              <li><a href="lista-usuario.php">Lista de Usuarios</a></li>
-           <?php } ?>
+           
          </ul>
        </li>
-
+       <?php } ?>
        <li class="principal"><a href="proveedor.php"><i class="fas fa-truck"></i> Proveedores</a>
          <ul>
            <li><a href="proveedor.php">Nuevo Proveedor</a></li>
            <li><a href="lista-proveedor.php">Lista de Proveedores</a></li>
          </ul>
        </li>
-     <?php } ?>
+     
      
      <li class="principal"><a href="materia_prima.php"><i class="fas fa-arrow-down"></i> Entrada</a>
        <ul>

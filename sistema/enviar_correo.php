@@ -50,7 +50,7 @@
 			    $mail->Subject = "Reset Password - EMBUTIDOS 'JOSSY'";
 			    $mail->Body    = "<center>
 				<meta charset='UTF-8'>
-				<div style='margin-bottom:50px; align-content: center;'><img src='https://www.jossyemb-produc.com/sistema/img/embj.jpg' width='150px' height='150px'>
+				<div style='margin-bottom:50px; align-content: center;'><img src='https://jossyemb-produccion.com/logo.jpg' width='150px' height='150px'>
 				<h2 style='color: #013C80; font-weight: bold;'> EMBUTIDOS 'JOSSY' </h2></center>
 				<p style='font-size: 16px; font-weight: bold; color:black;'>Hola $nombre, </p>
 				<p style='font-size: 16px; font-weight: bold; color:black;'>Se ha solicitado un cambio de contrase&ntilde;a de tu cuenta del sitio del SISTEMA WEB DE EMBUTIDOS 'JOSSY'.</p> 

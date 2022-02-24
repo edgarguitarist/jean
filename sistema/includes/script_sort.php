@@ -5,8 +5,9 @@
 	/* Table initialisation */
 
 
-	var position_sort_table = position_sort_table ?? 0
-	var order_sort_table = order_sort_table ?? "asc"
+	var position_sort_table = position_sort_table ?? 3
+	var order_sort_table = order_sort_table ?? "desc"
+
 	$(document).ready(function() {
 		$('#example').dataTable({
 			"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",

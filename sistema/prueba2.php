@@ -3,9 +3,6 @@ include "conexion.php";
 
 if (isset($_POST['obt_cod'])) {
 
-	//INFO: LO SIGUIENTE ES IMPORTANTE
-
-
 	$id_mat = $_POST['obt_cod'];
 
 	$t_materia = "SELECT * FROM tipo_mat";

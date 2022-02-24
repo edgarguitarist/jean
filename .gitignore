@@ -1,4 +1,5 @@
 sistema/enviar_correo.php
+sistema/conexion.php
 bd/
 default/
 *.sql

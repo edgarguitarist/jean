@@ -26,7 +26,6 @@ include "conexion.php";
 				<?php include "includes/buscador.php";?>
 			</form>
 		</div>
-<!-- TODO: Agregar el codigo de la materia prima -->
 		<div id="inv_ord_des">
 		<table border="0" class="table" id="example" aria-describedby="tabla">
 				<thead>

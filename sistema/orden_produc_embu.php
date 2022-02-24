@@ -22,6 +22,8 @@ if (!empty($_POST)) {
 		}
 	}
 }
+$nametitle = "Orden de Embutido";
+$namepdf = "Orden de Embutido - " . $hoy;
 ?>
 
 
@@ -106,45 +108,83 @@ if (!empty($_POST)) {
 							<option value="9">9</option>
 						</select>
 					</div>
-					<div class="wd30"></div>
+
 					<input id="submito" type="submit" value="Generar Orden de Embutido" class="btn_guardar" style="width: auto; padding: 10px;" disabled>
 				</form>
-				<h1 class="v-margin">Lista de Ingredientes</h1>
-				<table border="0" class="table" id="example" aria-describedby="tabla">
-					<thead>
-						<tr style="background: #325459 !important;">
-							<th class="textcenter" width="100px">Codigo</th>
-							<th class="textcenter">Ingrediente</th>
-							<th class="textcenter" width="100px">Cantidad</th>
-						</tr>
-					</thead>
-					<tbody id="mostrar_data1">
-						<!--contenido desde lista_receta-->
-					</tbody>
-				</table>
+				<center>
+
+					<div class="wd30">
+						<button id="imprimir" name="imprimir" onclick="genPDF('<?php echo $namepdf; ?>'); active_sub();" class="btn_guardar" style="width: auto; padding: 10px;" disabled>Imprimir Orden de Embutido</button>
+					</div>
+				</center>
+				<div id="pdf_container">
+					<span>.</span>
+					<div id="cabecera" style="display: none;">
+						<table id="factura_head">
+							<tr>
+								<td class="logo_factura">
+									<div>
+										<img class="" alt="logo" src="img/embj.jpg">
+									</div>
+								</td>
+								<td class="info_empresa wd50">
+
+									<div>
+										<H1 class="textcenter"><?php echo $nametitle; ?></H1>
+									</div>
+
+								</td>
+								<td class="info_factura wd25">
+									<div class="round">
+										<h3 class="textcenter">Información</h3>
+										<p>Fecha: <?php echo $fecha; ?></p>
+										<p>Hora: <?php echo $hora; ?></p>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<br><br>
+					<h1 class="v-margin">Lista de Ingredientes</h1>
+					<table border="0" class="table" id="example" aria-describedby="tabla">
+						<thead>
+							<tr style="background: #325459 !important;">
+								<th class="textcenter" width="100px">Codigo</th>
+								<th class="textcenter">Ingrediente</th>
+								<th class="textcenter" width="100px">Cantidad</th>
+							</tr>
+						</thead>
+						<tbody id="mostrar_data1">
+							<!--contenido desde lista_receta-->
+						</tbody>
+					</table>
+				</div>
 			</div>
-			<div id="alerta" class="alert"><?php //echo isset($alert) ? $alert : ''; 
-											?></div>
 		</div>
 	</section>
-	<!-- <?php //include "includes/script.php"; ?> -->
 
 	<script type="text/javascript">
+		//const submito = document.getElementById('submito');
+		const imprimir = document.getElementById('imprimir');
+
 		function reset_sub() {
-			submito = document.getElementById('submito');
-			submito.disabled = true;
+			//submito.disabled = true;
+			imprimir.disabled = true;
 		}
 
+		function active_sub() {
+			submito.disabled = false;
+			imprimir.disabled = true;
+		}
 
 		function viewRevisar() {
 			gg = document.getElementById('est_info').value;
-			submito = document.getElementById('submito');
 			if (gg == 1 || gg == '1') {
-				submito.disabled = false;
-				//console.log(gg,"yes")
+				//submito.disabled = false;
+				imprimir.disabled = false;
 			} else {
-				submito.disabled = true;
-				//console.log(gg,"no")
+				//submito.disabled = true;
+				imprimir.disabled = true;
 			}
 		}
 	</script>

@@ -93,20 +93,6 @@ $(document).ready(function () {
 //////////////////////////////////
 ///////////////////BALANZA/////////////
 
-$(document).ready(function () {
-  function obtener_datos() {
-    $.ajax({
-      url: "conex_balanza.php",
-      type: "POST",
-      async: true,
-      success: function (data) {
-        $("#peso_lle").val(data)
-      },
-    })
-  }
-  obtener_datos()
-  //setInterval(obtener_datos,10500);
-})
 
 ///////////////////////////DESPOSTE///////////////////////////////////
 // Variables globales
@@ -213,9 +199,7 @@ $(document).ready(function () {
       data:
         $(this).serialize() + "&selordpro=" + selordpro + "&selpro=" + selpro,
       success: function (response) {
-        var url = window.location.href
-        //redireccionar a la url
-        window.location.href = url + "&complete=yes"
+        reload()
       },
     })
   })
@@ -233,11 +217,10 @@ $(document).ready(function () {
       data:
         $(this).serialize() + "&selordpro=" + selordpro + "&proemb=" + proemb,
       success: function (response) {
-        setTimeout(function () {
-          window.location.href =
-            "http://jossyemb-produc.com/sistema/produc_termi_emb.php"
-        }, 50) //recarga tras 50 milisegundos
-        location.reload() //cambiar para subir 12345
+        if (response) location.reload() //cambiar para subir 12345
+      },
+      error: function (response) {
+        alert("error")
       },
     })
   })
@@ -273,7 +256,7 @@ function checkSelect() {
 }
 
 function revisar() {
-  gg = Number(document.getElementById("peso_lle").value)
+  gg = parseFloat(document.getElementById("peso_lle").value).toFixed(3)
   var selpro = $("#ord_desp").val()
   var selcor = $("#id_cortes").val()
   submito = document.getElementById("add_prod_ter")
@@ -292,7 +275,7 @@ function revisar() {
   }
 }
 function revisar2() {
-  var gg = Number(document.getElementById("peso_lle").value)
+  var gg = parseFloat(document.getElementById("peso_lle").value).toFixed(3)
   var selpro = $("#ord_desp").val()
   submito = document.getElementById("submitemb")
   if (selpro != null && gg > 0) {
@@ -373,6 +356,7 @@ $(document).ready(function () {
       success: function (response) {
         //console.log(response);
         if (response != "error") {
+          console.log(response)
           var info = JSON.parse(response)
           $("#detalle_venta").html(info.detalle)
 
@@ -388,7 +372,9 @@ $(document).ready(function () {
         }
         viewProcesar()
       },
-      error: function (error) {},
+      error: function (error) {
+        console.log(error)
+      },
     })
   })
 })
@@ -423,18 +409,15 @@ $(document).ready(function () {
 ///////////CREAR RECETA/////////////////
 $(document).ready(function () {
   $("#crear_receta22").click(function (e) {
-    e.preventDefault()
-
+    //e.preventDefault()
     var rows = $("#detalle_venta tr").length
     if (rows > 0) {
       var action = "procesarLista"
-
       $.ajax({
         url: "list_receta.php",
         type: "POST",
         async: true,
         data: { action: action },
-
         success: function (response) {
           console.log("respuesta", response)
           if (response != "error") {
@@ -443,7 +426,9 @@ $(document).ready(function () {
             console.log("no data receta")
           }
         },
-        error: function (error) {},
+        error: function (error) {
+          console.log("error", error)
+        },
       })
     }
   })
@@ -957,9 +942,9 @@ function del_tempo_lista_receta(correlativo) {
     data: { action: action, id_detalle: id_detalle },
 
     success: function (response) {
+      console.log(response)
       if (response != "error") {
         var info = JSON.parse(response)
-
         $("#detalle_venta").html(info.detalle)
         $("#rol").val("")
         $("#cantidad_rece").val("0")
@@ -1158,4 +1143,24 @@ function sleep(milliseconds) {
       break
     }
   }
+}
+let tempName, tempName2 = ""
+const fetchPeso = (elementID) => {
+  const url = "https://balanza-6c12c-default-rtdb.firebaseio.com/balanza.json"
+  input = document.getElementById(elementID) ?? tempName
+  tempName = input != null ? input : tempName
+  input2 = document.getElementById(elementID+'2') ?? tempName2
+  tempName2 = input2 != null ? input2 : tempName2
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {tempName.value = data.Peso; tempName2.value = data.Peso})
+    .catch((error) => console.log(error))
+  setTimeout(fetchPeso, 500)
+}
+
+//cuando cambie el valor del input pasarlo a otro input
+function cambiarValor(elementID) {
+  input = document.getElementById(elementID)
+  input2 = document.getElementById(elementID+"2")
+  input2.value = input.value
 }

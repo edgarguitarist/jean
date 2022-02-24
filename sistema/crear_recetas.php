@@ -72,7 +72,7 @@ include "conexion.php";
 					</div>
 					<div class="wd30">
 						<label>Cantidad</label>
-						<input type="text" name="cantidad_rece" id="cantidad_rece" placeholder="Cantidad en libra" min="15" onkeyup="cr_check()" maxlength="10" class="solo-numero" required>
+						<input type="number" name="cantidad_rece" id="cantidad_rece" placeholder="Cantidad en libras" min="15" onkeyup="cr_check()" maxlength="10" class="solo-numero" required>
 					</div>
 					<div class="wd30">
 						<input id="add_btn_lista" type="submit" value="Agregar A La Lista" class="btn_guardar" style="width: auto; padding: 10px;" disabled>

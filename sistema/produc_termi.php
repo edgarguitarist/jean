@@ -27,7 +27,7 @@ if (isset($_GET['ord_desp'])) {
 				<div class="action_orden">
 					<h4>Datos</h4>
 				</div>
-				<form name="prod_termina" id="prod_termina" class="datos">
+				<form name="prod_termina" id="prod_termina" onchange="fetchPeso('peso_lle')" class="datos">
 					<div class="wd30">
 						<label for="rol">Orden A Procesar :</label>
 						<?php
@@ -66,14 +66,15 @@ if (isset($_GET['ord_desp'])) {
 					<div class="wd30"></div>
 					<div class="wd30">
 						<label for="rol">Cortes :</label>
-						<select name="id_cortes" id="id_cortes" onchange="revisar()" required>
+						<select name="id_cortes" id="id_cortes" onchange="revisar(); checkPeso();" required>
 							<option selected disabled value="">Seleccionar Corte</option>
 						</select>
 					</div>
 
 					<div class="wd30">
 						<label>Peso </label> <!-- Mostrar alerta del tamaño de corte si se excede del peso común  -->
-						<input type="number" name="peso_lle" id="peso_lle" class="solo-numero" min="0" value="0" onfocus="checkSelect()" onkeyup="revisar(); checkPeso();" required>
+						<input type="hidden" name="peso_lle" id="peso_lle">
+						<input type="text" name="peso_lle2" id="peso_lle2" class="" min="0" value="0" disabled required>
 					</div>
 					<div class="wd30"></div>
 
@@ -112,22 +113,28 @@ if (isset($_GET['ord_desp'])) {
 
 	<script>
 		function checkPeso() {
+			var mensaje = document.getElementById("msg_error_pro2")
 			var selpro = $("#ord_desp").val();
 			var selcor = $("#id_cortes").val();
 			submito = document.getElementById('add_prod_ter');
 			var arreglo = <?php echo json_encode($data); ?>
 
 			if (selpro != null) {
-				var valor = Number(arreglo[selpro]);
-				var gg = Number(document.getElementById('peso_lle').value);
+				var valor = parseFloat(arreglo[selpro]).toFixed(3);
+				var gg = parseFloat(document.getElementById('peso_lle').value).toFixed(3);
 				if (valor >= gg) {
-					$("#msg_error_pro2").hide();
+					resultado = valor - gg;
+					mensaje.innerHTML = "Quedan " + resultado + " libras";
+					mensaje.className = "msg_success v-margin";
+					$("#msg_error_pro2").show();
 					//console.log(valor, gg, "si");
 					if (selcor != null) {
 						submito.disabled = false;
 						return true;
 					}
 				} else {
+					mensaje.innerHTML = "El peso ingresado supera el peso de llegada del producto";
+					mensaje.className = "msg_error v-margin";
 					$("#msg_error_pro2").show();
 					submito.disabled = true;
 					//console.log(valor, gg, "no");
@@ -140,15 +147,9 @@ if (isset($_GET['ord_desp'])) {
 		}
 		position_sort_table = 3
 		order_sort_table = "desc"
-		//obtener la url
 		var url = window.location.href;
-		//buscar si existe el string 'yes'
 		var res = url.search('yes');
-		//si existe el string 'yes'
 		if (res > 0) {
-			//recargar la pagina
-			//console.log("si");
-			//url.split('&complete=yes');
 			window.location.href = url.split('&complete=yes')[0];
 		}
 		

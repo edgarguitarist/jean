@@ -74,8 +74,6 @@ include "conexion.php";
 				salida2.style.color = 'red';
 			}
 
-			// CHECK: validar pesos de llegada
-
 		}
 	</script>
 </head>
@@ -99,11 +97,10 @@ include "conexion.php";
 					}
 					?>
 				</div>
-				<form name="registra_materia_prima" id="registra_materia_prima" class="datos" onchange="revisar();">
+				<form name="registra_materia_prima" id="registra_materia_prima" class="datos" onchange="revisar(); fetchPeso('peso_lle');">
 					<input type="hidden" name="action" value="addCliente">
 					<input type="hidden" id="idproveedor" name="idproveedor" value="">
 					<div class="wd30">
-						<label for="ced_proveedor">Nombre Proveedor</label> <!-- DOIT: Cambiar por un Select de los Proveedores -->
 						<!-- <input type="text" name="ced_proveedor" id="ced_proveedor" placeholder="Ingrese Cedula Proveedor" maxlength="10" class="solo-numero" onkeyup="getProveedor(); validar3();" onblur="validar3();" autofocus required> -->
 
 						<?php
@@ -164,7 +161,8 @@ include "conexion.php";
 					</div>
 					<div class="wd30">
 						<label>Peso de Llegada</label>
-						<input type="number" name="peso_lle" id="peso_lle" value="0" required>
+						<input type="hidden" name="peso_lle" id="peso_lle">
+						<input type="text" name="peso_lle2" id="peso_lle2" value="0" disabled required>
 					</div>
 					<div class="wd30">
 						<label id="salida2" style="font-size:1em; font-weight: bold;"></label>

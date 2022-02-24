@@ -13,20 +13,21 @@
          </ul>
        </li>
        <?php } ?>
+       <?php if ($_SESSION['rol'] != 3) { ?>
        <li class="principal"><a href="proveedor.php"><i class="fas fa-truck"></i> Proveedores</a>
          <ul>
            <li><a href="proveedor.php">Nuevo Proveedor</a></li>
            <li><a href="lista-proveedor.php">Lista de Proveedores</a></li>
          </ul>
        </li>
-     
+     <?php }?>
      
      <li class="principal"><a href="materia_prima.php"><i class="fas fa-arrow-down"></i> Entrada</a>
        <ul>
        <?php if ($_SESSION['rol'] != 3) { ?>
-         <li><a href="orden_produc_embu.php">Orden de Embutido </a>
+         <li><a href="orden_produc_embu.php">Orden de Embutido <i class="fas fa-arrow-right"></i></a>
            <?php if ($_SESSION['rol'] == 1) { ?>
-            <i class="fas fa-arrow-right"></i>
+            
              <ul>
                <li><a href="crear_recetas.php">Crear Receta</a></li>
              </ul>

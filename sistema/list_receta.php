@@ -180,13 +180,7 @@ if (!empty($_POST)) {
 
     $token = $_SESSION['idUser'];
 
-    $query = mysqli_query($conexion, "SELECT * FROM tempo_lista_receta WHERE token_user = '$token' ");
-    $result = mysqli_num_rows($query);
-
-    //////////////
-    //console_log($query);
-    //echo $result; //Si da respuesta
-    if ($result > 0) {
+    
       $query_procesar = mysqli_query($conexion, "CALL procesar_lista('$token')");
       $result_detalle = mysqli_num_rows($query_procesar);
       //console_log($query_procesar);
@@ -199,9 +193,7 @@ if (!empty($_POST)) {
       } else {
         echo "error1pro";
       }
-    } else {
-      echo "error2 pro";
-    }
+    
     exit;
   }
   ///////////// agregar materia prima con modal ////////////////

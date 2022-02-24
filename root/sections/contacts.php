@@ -1,3 +1,4 @@
+<?php date_default_timezone_set('America/Guayaquil'); ?>
 <div class="container casi90">
     <div class="row">
         <div class="col-lg-12 text-center">
@@ -26,11 +27,28 @@
                 <h4>CELULAR:<em style="margin: 0 10px 0 10px;" class="fa fa-phone"></em><a target="_blank" href="tel:0992853567">0992853567</a></h4>
                 <h4>WHATSAPP:<em style="margin: 0 10px 0 10px;" class="fab fa-whatsapp"></em><a target="_blank" href="https://api.whatsapp.com/send?phone=593992853567&fbclid=IwAR3PtLQfS1RzaqN3yIaD1zSt16PveE-Y-V44rvf85aZNFZ6HtjwIxMHiPYw">+593992853567</a></h4>
                 <br><br>
+                <?php
+                $isOpen = '';
+                $isOpenSunday = '';
+                if (date('N') >= 1 && date('N') <= 6) {
+
+                    $isOpen = date('H:i') >= '08:00' && date('H:i') <= '20:00'
+                    ? '<span class="is-success"><em style="margin: 0 10px 0 0;" class="fa fa-clock"></em>Abierto</span>' 
+                    : '<span class="is-danger"><em style="margin: 0 10px 0 0;" class="fa fa-clock"></em>Cerrado</span>';
+                } else {
+                    $isOpenSunday = date('H:i') >= '8:30' && date('H:i') <= '15:00' 
+                    ? '<span class="is-success"><em style="margin: 0 10px 0 0;" class="fa fa-clock"></em>Abierto</span>' 
+                    : '<span class="is-danger"><em style="margin: 0 10px 0 0;" class="fa fa-clock"></em>Cerrado</span>';
+                }
+
+
+                ?>
                 <h3>Horario de Atención</h3>
                 <h4>Lunes a Sábados</h4>
-                <h5>08:00 - 20:00</h5>
+                <h5>08:00 - 20:00 </h5>
+                <span><?= $isOpen ?></span>
                 <h4>Domingos</h4>
-                <h5>08:30 - 15:00</h5>
+                <h5>08:30 - 15:00 <span><?= $isOpenSunday ?></span></h5>
             </div>
         </div>
     </div>

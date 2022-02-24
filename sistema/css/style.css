@@ -9,6 +9,14 @@
   width: 50%;
 }
 
+.is-success{
+  background-color: #4CAF50;
+}
+
+.is-danger{
+  background-color: #F44336;
+}
+
 .f16 {
   font-size: 16px;
 }
@@ -479,6 +487,10 @@ select {
   color: #e64646 !important;
 }
 
+.msg_success {
+  color: #00ce00 !important;
+}
+
 .msg_guardar {
   color: #12a4c6 !important;
 }
@@ -496,7 +508,7 @@ select {
   background-image: url("../img/Carn.jpg");
   background-size: cover;
   width: 100%;
-  height: 100vh;
+  height: 125vh;
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;

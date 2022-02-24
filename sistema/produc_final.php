@@ -18,26 +18,28 @@ $namepdf = "Producto Final - " . $hoy;
         var mostrar = document.getElementById("mostrar_data");
         var salida = document.getElementById("salida");
         //var sumito = document.getElementById("generar");
-        peso = parseInt($("#cortes").val(), 10);
-        peso2 = parseInt($("#peso-fin").val(), 10);
-        //console.log(peso, peso2);
-        salida.innerHTML = "";
+        //peso = parseInt($("#cortes").val(), 10);
+        //peso2 = parseInt($("#peso-fin").val(), 10);
+        peso = parseFloat($("#cortes").val()).toFixed(3);
+        peso2 = parseFloat($("#peso-fin").val()).toFixed(3);
+        console.log(peso, peso2);
+        salida.innerHTML = "&nbsp;";
         mostrar.style.display = "none";
 
         if (peso2 > 0) {
 
             if (peso2 > peso) {
                 dif = peso2 - peso;
-                $respuesta = "Peso exedido en " + Math.abs(dif) + " libras";
-                //console.log(dif);                
+                $respuesta = "Peso exedido en " + Math.abs(dif.toFixed(3)) + " libras";
+                console.log(dif);
                 salida.innerHTML = $respuesta;
                 salida.style.color = "red";
                 $('#generar').prop('disabled', 'disabled');
             } else {
                 if (peso > 0) {
                     dif = peso2 - peso;
-                    $respuesta = "Quedan " + Math.abs(dif) + " libras";
-                    //console.log(dif);
+                    $respuesta = "Quedan " + Math.abs(dif.toFixed(3)) + " libras";
+                    console.log(dif.toFixed(3));
                     salida.innerHTML = $respuesta;
                     salida.style.color = "green";
                     $('#generar').prop('disabled', false);
@@ -51,14 +53,13 @@ $namepdf = "Producto Final - " . $hoy;
         var peso = document.getElementById("peso-fin");
         var mostrar = document.getElementById("mostrar_data");
         //var cortes = document.getElementById("cortes");
-        salida.innerHTML = "";
+        //salida.innerHTML = "";
         //$("#cortes").val('');
         peso.value = "";
         mostrar.style.display = "none";
     }
 </script>
 
-<!-- CHECK: Agregar el codigo de la materia prima -->
 
 <body>
     <?php include "includes/header.php"; ?>
@@ -66,10 +67,10 @@ $namepdf = "Producto Final - " . $hoy;
     <section id="container">
 
         <div class="title_page">
-            <h1><?= $reporte.' Venta' ?></h1>
+            <h1><?= $reporte . ' Venta' ?></h1>
 
             <div class="datos_desposte">
-                <form id="form_pro_fin" onchange="limpia()" name="form_pro_fin" method="post" style="padding: 0px; border: 0px; background: #00000000;">
+                <form id="form_pro_fin" onchange="limpia(); fetchPeso('peso-fin')" name="form_pro_fin" method="post" style="padding: 0px; border: 0px; background: #00000000;">
                     <div class="tipo_reporte col2 full-width">
                         <p>
                             <label for="tip_prod">Tipo de Producto :</label>
@@ -92,7 +93,7 @@ $namepdf = "Producto Final - " . $hoy;
                                 if ($result_tipo > 0) {
                                     while ($tipo = mysqli_fetch_array($query_tipo)) {
                                 ?>
-                                        <option value='<?=$tipo["id_tip_mat"] ?>'><?= $tipo["nom_tip_mat"] ?></option>
+                                        <option value='<?= $tipo["id_tip_mat"] ?>'><?= $tipo["nom_tip_mat"] ?></option>
                                 <?php
                                     }
                                 } ?>
@@ -104,12 +105,16 @@ $namepdf = "Producto Final - " . $hoy;
                         </p> -->
                         <p>
                             <label id="nom_cortes" for="cortes">Cortes : </label>
-                            <select name="cortes" id="cortes" required></select>
+                            <select name="cortes" id="cortes" onchange="ver_peso()" required></select>
+                            <label id="" style="font-size:1em; font-weight: bold;">&nbsp;</label>
+
                         </p>
                         <p>
                             <label for="peso-fin">Peso : </label>
-                            <input type="text" name="peso-fin" id="peso-fin" maxlength="10" onkeyup="ver_peso()" class="solo-numero" required>
-                            <label id="salida" style="font-size:1em; font-weight: bold;"></label>
+                            <input type="hidden" name="peso-fin" id="peso-fin">
+
+                            <input type="text" name="peso-fin2" id="peso-fin2" maxlength="10" disabled required>
+                            <label id="salida" style="font-size:1em; font-weight: bold;">&nbsp;</label>
                         </p>
                         <p class="full-width" style="text-align: center;">
                             <input type="submit" name="submit" id="generar" value="Generar" class="btn_guardar_usuario full-width" style="width: auto; padding: 10px;" />

@@ -46,7 +46,7 @@ if (!empty($_POST)) {
 				<div class="action_orden">
 					<h4>Datos</h4>
 				</div>
-				<form name="registra_desposte" id="registra_desposte" class="datos" action="" method="post">
+				<form name="registra_desposte" id="registra_desposte" class="datos" action="" method="post" onchange="fetchPeso('peso_sali');">
 
 					<div class="wd30">
 						<label for="Tipo de Materia Prima">Orden A Procesar :</label>
@@ -54,7 +54,7 @@ if (!empty($_POST)) {
 						$query_tipo = mysqli_query($conexion, "SELECT * FROM orden_despost WHERE estado=1");
 						$result_tipo = mysqli_num_rows($query_tipo);
 						?>
-						<select name="prod_proce" id="prod_proce" required="">
+						<select name="prod_proce" id="prod_proce" required>
 							<option selected disabled>Seleccionar Orden</option>
 							<?php
 							if ($result_tipo > 0) {
@@ -70,7 +70,8 @@ if (!empty($_POST)) {
 
 					<div class="wd30">
 						<label>Peso </label>
-						<input name="peso_sali" id="peso_sali">
+						<input type="hidden" name="peso_sali" id="peso_sali">
+						<input name="peso_sali2" id="peso_sali2" required disabled>
 					</div>
 
 					<div class="wd30">

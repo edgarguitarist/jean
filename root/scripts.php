@@ -1,3 +1,5 @@
+<?php date_default_timezone_set('America/Guayaquil');  ?>
+
 <!-- jQuery Version 1.11.0 -->
 <!-- <script src="https://raw.githubusercontent.com/IronSummitMedia/startbootstrap/gh-pages/templates/agency/js/jquery-1.11.0.js"></script> -->
 

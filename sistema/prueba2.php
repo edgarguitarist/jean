@@ -4,6 +4,8 @@ include "conexion.php";
 if (isset($_POST['obt_cod'])) {
 
 	$id_mat = $_POST['obt_cod'];
+	$start_date = $_POST['start_date'];
+	$end_date = $_POST['end_date'];
 
 	$t_materia = "SELECT * FROM tipo_mat";
 
@@ -18,7 +20,7 @@ if (isset($_POST['obt_cod'])) {
 	$cod = $materias[$id_mat] != null ? $materias[$id_mat] : "emb";
 
 
-	$queryM = "SELECT id_mat, cod_mat_pri FROM mat_prima WHERE cod_mat_pri LIKE '%$cod%'";
+	$queryM = "SELECT mp.id_mat, mp.cod_mat_pri FROM prod_terminado pt INNER JOIN mat_prima mp ON mp.cod_mat_pri = pt.cod_pro  WHERE cod_pro LIKE '%$cod%' AND fecha_ingre BETWEEN '$start_date' AND '$end_date' GROUP BY mp.cod_mat_pri";
 	$resultadoM = $conexion->query($queryM);
 
 	$html = "<option value=''>Seleccionar Materia Prima</option>";

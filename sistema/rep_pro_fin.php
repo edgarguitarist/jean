@@ -10,7 +10,7 @@ $namepdf = "Reporte_Pro_Fin - " . $hoy;
 <head>
     <meta charset="UTF-8">
     <?php include "includes/scripts.php"; ?>
-    <title><?php echo $reporte;?></title>
+    <title><?= $reporte;?></title>
 </head>
 
 <body>
@@ -20,7 +20,7 @@ $namepdf = "Reporte_Pro_Fin - " . $hoy;
     <section id="container">
 
         <div class="title_page">
-            <h1><?php echo $reporte;?></h1>
+            <h1><?= $reporte;?></h1>
 
             <br>
 			<div class="datos_desposte">
@@ -47,7 +47,7 @@ $namepdf = "Reporte_Pro_Fin - " . $hoy;
 								if ($result_tipo > 0) {
 									while ($tipo = mysqli_fetch_array($query_tipo)) {
 								?>
-										<option value='<?php echo $tipo["id_tip_mat"]; ?>'><?php echo $tipo["nom_tip_mat"] ?></option>
+										<option value='<?= $tipo["id_tip_mat"]; ?>'><?= $tipo["nom_tip_mat"] ?></option>
 								<?php
 									}
 								} ?>
@@ -66,7 +66,7 @@ $namepdf = "Reporte_Pro_Fin - " . $hoy;
 								if ($result_tipo > 0) {
 									while ($tipo = mysqli_fetch_array($query_tipo)) {
 								?>
-										<option value='<?php echo $tipo["nom_rece"]; ?>'><?php echo $tipo["nom_rece"] ?></option>
+										<option value='<?= $tipo["nom_rece"]; ?>'><?= $tipo["nom_rece"] ?></option>
 								<?php
 									}
 								} ?>
@@ -75,12 +75,12 @@ $namepdf = "Reporte_Pro_Fin - " . $hoy;
                         
 						<p style="text-align: center;">
 							<label for="fecha1">Fecha Inicial:</label>
-							<input onchange="ocultardata()" id="start_date" type="date" class="f16" name="start_date" step="1" min="2020-01-01" max="<?php echo $hoy; ?>" value="<?php echo "2020-02-25";//Dia de prueba  //echo date("Y-m-d"); ?>">
+							<input onchange="ocultardata()" id="start_date" type="date" class="f16" name="start_date" step="1" min="2020-01-01" max="<?= $hoy; ?>" value="<?= "2020-02-25";//Dia de prueba  //echo date("Y-m-d"); ?>">
 							
 						</p>
                         <p style="text-align: center;">
 							<label for="fecha1">Fecha Final:</label>
-							<input onchange="ocultardata()" id="end_date" type="date" class="f16" name="end_date" step="1" min="2020-01-01" max="<?php echo $hoy; ?>" value="<?php echo $hoy; ?>">
+							<input onchange="ocultardata()" id="end_date" type="date" class="f16" name="end_date" step="1" min="2020-01-01" max="<?= $hoy; ?>" value="<?= $hoy; ?>">
 							
 						</p>
 						<p class="full-width" style="text-align: center;">
@@ -91,7 +91,7 @@ $namepdf = "Reporte_Pro_Fin - " . $hoy;
 			</div>
 			<br>
 			<br>
-			<center><button id='btn-export' class='btn btn_guardar_usuario' onclick="genPDF('<?php echo $namepdf; ?>');" style='display:none;'>IMPRIMIR</button></center>
+			<center><button id='btn-export' class='btn btn_guardar_usuario' onclick="genPDF('<?= $namepdf; ?>');" style='display:none;'>IMPRIMIR</button></center>
 			<div id="pdf_container">
 				<div id="cabecera" style="display: none;">
 					<table id="factura_head">
@@ -104,15 +104,15 @@ $namepdf = "Reporte_Pro_Fin - " . $hoy;
 							<td class="info_empresa wd50">
 								
 								<div>
-									<H1 class="textcenter"><?php echo $reporte;?></H1>
+									<h1 class="textcenter"><?= $reporte;?></h1>
 								</div>
 								
 							</td>
 							<td class="info_factura wd25">
 								<div class="round">
 									<h3 class="textcenter">Información</h3>
-									<p>Fecha: <?php echo $fecha;?></p>
-									<p>Hora: <?php echo $hora;?></p>
+									<p>Fecha: <?= $fecha;?></p>
+									<p>Hora: <?= $hora;?></p>
 								</div>
 							</td>
 						</tr>

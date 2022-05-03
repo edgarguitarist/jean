@@ -18,8 +18,8 @@ if (isset($_POST['fecha'])) {
 if (isset($_POST['fecha2'])) {
     $fecha2 =  date("Y-m-d", strtotime($_POST['fecha2'] . "+ 1 days"));
 }
-if (isset($_POST['dias'])) {
-    $dias = $_POST['dias'];
+if (isset($_POST['fecha_final'])) {
+    $fecha_final = $_POST['fecha_final'];
 }
 
 
@@ -39,21 +39,41 @@ if (isset($_POST['frm'])) {
             if ($tipo == "1") { // completo 
                 $total = 0;
                 $ini = 0;
-                $fecha2 = date("Y-m-d", strtotime($fecha . "+ 1 days"));
+                $total_producto = 0;
+                $fecha2 = date("Y-m-d", strtotime($_POST['fecha_final'] . "+ 1 days"));
                 $consulta = "SELECT A.nom_tip_mat AS Nombre, B.cod_mat_pri AS Codigo, B.peso_lle AS Peso 
                             FROM tipo_mat A ,mat_prima B 
                             WHERE A.id_tip_mat = B.id_tip_mat AND B.id_tip_mat = $materia AND B.fech_reg_mat BETWEEN '$fecha' AND '$fecha2'";
-                foreach ($conexion->query($consulta) as $tot) {
+                $consulta2 = "SELECT
+                tm.nom_tip_mat AS Nombre,
+                mp.cod_mat_pri AS Codigo,
+                mp.peso_lle AS Peso,
+                mp.fech_reg_mat,
+                COUNT(pt.cortes) AS numero_cortes,
+                round(SUM(pt.peso),2) AS total_producto
+            FROM
+                mat_prima mp
+            INNER JOIN tipo_mat tm ON
+                tm.id_tip_mat = mp.id_tip_mat AND mp.id_tip_mat = $materia
+            INNER JOIN prod_terminado pt ON pt.cod_pro = mp.cod_mat_pri
+            WHERE
+                pt.fecha_ingre BETWEEN '$fecha' AND '$fecha2'
+            GROUP BY mp.cod_mat_pri";
+
+                foreach ($conexion->query($consulta2) as $tot) {
+
                     $total += $tot['Peso'];
+                    $total_producto += $tot['total_producto'];
                     $nombre = $tot['Nombre'];
                     $ini += 1;
                 }
                 if ($cod_materia == 'todos') {
+                    $pes_des = $total - $total_producto;
+                    $merma = ($pes_des / $total) * 100;
 
-                    $merma = $total - ($total * $PorcentajeDeMerma);
-                    $des = $total - $merma;
+                    $des = $pes_des;
                     $labels = "'Producto', 'Merma'";
-                    $datos = $merma . ", " . $des;
+                    $datos = $total . ", " . $des;
 
                     $html = "<div style='width: 100%;'>
                     <h1 style='text-align:center;'>" . $nombre . "</h1>
@@ -95,18 +115,20 @@ if (isset($_POST['frm'])) {
 <tr style='background: #325459 !important;'>
                 <tr style='background: #325459 !important;'>
                 <th><center>Materia Prima</th>
-                <th><center>Peso por Producto</th>
-                <th><center>Peso Total</th>
-                <th><center>Producto Total</th>
+                <th><center>Peso Materias Prima</th>
+                <th><center>Peso Total Cortes</th>
+                <th><center>Merma x Libra</th>
+                <th><center>Merma x Porcentaje</th>
                 </tr></thead>";
 
 
 
                         $html .= "<tr>" .
                             "<td><center><b>" . $nombre . "</td>" .
-                            "<td><center>" . "---" . "</td>" .
-                            "<td><center><b class='camporesalta'>" . $total . "</td>" .
-                            "<td><center><b class='camporesalta'>" . $merma . "</td>" .
+                            "<td><center>" . round($total, 3) . "</td>" .
+                            "<td><center><b class='camporesalta'>" . round($total_producto, 3) . "</td>" .
+                            "<td><center><b class='camporesalta'>" . round($pes_des, 3) . " lbs.</td>" .
+                            "<td><center><b class='camporesalta'>" . round($merma, 3) . "%</td>" .
                             "</tr>";
                     } else {
                         $html = '';
@@ -138,23 +160,41 @@ if (isset($_POST['frm'])) {
 <tr style='background: #325459 !important;'>
                 <tr style='background: #325459 !important;'>
                 <th><center>Materia Prima</th>
-                <th><center>Peso por Producto</th>
-                <th><center>Peso Total</th>
-                <th><center>Producto Final</th>
+                <th><center>Peso Materia Prima</th>
+                <th><center>Peso Total Cortes</th>
+                <th><center>Merma x Libra</th>
+                <th><center>Merma x Porcentaje</th>
                 </tr></thead>";
                     $total = 0;
                     $ini = 0;
                     $consulta = "SELECT A.nom_tip_mat AS Nombre, B.cod_mat_pri AS Codigo, B.peso_lle AS Peso 
                             FROM tipo_mat A ,mat_prima B 
                             WHERE A.id_tip_mat = B.id_tip_mat AND B.cod_mat_pri = '$cod_materia' AND B.fech_reg_mat BETWEEN '$fecha' AND '$fecha2'";
+                    $consulta = "SELECT
+                    tm.nom_tip_mat AS Nombre,
+                    mp.cod_mat_pri AS Codigo,
+                    mp.peso_lle AS Peso,
+                    mp.fech_reg_mat,
+                    COUNT(pt.cortes) AS numero_cortes,
+                    round(SUM(pt.peso),2) AS total_producto
+                FROM
+                    mat_prima mp
+                INNER JOIN tipo_mat tm ON
+                    tm.id_tip_mat = mp.id_tip_mat 
+                INNER JOIN prod_terminado pt ON pt.cod_pro = mp.cod_mat_pri AND  pt.cod_pro = '$cod_materia'
+                WHERE
+                    pt.fecha_ingre BETWEEN '$fecha' AND '$fecha2'
+                GROUP BY mp.cod_mat_pri";
 
                     foreach ($conexion->query($consulta) as $fila) {
-                        $merma = $fila['Peso'] - ($fila['Peso'] * $PorcentajeDeMerma);
+                        $pes_des = $fila['Peso'] - $fila['total_producto'];
+                        $merma = ($pes_des / $fila['Peso']) * 100;
                         $html .= "<tr>" .
                             "<td><center>" . $fila['Codigo'] . "</td>" .
-                            "<td><center>" . $fila['Peso'] . "</td>" .
-                            "<td><center>" . "---" . "</td>" .
-                            "<td><center>" . $merma . "</td>" .
+                            "<td><center>" . round($fila['Peso'], 3) . "</td>" .
+                            "<td><center>" . round($fila['total_producto'], 3) . "</td>" .
+                            "<td><center>" . round($pes_des, 3) . " lbs.</td>" .
+                            "<td><center>" . round($merma, 3) . "%</td>" .
                             "</tr>";
                         $ini++;
                     }
@@ -171,7 +211,7 @@ if (isset($_POST['frm'])) {
                     }
                 }
             } elseif ($tipo == "2") { // SOLO PRODUCTO ---> PRODUCTO ESPECIFICO
-                $fecha2 = date("Y-m-d", strtotime($fecha . "+ " . $dias . " days")); // SE SUMAN LOS DIAS SELECCIONADOS PARA CREAR UN RANGO DESDE LA FECHA INICIAL HASTA LOS DIAS AUMENTADOS
+                $fecha2 = $fecha_final;
                 if ($materia != 0) {
                     $total = 0;
                     $ini = 0;
@@ -236,8 +276,8 @@ if (isset($_POST['frm'])) {
                         $html .= "<tr>" .
                             "<td><center><b>" . $tot['Nombre'] . "</td>" .
                             "<td><center>" . "---" . "</td>" .
-                            "<td><center><b class='camporesalta'>" . $total . "</td>" .
-                            "<td><center><b class='camporesalta'>" . $merma . "</td>" .
+                            "<td><center><b class='camporesalta'>" . round($total, 2) . "</td>" .
+                            "<td><center><b class='camporesalta'>" . round($merma, 2) . "</td>" .
                             "</tr>";
                         $html .= "</table><br>";
                     } else {
@@ -270,8 +310,8 @@ if (isset($_POST['frm'])) {
                         $html .= "<tr>" .
                             "<td><center><b>" . $tot['Nombre'] . "</td>" .
                             "<td><center>" . "---" . "</td>" .
-                            "<td><center><b class='camporesalta'>" . $tot['Peso'] . "</td>" .
-                            "<td><center><b class='camporesalta'>" . $merma . "</td>" .
+                            "<td><center><b class='camporesalta'>" . round($tot['Peso'], 2) . "</td>" .
+                            "<td><center><b class='camporesalta'>" . round($merma, 2) . "</td>" .
                             "</tr>";
 
                         $ini += 1;
@@ -485,7 +525,7 @@ if (isset($_POST['frm'])) {
                 WHERE id_tip_mat = $materia");
                 $data = mysqli_fetch_array($query);
                 $html .= "<br><h1 style='text-align:center;'>" . $data['nom_tip_mat'] . "</h1><br>";
-               
+
                 $total = 0;
                 $ini = 0;
                 if ($cod_materia == 'todos') {
@@ -512,7 +552,7 @@ if (isset($_POST['frm'])) {
                             "<td><center>" . $tiempo[0] . "</td>" .
                             "<td><center>" . $tiempo[1] . "</td>" .
                             "</tr>";
-                        $ini ++;
+                        $ini++;
                     }
                 } else {
                     $html .= $boton_reporte . "
@@ -529,8 +569,8 @@ if (isset($_POST['frm'])) {
                                 FROM prod_terminado
                                 WHERE cod_pro ='$cod_materia' AND fecha_ingre BETWEEN '$fecha' AND '$fecha2'";
                     foreach ($conexion->query($consulta) as $tot) {
-                        $tiempo = $tot['fecha_ingre'] != null ? explode(" ", $tot['fecha_ingre']) : ['',''];
-                        
+                        $tiempo = $tot['fecha_ingre'] != null ? explode(" ", $tot['fecha_ingre']) : ['', ''];
+
                         $html .= "<tr>" .
                             "<td><center><b>" . $tot['cod_pro'] . "</td>" .
                             "<td><center><b>" . $tot['cortes'] . "</td>" .

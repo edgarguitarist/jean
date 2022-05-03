@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set('America/Guayaquil');
 if (isset($_GET['busqueda'])) {
-	$busqueda = ucwords($_REQUEST['busqueda']) . ucwords($_REQUEST['add_mat']) ;
+	$busqueda = ucwords($_REQUEST['busqueda']) . ucwords($_REQUEST['add_mat']);
 	$fecha1 = $_GET['start_date'];
 	$fecha2 = date("Y-m-d", strtotime($_GET['end_date'] . "+ 1 days"));
 	$search = true;

@@ -435,6 +435,9 @@ form p {
 .full-width2 {
   grid-column: 1 / 4;
 }
+.full-width3 {
+  grid-column: 1/2;
+}
 
 label {
   font-size: 12pt;

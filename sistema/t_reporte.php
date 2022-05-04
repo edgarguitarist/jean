@@ -354,7 +354,7 @@ if (isset($_POST['frm'])) {
                             $conter_name += 1;
                         }
                         $ini += 1;
-                        if($num_rows == $ini && $conter_name == 0){
+                        if($num_rows == $ini){
                             array_push($nombres_array, $nombre);
                             array_push($total_array, $total);
                             array_push($total_producto_array, $total_producto);

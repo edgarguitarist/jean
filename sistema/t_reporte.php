@@ -341,21 +341,21 @@ if (isset($_POST['frm'])) {
                     $conter_name = 0;
                     
                     foreach ($rows as $tot) {                        
-                        $nombre = $tot['Nombre'];
-                        $total += $tot['Peso'];
-                        $total_producto += $tot['total_producto'];
                         
+                        $nombre = $tot['Nombre'];
                         if($nombre != $tempnombre && $ini > 0){
-                            array_push($nombres_array, $nombre);
+                            array_push($nombres_array, $tempnombre);
                             array_push($total_array, $total);
                             array_push($total_producto_array, $total_producto);                            
                             $total = 0;
                             $total_producto = 0;
                             $conter_name += 1;
-                        }
+                        }                        
+                        $total += $tot['Peso'];
+                        $total_producto += $tot['total_producto'];
                         $ini += 1;
                         if($num_rows == $ini){
-                            array_push($nombres_array, $nombre);
+                            array_push($nombres_array, $tempnombre);
                             array_push($total_array, $total);
                             array_push($total_producto_array, $total_producto);
                         }

@@ -111,7 +111,7 @@ if (isset($_POST['frm'])) {
                         $html .= $boton_reporte . "
                 <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                 <thead>
-<tr style='background: #325459 !important;'>
+                <tr style='background: #325459 !important;'>
                 <tr style='background: #325459 !important;'>
                 <th><center>Materia Prima</th>
                 <th><center>Peso Materias Prima</th>
@@ -158,7 +158,7 @@ if (isset($_POST['frm'])) {
                     $html .= "
                 <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                 <thead>
-<tr style='background: #325459 !important;'>
+                <tr style='background: #325459 !important;'>
                 <tr style='background: #325459 !important;'>
                 <th><center>Materia Prima</th>
                 <th><center>Peso Materia Prima</th>
@@ -267,8 +267,7 @@ if (isset($_POST['frm'])) {
                     if ($ini > 0) {
                         $html .= $boton_reporte . "<table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                         <thead>
-<tr style='background: #325459 !important;'>
-
+                        <tr style='background: #325459 !important;'>
                         <th><center>Materia Prima</th>
                         <th><center>Peso por Producto</th>
                         <th><center>Peso Total</th>
@@ -294,7 +293,7 @@ if (isset($_POST['frm'])) {
                     $html .= $boton_reporte . "
                     <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                     <thead>
-<tr style='background: #325459 !important;'>
+                    <tr style='background: #325459 !important;'>
                     <th><center>Materia Prima</th>
                     <th><center>Peso por Producto</th>
                     <th><center>Peso Total</th>
@@ -344,8 +343,8 @@ if (isset($_POST['frm'])) {
 
 
         $query = mysqli_query($conexion, "SELECT * 
-    FROM tipo_mat
-    WHERE id_tip_mat = $materia");
+        FROM tipo_mat
+        WHERE id_tip_mat = $materia");
         $data = mysqli_fetch_array($query);
         if ($cod_materia == 'todos') {
 
@@ -407,7 +406,7 @@ if (isset($_POST['frm'])) {
             $html .= $boton_reporte . "
             <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
             <thead>
-<tr style='background: #325459 !important;'>
+            <tr style='background: #325459 !important;'>
             <th><center>Materia Prima</th>
             <th><center>Peso</th>
             <th><center>Fecha</th>
@@ -452,7 +451,7 @@ if (isset($_POST['frm'])) {
             $html .= "
             <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
             <thead>
-<tr style='background: #325459 !important;'>
+            <tr style='background: #325459 !important;'>
             <th><center>Materia Prima</th>
             <th><center>Peso</th>
             <th><center>Fecha</th>
@@ -533,7 +532,7 @@ if (isset($_POST['frm'])) {
                     $html .= $boton_reporte . "
                     <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                     <thead>
-<tr style='background: #325459 !important;'>
+                    <tr style='background: #325459 !important;'>
                     <th style='display:none;'><center>Materia Prima</th>
                     <th><center>Corte</th>
                     <th><center>Peso</th>
@@ -549,7 +548,7 @@ if (isset($_POST['frm'])) {
                         $html .= "<tr>" .
                             "<td style='display:none;'><center><b>" . $tot['cod_pro'] . "</td>" .
                             "<td><center><b>" . $tot['cortes'] . "</td>" .
-                            "<td><center>" . $tot['SUMA'] . "</td>" .
+                            "<td><center>" . round($tot['SUMA'], 3) . "</td>" .
                             "<td><center>" . $tiempo[0] . "</td>" .
                             "<td><center>" . $tiempo[1] . "</td>" .
                             "</tr>";
@@ -559,7 +558,7 @@ if (isset($_POST['frm'])) {
                     $html .= $boton_reporte . "
                     <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                     <thead>
-<tr style='background: #325459 !important;'>
+                    <tr style='background: #325459 !important;'>
                     <th><center>Materia Prima</th>
                     <th><center>Corte</th>
                     <th><center>Peso</th>
@@ -575,7 +574,7 @@ if (isset($_POST['frm'])) {
                         $html .= "<tr>" .
                             "<td><center><b>" . $tot['cod_pro'] . "</td>" .
                             "<td><center><b>" . $tot['cortes'] . "</td>" .
-                            "<td><center>" . $tot['SUMA'] . "</td>" .
+                            "<td><center>" . round($tot['SUMA'], 3) . "</td>" .
                             "<td><center>" . $tiempo[0] . "</td>" .
                             "<td><center>" . $tiempo[1] . "</td>" .
                             "</tr>";
@@ -601,7 +600,7 @@ if (isset($_POST['frm'])) {
                 $html .= $boton_reporte . "
                     <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                     <thead>
-<tr style='background: #325459 !important;'>
+                    <tr style='background: #325459 !important;'>
                     <th><center>Materia Prima</th>
                     <th><center>Corte</th>
                     <th><center>Peso</th>
@@ -636,7 +635,7 @@ if (isset($_POST['frm'])) {
                         $html .= "<tr>" .
                             "<td ><center><b>" . "" . "</td>" .
                             "<td><center><b>" . $tot['cortes'] . "</td>" .
-                            "<td><center>" . $tot['SUMA'] . "</td>" .
+                            "<td><center>" . round($tot['SUMA'], 3) . "</td>" .
                             "<td><center>" . $tiempo[0] . "</td>" .
                             "<td><center>" . $tiempo[1] . "</td>" .
                             "</tr>";
@@ -644,7 +643,7 @@ if (isset($_POST['frm'])) {
                         $html .= "<tr>" .
                             "<td ><center><b>" . $tot['t_mat'] . "</td>" .
                             "<td><center><b>" . $tot['cortes'] . "</td>" .
-                            "<td><center>" . $tot['SUMA'] . "</td>" .
+                            "<td><center>" . round($tot['SUMA'], 3) . "</td>" .
                             "<td><center>" . $tiempo[0] . "</td>" .
                             "<td><center>" . $tiempo[1] . "</td>" .
                             "</tr>";
@@ -669,9 +668,9 @@ if (isset($_POST['frm'])) {
             $html .= $boton_reporte . "
                 <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                 <thead>
-<tr style='background: #325459 !important;'>
+                <tr style='background: #325459 !important;'>
                 <th style='display:none;'><center>Materia Prima</th>
-                <th><center>Corte</th>
+                <th><center>Embutido</th>
                 <th><center>Peso</th>
                 <th><center>Fecha</th>
                 <th><center>Hora</th>
@@ -691,7 +690,7 @@ if (isset($_POST['frm'])) {
                 $html .= "<tr>" .
                     "<td style='display:none;'><center><b>" . $tot2['cod_pro'] . "</td>" .
                     "<td><center><b>" . $tot2['cortes'] . "</td>" .
-                    "<td><center>" . $tot2['SUMA'] . "</td>" .
+                    "<td><center>" . round($tot2['SUMA'], 3) . "</td>" .
                     "<td><center>" . $tiempo[0] . "</td>" .
                     "<td><center>" . $tiempo[1] . "</td>" .
                     "</tr>";
@@ -715,7 +714,7 @@ if (isset($_POST['frm'])) {
         }
     }
 
-    ///////////////////////////////////////////////PRODUCTO FINAL
+    //////////////////////////////////////////PRODUCTO FINAL
 
     if ($frm == "PROFINAL") {
         if ($tipo == "1") { //Carne
@@ -758,7 +757,7 @@ if (isset($_POST['frm'])) {
                 $html .= $boton_reporte . "
                     <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                     <thead>
-<tr style='background: #325459 !important;'>
+                    <tr style='background: #325459 !important;'>
                     <th style='display:none;'><center>Materia Prima</th>
                     <th><center>Corte</th>
                     <th><center>Peso</th>
@@ -776,7 +775,7 @@ if (isset($_POST['frm'])) {
                     $html .= "<tr>" .
                         "<td style='display:none;'><center><b>" . $tot['id_prod_final'] . "</td>" .
                         "<td><center><b>" . $tot['cortes'] . "</td>" .
-                        "<td><center>" . $tot['SUMA'] . "</td>" .
+                        "<td><center>" . round($tot['SUMA'], 3) . "</td>" .
                         "<td><center>" . $tiempo[0] . "</td>" .
                         "<td><center>" . $tiempo[1] . "</td>" .
                         "</tr>";
@@ -801,7 +800,7 @@ if (isset($_POST['frm'])) {
                 $html .= $boton_reporte . "
                     <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                     <thead>
-<tr style='background: #325459 !important;'>
+                    <tr style='background: #325459 !important;'>
                     <th><center>Materia Prima</th>
                     <th><center>Corte</th>
                     <th><center>Peso</th>
@@ -836,7 +835,7 @@ if (isset($_POST['frm'])) {
                         $html .= "<tr>" .
                             "<td ><center><b>" . "" . "</td>" .
                             "<td><center><b>" . $tot['cortes'] . "</td>" .
-                            "<td><center>" . $tot['SUMA'] . "</td>" .
+                            "<td><center>" . round($tot['SUMA'], 3) . "</td>" .
                             "<td><center>" . $tiempo[0] . "</td>" .
                             "<td><center>" . $tiempo[1] . "</td>" .
                             "</tr>";
@@ -844,7 +843,7 @@ if (isset($_POST['frm'])) {
                         $html .= "<tr>" .
                             "<td ><center><b>" . $tot['t_mat'] . "</td>" .
                             "<td><center><b>" . $tot['cortes'] . "</td>" .
-                            "<td><center>" . $tot['SUMA'] . "</td>" .
+                            "<td><center>" . round($tot['SUMA'], 3) . "</td>" .
                             "<td><center>" . $tiempo[0] . "</td>" .
                             "<td><center>" . $tiempo[1] . "</td>" .
                             "</tr>";
@@ -869,7 +868,7 @@ if (isset($_POST['frm'])) {
             $html .= $boton_reporte . "
                 <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                 <thead>
-<tr style='background: #325459 !important;'>
+                <tr style='background: #325459 !important;'>
                 <th style='display:none;'><center>Materia Prima</th>
                 <th><center>Corte</th>
                 <th><center>Peso</th>
@@ -888,7 +887,7 @@ if (isset($_POST['frm'])) {
                 $html .= "<tr>" .
                     "<td style='display:none;'><center><b>" . $tot2['id_prod_final'] . "</td>" .
                     "<td><center><b>" . $tot2['cortes'] . "</td>" .
-                    "<td><center>" . $tot2['SUMA'] . "</td>" .
+                    "<td><center>" . round($tot2['SUMA'], 3) . "</td>" .
                     "<td><center>" . $tiempo[0] . "</td>" .
                     "<td><center>" . $tiempo[1] . "</td>" .
                     "</tr>";
@@ -919,7 +918,7 @@ if (isset($_POST['frm'])) {
         $html .= $boton_reporte . "
             <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
             <thead>
-<tr style='background: #325459 !important;'>
+            <tr style='background: #325459 !important;'>
             <th><center>Nombre</th>
             <th><center>Cantidad</th>
             <th><center>Fecha</th>

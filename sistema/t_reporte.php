@@ -41,7 +41,7 @@ if (isset($_POST['frm'])) {
                 $ini = 0;
                 $total_producto = 0;
                 $fecha2 = date("Y-m-d", strtotime($_POST['fecha_final'] . "+ 1 days"));
-               
+
                 $consulta2 = "SELECT
                 tm.nom_tip_mat AS Nombre,
                 mp.cod_mat_pri AS Codigo,
@@ -49,15 +49,15 @@ if (isset($_POST['frm'])) {
                 mp.fech_reg_mat,
                 COUNT(pt.cortes) AS numero_cortes,
                 round(SUM(pt.peso),2) AS total_producto
-            FROM
-                mat_prima mp
-            INNER JOIN tipo_mat tm ON
-                tm.id_tip_mat = mp.id_tip_mat AND mp.id_tip_mat = $materia
-            INNER JOIN prod_terminado pt ON pt.cod_pro = mp.cod_mat_pri
-            WHERE
-                pt.fecha_ingre BETWEEN '$fecha' AND '$fecha2'
-            GROUP BY mp.cod_mat_pri
-            ORDER BY mp.id_mat";
+                FROM
+                    mat_prima mp
+                INNER JOIN tipo_mat tm ON
+                    tm.id_tip_mat = mp.id_tip_mat AND mp.id_tip_mat = $materia
+                INNER JOIN prod_terminado pt ON pt.cod_pro = mp.cod_mat_pri
+                WHERE
+                    pt.fecha_ingre BETWEEN '$fecha' AND '$fecha2'
+                GROUP BY mp.cod_mat_pri
+                ORDER BY mp.id_mat";
 
                 foreach ($conexion->query($consulta2) as $tot) {
 
@@ -67,6 +67,10 @@ if (isset($_POST['frm'])) {
                     $ini += 1;
                 }
                 if ($cod_materia == 'todos') {
+                    if($total <= 0 || $total_producto <= 0){
+                        echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
+                        return;
+                    }
                     $pes_des = $total - $total_producto;
                     $merma = ($pes_des / $total) * 100;
 
@@ -167,10 +171,7 @@ if (isset($_POST['frm'])) {
                 <th><center>Merma x Porcentaje</th>
                 </tr></thead>";
                     $total = 0;
-                    $ini = 0;
-                    $consulta = "SELECT A.nom_tip_mat AS Nombre, B.cod_mat_pri AS Codigo, B.peso_lle AS Peso 
-                            FROM tipo_mat A ,mat_prima B 
-                            WHERE A.id_tip_mat = B.id_tip_mat AND B.cod_mat_pri = '$cod_materia' AND B.fech_reg_mat BETWEEN '$fecha' AND '$fecha2'";
+                    $ini = 0;                    
                     $consulta = "SELECT
                     tm.nom_tip_mat AS Nombre,
                     mp.cod_mat_pri AS Codigo,
@@ -178,14 +179,14 @@ if (isset($_POST['frm'])) {
                     mp.fech_reg_mat,
                     COUNT(pt.cortes) AS numero_cortes,
                     round(SUM(pt.peso),2) AS total_producto
-                FROM
-                    mat_prima mp
-                INNER JOIN tipo_mat tm ON
-                    tm.id_tip_mat = mp.id_tip_mat 
-                INNER JOIN prod_terminado pt ON pt.cod_pro = mp.cod_mat_pri AND  pt.cod_pro = '$cod_materia'
-                WHERE
-                    pt.fecha_ingre BETWEEN '$fecha' AND '$fecha2'
-                GROUP BY mp.cod_mat_pri";
+                    FROM
+                        mat_prima mp
+                    INNER JOIN tipo_mat tm ON
+                        tm.id_tip_mat = mp.id_tip_mat 
+                    INNER JOIN prod_terminado pt ON pt.cod_pro = mp.cod_mat_pri AND  pt.cod_pro = '$cod_materia'
+                    WHERE
+                        pt.fecha_ingre BETWEEN '$fecha' AND '$fecha2'
+                    GROUP BY mp.cod_mat_pri";
 
                     foreach ($conexion->query($consulta) as $fila) {
                         $pes_des = $fila['Peso'] - $fila['total_producto'];
@@ -216,20 +217,37 @@ if (isset($_POST['frm'])) {
                 if ($materia != 0) {
                     $total = 0;
                     $ini = 0;
-                    $consulta = "SELECT A.nom_tip_mat AS Nombre, B.cod_mat_pri AS Codigo, B.peso_lle AS Peso 
-                                FROM tipo_mat A ,mat_prima B 
-                                WHERE A.id_tip_mat = B.id_tip_mat AND B.id_tip_mat = $materia AND B.fech_reg_mat BETWEEN '$fecha' AND '$fecha2'";
+                    $total_producto = 0;
+                    $consulta = "SELECT
+                    tm.nom_tip_mat AS Nombre,
+                    mp.cod_mat_pri AS Codigo,
+                    mp.peso_lle AS Peso,
+                    mp.fech_reg_mat,
+                    COUNT(pt.cortes) AS numero_cortes,
+                    round(SUM(pt.peso),2) AS total_producto
+                    FROM
+                        mat_prima mp
+                    INNER JOIN tipo_mat tm ON
+                        tm.id_tip_mat = mp.id_tip_mat AND mp.id_tip_mat = $materia
+                    INNER JOIN prod_terminado pt ON pt.cod_pro = mp.cod_mat_pri
+                    WHERE
+                        pt.fecha_ingre BETWEEN '$fecha' AND '$fecha2'
+                    GROUP BY mp.cod_mat_pri
+                    ORDER BY mp.id_mat";
                     foreach ($conexion->query($consulta) as $tot) {
                         $total += $tot['Peso'];
                         $nombre = $tot['Nombre'];
+                        $total_producto += $tot['total_producto'];
                         $ini += 1;
                     }
 
 
-                    $merma = $total - ($total * $PorcentajeDeMerma);
-                    $des = $total - $merma;
+                    $pes_des = $total - $total_producto;
+                    $merma = ($pes_des / $total) * 100;
+
+                    $des = $pes_des;
                     $labels = "'Producto', 'Merma'";
-                    $datos = $merma . ", " . $des;
+                    $datos = $total . ", " . $des;
 
                     $html = "<div style='width: 100%;'>
                         <h1 style='text-align:center;'>" . $nombre . "</h1>
@@ -268,16 +286,19 @@ if (isset($_POST['frm'])) {
                         $html .= $boton_reporte . "<table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                         <thead>
                         <tr style='background: #325459 !important;'>
+                        <tr style='background: #325459 !important;'>
                         <th><center>Materia Prima</th>
-                        <th><center>Peso por Producto</th>
-                        <th><center>Peso Total</th>
-                        <th><center>Producto Total</th>
+                        <th><center>Peso Materias Prima</th>
+                        <th><center>Peso Total Cortes</th>
+                        <th><center>Merma x Libra</th>
+                        <th><center>Merma x Porcentaje</th>
                         </tr></thead>";
                         $html .= "<tr>" .
-                            "<td><center><b>" . $tot['Nombre'] . "</td>" .
-                            "<td><center>" . "---" . "</td>" .
-                            "<td><center><b class='camporesalta'>" . round($total, 2) . "</td>" .
-                            "<td><center><b class='camporesalta'>" . round($merma, 2) . "</td>" .
+                            "<td><center><b>" . $nombre . "</td>" .
+                            "<td><center>" . round($total, 3) . "</td>" .
+                            "<td><center><b class='camporesalta'>" . round($total_producto, 3) . "</td>" .
+                            "<td><center><b class='camporesalta'>" . round($pes_des, 3) . " lbs.</td>" .
+                            "<td><center><b class='camporesalta'>" . round($merma, 3) . "%</td>" .
                             "</tr>";
                         $html .= "</table><br>";
                     } else {
@@ -294,26 +315,63 @@ if (isset($_POST['frm'])) {
                     <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
                     <thead>
                     <tr style='background: #325459 !important;'>
+                    <tr style='background: #325459 !important;'>
                     <th><center>Materia Prima</th>
-                    <th><center>Peso por Producto</th>
-                    <th><center>Peso Total</th>
-                    <th><center>Producto Total</th>
+                    <th><center>Peso Materias Prima</th>
+                    <th><center>Peso Total Cortes</th>
+                    <th><center>Merma x Libra</th>
+                    <th><center>Merma x Porcentaje</th>
                     </tr></thead>";
                     $total = 0;
                     $ini = 0;
-                    $consulta = "SELECT A.nom_tip_mat AS Nombre, B.cod_mat_pri AS Codigo, SUM(B.peso_lle) AS Peso 
-                                FROM tipo_mat A ,mat_prima B 
-                                WHERE A.id_tip_mat = B.id_tip_mat AND B.fech_reg_mat BETWEEN '$fecha' AND '$fecha2'
-                                GROUP BY B.id_tip_mat";
-                    foreach ($conexion->query($consulta) as $tot) {
-                        $merma = $tot['Peso'] - ($tot['Peso'] * $PorcentajeDeMerma);
+                    $total_producto = 0;
+                    $nombres_array = array();
+                    $total_array = array();
+                    $total_producto_array = array();
+                    $tempnombre = '';
+                    $consulta = "SELECT tm.nom_tip_mat AS Nombre, mp.peso_lle AS Peso, round(SUM(pt.peso),2) AS total_producto 
+                    FROM mat_prima mp 
+                    INNER JOIN tipo_mat tm ON tm.id_tip_mat = mp.id_tip_mat 
+                    INNER JOIN prod_terminado pt ON pt.cod_pro = mp.cod_mat_pri 
+                    WHERE pt.fecha_ingre BETWEEN '$fecha' AND '$fecha2'
+                    GROUP BY mp.cod_mat_pri 
+                    ORDER BY tm.nom_tip_mat";
+                    $rows = $conexion->query($consulta);
+                    $num_rows = $rows->num_rows;
+                    $conter_name = 0;
+                    
+                    foreach ($rows as $tot) {                        
+                        $nombre = $tot['Nombre'];
+                        $total += $tot['Peso'];
+                        $total_producto += $tot['total_producto'];
+                        
+                        if($nombre != $tempnombre && $ini > 0){
+                            array_push($nombres_array, $nombre);
+                            array_push($total_array, $total);
+                            array_push($total_producto_array, $total_producto);                            
+                            $total = 0;
+                            $total_producto = 0;
+                            $conter_name += 1;
+                        }
+                        $ini += 1;
+                        if($num_rows == $ini && $conter_name == 0){
+                            array_push($nombres_array, $nombre);
+                            array_push($total_array, $total);
+                            array_push($total_producto_array, $total_producto);
+                        }
+                        $tempnombre = $tot['Nombre'];                        
+                    }                    
+                    
+                    for ($i = 0; $i < count($total_array); $i++) {
+                        $pes_des = $total_array[$i] - $total_producto_array[$i];
+                        $merma = ($pes_des / $total_array[$i]) * 100;
                         $html .= "<tr>" .
-                            "<td><center><b>" . $tot['Nombre'] . "</td>" .
-                            "<td><center>" . "---" . "</td>" .
-                            "<td><center><b class='camporesalta'>" . round($tot['Peso'], 2) . "</td>" .
-                            "<td><center><b class='camporesalta'>" . round($merma, 2) . "</td>" .
+                            "<td><center><b>" . $nombres_array[$i] . "</td>" .
+                            "<td><center>" . round($total_array[$i], 3) . "</td>" .
+                            "<td><center><b class='camporesalta'>" . round($total_producto_array[$i], 3) . "</td>" .
+                            "<td><center><b class='camporesalta'>" . round($pes_des, 3) . " lbs.</td>" .
+                            "<td><center><b class='camporesalta'>" . round($merma, 3) . "%</td>" .
                             "</tr>";
-
                         $ini += 1;
                     }
                     if ($ini > 0) {

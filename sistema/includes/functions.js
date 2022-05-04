@@ -129,6 +129,19 @@ $(document).ready(function () {
   });
 });
 
+function getCodigos() {
+  obt_cod = $("#tip_ma_m").val();
+  start_date = $("#start_date").val();
+  end_date = $("#end_date").val();
+  $.post(
+    "prueba2.php",
+    { obt_cod: obt_cod, start_date: start_date, end_date: end_date },
+    function (data) {
+      $("#obt_cod").html(data);
+    }
+  );
+}
+
 /////////////////////seleccionar materia produc_final//////////////////////////////
 $(document).ready(function () {
   $("#prod_terminado").change(function () {

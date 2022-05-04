@@ -83,11 +83,11 @@ $namepdf = "Reporte_Merma - " . $hoy;
 
 						<p class="">
 							<label for="start_date" class="form" style="margin: 0px;">Fecha inicial:</label>
-							<input id="start_date" type="date" class="f16" name="start_date" step="1" min="2020-01-01" max="<?= $hoy; ?>" value="2022-01-27">
+							<input id="start_date" type="date" class="f16" name="start_date" step="1" min="2020-01-01" max="<?= $hoy; ?>" value="2022-01-27" onchange="getCodigos()">
 						</p>
 						<p class="">
 							<label for="end_date" class="form" style="margin: 0px;">Fecha final:</label>
-							<input id="end_date" type="date" class="f16" name="end_date" step="1" min="2020-01-01" max="<?= $hoy; ?>" value="2022-01-28">
+							<input id="end_date" type="date" class="f16" name="end_date" step="1" min="2020-01-01" max="<?= $hoy; ?>" value="2022-01-28" onchange="getCodigos()">
 						</p>
 						<p class="full-width">
 							<label for="obt_cod">Materia Prima :</label>

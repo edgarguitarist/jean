@@ -41,9 +41,7 @@ if (isset($_POST['frm'])) {
                 $ini = 0;
                 $total_producto = 0;
                 $fecha2 = date("Y-m-d", strtotime($_POST['fecha_final'] . "+ 1 days"));
-                $consulta = "SELECT A.nom_tip_mat AS Nombre, B.cod_mat_pri AS Codigo, B.peso_lle AS Peso 
-                            FROM tipo_mat A ,mat_prima B 
-                            WHERE A.id_tip_mat = B.id_tip_mat AND B.id_tip_mat = $materia AND B.fech_reg_mat BETWEEN '$fecha' AND '$fecha2'";
+               
                 $consulta2 = "SELECT
                 tm.nom_tip_mat AS Nombre,
                 mp.cod_mat_pri AS Codigo,
@@ -58,7 +56,8 @@ if (isset($_POST['frm'])) {
             INNER JOIN prod_terminado pt ON pt.cod_pro = mp.cod_mat_pri
             WHERE
                 pt.fecha_ingre BETWEEN '$fecha' AND '$fecha2'
-            GROUP BY mp.cod_mat_pri";
+            GROUP BY mp.cod_mat_pri
+            ORDER BY mp.id_mat";
 
                 foreach ($conexion->query($consulta2) as $tot) {
 
@@ -135,13 +134,15 @@ if (isset($_POST['frm'])) {
                     }
 
 
-                    foreach ($conexion->query($consulta) as $fila) {
-                        $merma = $fila['Peso'] - ($fila['Peso'] * $PorcentajeDeMerma);
+                    foreach ($conexion->query($consulta2) as $fila) {
+                        $pes_des = $fila['Peso'] - $fila['total_producto'];
+                        $merma = ($pes_des / $fila['Peso']) * 100;
                         $html .= "<tr>" .
                             "<td><center>" . $fila['Codigo'] . "</td>" .
-                            "<td><center>" . $fila['Peso'] . "</td>" .
-                            "<td><center>" . "---" . "</td>" .
-                            "<td><center>" . $merma . "</td>" .
+                            "<td><center>" . round($fila['Peso'], 3) . "</td>" .
+                            "<td><center>" . round($fila['total_producto'], 3) . "</td>" .
+                            "<td><center>" . round($pes_des, 3) . " lbs.</td>" .
+                            "<td><center>" . round($merma, 3) . "%</td>" .
                             "</tr>";
                     }
 

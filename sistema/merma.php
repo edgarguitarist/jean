@@ -96,7 +96,6 @@ $namepdf = "Reporte_Merma - " . $hoy;
 						<p class="full-width" style="text-align: center;">
 							<input type="submit" name="submit" id="generar" value="Generar" class="btn_guardar_usuario " style="width: auto; padding: 10px;" />
 						</p>
-
 					</div>
 				</form>
 			</div>

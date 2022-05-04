@@ -97,7 +97,8 @@ if($insert){
 			</p>
 			<p>
 				<label for="">Correo de Contacto:</label>
-				<input type="email" name="correo" id="correo" placeholder="Ingrese Correo electronico" maxlength="60" required>
+				<input type="email" name="correo" id="correo" onkeyup="checkEmail('proveedor')" onblur="checkEmail('proveedor')" placeholder="Ingrese Correo electronico" maxlength="60" required>
+				<label id="salida_correo" style="font-size:1em; font-weight: bold;"></label>
 			</p>
 			<p>
 				<label for="">Dirección de Contacto:</label>
@@ -126,7 +127,8 @@ if($insert){
 			</p>
 			<p>
 				<label for="">Correo de Empresa:</label>
-				<input type="email" name="correo_empresa" id="correo_empresa" placeholder=" Ingrese Correo de Empresa" maxlength="60" required>
+				<input type="email" name="correo_empresa" id="correo_empresa" placeholder=" Ingrese Correo de Empresa" onkeyup="checkEmail('empresa')" onblur="checkEmail('empresa')" maxlength="60" required>
+				<label id="salida_correo_emp" style="font-size:1em; font-weight: bold;"></label>
 			</p>
 			
 			<p>

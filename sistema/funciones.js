@@ -5,8 +5,10 @@ function validar() {
   var valor;
   var acu = 0;
   if (number == "") {
-    alert("No has ingresado ningún dato, por favor ingresar los datos correspondientes.");
-    $('input[type="submit"]').attr('disabled','disabled');
+    alert(
+      "No has ingresado ningún dato, por favor ingresar los datos correspondientes."
+    );
+    $('input[type="submit"]').attr("disabled", "disabled");
   } else {
     for (var i = 0; i < dto; i++) {
       valor = number.substring(i, i + 1);
@@ -28,13 +30,13 @@ function validar() {
     if (acu == dto) {
       while (number.substring(10, 13) != 001) {
         alert("Los tres últimos dígitos no tienen el código del RUC 001.");
-        $('input[type="submit"]').attr('disabled','disabled');
+        $('input[type="submit"]').attr("disabled", "disabled");
 
         return;
       }
       while (number.substring(0, 2) > 24) {
         alert("Los dos primeros dígitos no pueden ser mayores a 24.");
-        $('input[type="submit"]').attr('disabled','disabled');
+        $('input[type="submit"]').attr("disabled", "disabled");
         return;
       }
       alert("El RUC está escrito correctamente");
@@ -44,20 +46,19 @@ function validar() {
         alert(
           "El tercer dígito es menor a 6, por lo \ntanto el usuario es una persona natural.\n"
         );
-        $('input[type="submit"]').attr('disabled',false);
+        $('input[type="submit"]').attr("disabled", false);
       } else {
         if (porcion1 == 6) {
           alert(
             "El tercer dígito es igual a 6, por lo \ntanto el usuario es una entidad pública.\n"
           );
-          $('input[type="submit"]').attr('disabled',false);
+          $('input[type="submit"]').attr("disabled", false);
         } else {
           if (porcion1 == 9) {
             alert(
               "El tercer dígito es igual a 9, por lo \ntanto el usuario es una sociedad privada.\n"
-              
             );
-            $('input[type="submit"]').attr('disabled',false);
+            $('input[type="submit"]').attr("disabled", false);
           }
         }
       }
@@ -73,42 +74,88 @@ function contras() {
   var clave = document.getElementById("clave").value.trim();
   var reclave = document.getElementById("reclave").value.trim();
   var msg = document.getElementById("msg");
-  if(clave != reclave){
+  if (clave != reclave) {
     msg.innerHTML = "Las Contraseñas no Coinciden";
     msg.style.color = "red";
-    $('input[type="submit"]').attr('disabled','disabled');
-  }else{
+    $('input[type="submit"]').attr("disabled", "disabled");
+  } else {
     msg.innerHTML = "Las Contraseñas Coinciden";
     msg.style.color = "green";
-    $('input[type="submit"]').attr('disabled', false);
+    $('input[type="submit"]').attr("disabled", false);
   }
-
 }
 
 ///////////OCULTAR Y MOSTRAR PASSWORD///////////////
-function mostrarPassword(){
+function mostrarPassword() {
   var clave = document.getElementById("clave");
-  if(clave.type == "password"){
+  if (clave.type == "password") {
     clave.type = "text";
-    $('.gg1').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-  }else{
+    $(".gg1").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+  } else {
     clave.type = "password";
-    $('.gg1').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+    $(".gg1").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
   }
-} 
+}
 
-
-function mostrarPassword2(){
+function mostrarPassword2() {
   var reclave = document.getElementById("reclave");
-  if(reclave.type == "password"){
+  if (reclave.type == "password") {
     reclave.type = "text";
-    $('.gg2').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-  }else{
+    $(".gg2").removeClass("fa fa-eye-slash").addClass("fa fa-eye");
+  } else {
     reclave.type = "password";
-    $('.gg2').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+    $(".gg2").removeClass("fa fa-eye").addClass("fa fa-eye-slash");
   }
-} 
+}
+//////// Validar Correo Electronico ////////
+function checkEmail(who = "usuario") {
+  //revisar si el usuario existe en la base de datos
+  const email_id = who === "empresa" ? "correo_empresa" : "correo";
+  const email = document.getElementById(email_id).value;
+  const salida_id = who === "empresa" ? "salida_correo_emp" : "salida_correo";
+  var salida = document.getElementById(salida_id);
 
+  //revizar si el correo es valido
+
+  const tipos = {
+    usuario: { correo_usu: email },
+    proveedor: { correo_pro: email },
+    empresa: { correo_emp: email },
+  };
+  var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  if (regex.test(email)) {
+    if (who === "empresa") {
+      salida.innerHTML = "Correo Valido";
+      salida.style.color = "green";
+      $('input[type="submit"]').attr("disabled", false);
+      return;
+    }
+    $.ajax({
+      type: "POST",
+      url: "correo.php",
+      data: tipos[who],
+      success: function (resultado) {
+        if (resultado == "1") {
+          salida.innerHTML = "Correo ya Existe";
+          salida.style.color = "red";
+          $('input[type="submit"]').attr("disabled", "disabled");
+        } else {
+          salida.innerHTML = "Correo Valido";
+          salida.style.color = "green";
+          $('input[type="submit"]').attr("disabled", false);
+        }
+      },
+      error: function (resultado) {
+        console.log("Error buscarDatos: " + resultado);
+        salida.val("");
+      },
+    });
+  } else {
+    salida.innerHTML = "Correo no Valido";
+    salida.style.color = "red";
+    $('input[type="submit"]').attr("disabled", "disabled");
+  }
+}
 
 ///////*VALIDAR CEDULA///////
 
@@ -157,11 +204,11 @@ function validar1() {
           if (existe == "1") {
             salida.innerHTML = "Cedula Ya Existe";
             salida.style.color = "red";
-            $('input[type="submit"]').attr('disabled','disabled');
+            $('input[type="submit"]').attr("disabled", "disabled");
           } else {
             salida.innerHTML = "Cedula Valida";
             salida.style.color = "green";
-            $('input[type="submit"]').attr('disabled',false);
+            $('input[type="submit"]').attr("disabled", false);
           }
         },
         error: function (resultado) {
@@ -172,15 +219,14 @@ function validar1() {
     } else {
       salida.innerHTML = "Cedula Inválida";
       salida.style.color = "red";
-      $('input[type="submit"]').attr('disabled','disabled');
+      $('input[type="submit"]').attr("disabled", "disabled");
     }
   } else {
     salida.innerHTML = "La cedula debe contener 10 digitos";
     salida.style.color = "red";
-    $('input[type="submit"]').attr('disabled','disabled');
+    $('input[type="submit"]').attr("disabled", "disabled");
   }
 }
-
 
 function validar3() {
   var cad = document.getElementById("ced_proveedor").value.trim();
@@ -245,15 +291,14 @@ function validar3() {
     } else {
       salida.innerHTML = "Cedula Inválida";
       salida.style.color = "red";
-      $('input[type="submit"]').attr('disabled','disabled');
+      $('input[type="submit"]').attr("disabled", "disabled");
     }
   } else {
     salida.innerHTML = "La cedula debe contener 10 digitos";
     salida.style.color = "red";
-    $('input[type="submit"]').attr('disabled','disabled');
+    $('input[type="submit"]').attr("disabled", "disabled");
   }
 }
-
 
 function validar2() {
   var cad = document.getElementById("cedula").value.trim();
@@ -303,7 +348,7 @@ function validar2() {
           } else {
             salida.innerHTML = "Cedula Valida";
             salida.style.color = "green";
-            $('input[type="submit"]').attr('disabled',false);
+            $('input[type="submit"]').attr("disabled", false);
           }
         },
         error: function (resultado) {
@@ -314,12 +359,12 @@ function validar2() {
     } else {
       salida.innerHTML = "Cedula Inválida";
       salida.style.color = "red";
-      $('input[type="submit"]').attr('disabled','disabled');
+      $('input[type="submit"]').attr("disabled", "disabled");
     }
   } else {
     salida.innerHTML = "La cedula debe contener 10 digitos";
     salida.style.color = "red";
-    $('input[type="submit"]').attr('disabled','disabled');
+    $('input[type="submit"]').attr("disabled", "disabled");
   }
 }
 
@@ -353,16 +398,12 @@ $(document).ready(function () {
 });
 
 ///////DESHABILITAR EL COPIAR Y PEGAR
-$(document).ready(function(){
-  $('input').on('paste', function(e){
-    e.preventDefault();    
-  })
-  
-  $('input').on('copy', function(e){
+$(document).ready(function () {
+  $("input").on("paste", function (e) {
     e.preventDefault();
-  })
+  });
 
-
-
-
-})
+  $("input").on("copy", function (e) {
+    e.preventDefault();
+  });
+});

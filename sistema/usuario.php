@@ -96,7 +96,8 @@ if (!empty($_POST)) {
 					<input autocomplete="off" type="text" name="telefono" id="telefono" placeholder=" Ingrese Telefono" maxlength="10" class="solo-numero" required>
 				<p>
 					<label for="">Correo de Usuario:</label>
-					<input autocomplete="off" type="email" name="correo" id="correo" placeholder="Ingrese Correo electronico" maxlength="60" required>
+					<input autocomplete="off" type="email" name="correo" id="correo" onkeyup="checkEmail('usuario')" onblur="checkEmail('usuario')" placeholder="Ingrese Correo electronico" maxlength="60" required>
+					<label id="salida_correo" style="font-size:1em; font-weight: bold;"></label>
 				</p>
 
 				<h1 class="full-width">Datos de Usuario</h1>

@@ -27,6 +27,7 @@ include "conexion.php";
                 <div class="action_orden">
                     <h2>Datos</h2>
                     <a href="#" class="btn_nusuario add_corte">Nuevo Corte</a>
+                    <a href="lista-corte.php" class="btn_nusuario">Lista Corte</a>
                 </div>
                 <form id="form1" name="form1" method="post" action="envio.php" style="padding: 0px; border: 0px; background: #00000000;">
                     <div class="datosdes full-width">

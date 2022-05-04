@@ -93,6 +93,7 @@ include "conexion.php";
 					?>
 						<a href="Proveedor.php" class="btn_nusuario">Nuevo Proveedor</a>
 						<a href="#" class="btn_nusuario add_materia_prima">Nueva Materia Prima</a>
+						<a href="lista-materiaP.php" class="btn_nusuario add_materia_prima">Lista Materia Prima</a>
 					<?PHP
 					}
 					?>

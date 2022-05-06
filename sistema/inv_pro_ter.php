@@ -47,13 +47,13 @@ include "conexion.php";
 				<tbody>
 				<?php
 
-				$query = mysqli_query($conexion, "SELECT cortes_restantes, SUM(peso) AS peso, fecha_ingre, cod_pro 
+				$query = mysqli_query($conexion, "SELECT cortes, SUM(peso_restante) AS peso_restante, fecha_ingre, cod_pro 
 				FROM prod_terminado 
-				WHERE (peso LIKE '%$busqueda%'
-						OR cortes_restantes LIKE '%$busqueda%'
+				WHERE (peso_restante LIKE '%$busqueda%'
+						OR cortes LIKE '%$busqueda%'
 						OR cod_pro LIKE '%$busqueda%') 
 						AND fecha_ingre BETWEEN '$fecha1' AND '$fecha2'
-				GROUP BY cortes_restantes
+				GROUP BY cortes
 				ORDER BY fecha_ingre DESC");
 
 				mysqli_close($conexion);
@@ -64,9 +64,9 @@ include "conexion.php";
 				?>
 						<tr>
 							<!-- <td><?php //echo $data['cod_pro']; ?></td> -->
-							<td><?= $data["cortes_restantes"]; ?></td>
-							<td style="text-align: end;"><?= round($data["peso"], 3); ?></td>
-							<td style="text-align: center;"> <?php if($data["peso"]>20){
+							<td><?php echo $data["cortes"]; ?></td>
+							<td style="text-align: end;"><?php echo $data["peso_restante"]; ?></td>
+							<td style="text-align: center;"> <?php if($data["peso_restante"]>20){
 								echo "<span class='textoverde'> Suficiente Stock </span>";
 							}else{
 								echo "<span class='textorojo'> Poco Stock </span>";

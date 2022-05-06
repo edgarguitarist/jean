@@ -60,7 +60,7 @@ if (isset($_POST['s1des'])) {
     $selpro = $_POST['selpro'];
     $peso_lle = $_POST['peso_lle'];
 
-    $insert = "INSERT INTO prod_terminado(cod_pro, cortes, peso, id_usu) VALUES ('{$selordpro}','{$selpro}','{$peso_lle}','{$_SESSION['idUser']}')";
+    $insert = "INSERT INTO prod_terminado(cod_pro, cortes, peso, peso_restante, id_usu) VALUES ('{$selordpro}','{$selpro}','{$peso_lle}','{$peso_lle}','{$_SESSION['idUser']}')";
     $resultado_insert = mysqli_query($conexion, $insert);
 
     //Actualizacion de productos
@@ -127,7 +127,7 @@ if (isset($_POST['s1des'])) {
         }
     }
 
-    $insert = "INSERT INTO prod_terminado(cod_pro, cortes, peso, cantidad, id_usu) VALUES ('{$salida}','{$selordpro}','{$peso_lle}','{$cantidad}','{$_SESSION['idUser']}')";
+    $insert = "INSERT INTO prod_terminado(cod_pro, cortes, peso, peso_restante, cantidad, id_usu) VALUES ('{$salida}','{$selordpro}','{$peso_lle}','{$peso_lle}','{$cantidad}','{$_SESSION['idUser']}')";
     $resultado_insert = mysqli_query($conexion, $insert);
 
     //REVISAR DONDE DEBE ESTAR LA ACTUALIZACION

@@ -98,12 +98,12 @@ if (isset($_POST['frm'])) {
 		if ($temp > 0) {
 			if ($tot['peso'] >= $temp) {
 				$dif = $tot['peso'] - $temp;
-				$sql = mysqli_query($conexion, "UPDATE prod_terminado SET peso = '$dif' WHERE cod_pro='$cod_act' AND cortes='$corte'");
+				$sql = mysqli_query($conexion, "UPDATE prod_terminado SET peso_restante = '$dif' WHERE cod_pro='$cod_act' AND cortes='$corte'");
 				$temp = 0;
 				echo '<h1>Datos Actualizados</h1>';
 			} else {
 				$temp = $temp - $tot['peso'];
-				$sql = mysqli_query($conexion, "UPDATE prod_terminado SET peso = 0 WHERE cod_pro='$cod_act' AND cortes='$corte'");
+				$sql = mysqli_query($conexion, "UPDATE prod_terminado SET peso_restante = 0 WHERE cod_pro='$cod_act' AND cortes='$corte'");
 			}
 		}
 	}

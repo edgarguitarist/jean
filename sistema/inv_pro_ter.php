@@ -50,10 +50,10 @@ include "conexion.php";
 				$query = mysqli_query($conexion, "SELECT cortes_restantes, SUM(peso) AS peso, fecha_ingre, cod_pro 
 				FROM prod_terminado 
 				WHERE (peso LIKE '%$busqueda%'
-						OR cortes LIKE '%$busqueda%'
+						OR cortes_restantes LIKE '%$busqueda%'
 						OR cod_pro LIKE '%$busqueda%') 
 						AND fecha_ingre BETWEEN '$fecha1' AND '$fecha2'
-				GROUP BY cortes
+				GROUP BY cortes_restantes
 				ORDER BY fecha_ingre DESC");
 
 				mysqli_close($conexion);

@@ -67,7 +67,7 @@ if (isset($_POST['frm'])) {
                     $ini += 1;
                 }
                 if ($cod_materia == 'todos') {
-                    if($total <= 0 || $total_producto <= 0){
+                    if ($total <= 0 || $total_producto <= 0) {
                         echo "<h1>NO SE ENCONTRARON COINCIDENCIAS CON SU BUSQUEDA</h1>";
                         return;
                     }
@@ -171,7 +171,7 @@ if (isset($_POST['frm'])) {
                 <th><center>Merma x Porcentaje</th>
                 </tr></thead>";
                     $total = 0;
-                    $ini = 0;                    
+                    $ini = 0;
                     $consulta = "SELECT
                     tm.nom_tip_mat AS Nombre,
                     mp.cod_mat_pri AS Codigo,
@@ -339,29 +339,29 @@ if (isset($_POST['frm'])) {
                     $rows = $conexion->query($consulta);
                     $num_rows = $rows->num_rows;
                     $conter_name = 0;
-                    
-                    foreach ($rows as $tot) {                        
-                        
+
+                    foreach ($rows as $tot) {
+
                         $nombre = $tot['Nombre'];
-                        if($nombre != $tempnombre && $ini > 0){
+                        if ($nombre != $tempnombre && $ini > 0) {
                             array_push($nombres_array, $tempnombre);
                             array_push($total_array, $total);
-                            array_push($total_producto_array, $total_producto);                            
+                            array_push($total_producto_array, $total_producto);
                             $total = 0;
                             $total_producto = 0;
                             $conter_name += 1;
-                        }                        
+                        }
                         $total += $tot['Peso'];
                         $total_producto += $tot['total_producto'];
                         $ini += 1;
-                        if($num_rows == $ini){
+                        if ($num_rows == $ini) {
                             array_push($nombres_array, $tempnombre);
                             array_push($total_array, $total);
                             array_push($total_producto_array, $total_producto);
                         }
-                        $tempnombre = $tot['Nombre'];                        
-                    }                    
-                    
+                        $tempnombre = $tot['Nombre'];
+                    }
+
                     for ($i = 0; $i < count($total_array); $i++) {
                         $pes_des = $total_array[$i] - $total_producto_array[$i];
                         $merma = ($pes_des / $total_array[$i]) * 100;
@@ -793,9 +793,9 @@ if (isset($_POST['frm'])) {
                     $cod = 'pav';
                     $codigo = 'pavo';
                     break;
-                case 6:
-                    $cod = 'pes';
-                    $codigo = 'pescado';
+                case 7:
+                    $cod = 'res';
+                    $codigo = 'res';
                     break;
                 case 99:
                     $cod = '';
@@ -872,8 +872,8 @@ if (isset($_POST['frm'])) {
                                                                 THEN 'Chancho'
                                                                 WHEN cortes LIKE '%chi%'
                                                                 THEN 'Chivo'
-                                                                WHEN cortes LIKE '%pes%'
-                                                                THEN 'Pescado'
+                                                                WHEN cortes LIKE '%res%'
+                                                                THEN 'Res'
                                                                 WHEN cortes LIKE '%pav%'
                                                                 THEN 'Pavo'
                                                                 WHEN cortes LIKE '%pol%'

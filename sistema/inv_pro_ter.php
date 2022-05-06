@@ -64,8 +64,8 @@ include "conexion.php";
 				?>
 						<tr>
 							<!-- <td><?php //echo $data['cod_pro']; ?></td> -->
-							<td><?php echo $data["cortes"]; ?></td>
-							<td style="text-align: end;"><?php echo $data["peso_restante"]; ?></td>
+							<td><?= $data["cortes"]; ?></td>
+							<td style="text-align: end;"><?= round($data["peso_restante"],3); ?></td>
 							<td style="text-align: center;"> <?php if($data["peso_restante"]>20){
 								echo "<span class='textoverde'> Suficiente Stock </span>";
 							}else{

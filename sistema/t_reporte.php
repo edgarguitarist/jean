@@ -824,16 +824,15 @@ if (isset($_POST['frm'])) {
                     </tr></thead>";
                 $total = 0;
                 $ini = 0;
-                $consulta = "   SELECT *, SUM(peso) AS SUMA 
+                $consulta = "   SELECT *
                                 FROM prod_final
-                                WHERE cortes Like '%$codigo%' AND fecha_ingreso BETWEEN '$fecha' AND '$fecha2'
-                                GROUP BY cortes";
+                                WHERE cortes Like '%$codigo%' AND fecha_ingreso BETWEEN '$fecha' AND '$fecha2'";
                 foreach ($conexion->query($consulta) as $tot) {
                     $tiempo = explode(" ", $tot['fecha_ingreso']);
                     $html .= "<tr>" .
                         "<td style='display:none;'><center><b>" . $tot['id_prod_final'] . "</td>" .
                         "<td><center><b>" . $tot['cortes'] . "</td>" .
-                        "<td><center>" . round($tot['SUMA'], 3) . "</td>" .
+                        "<td><center>" . round($tot['peso'], 3) . "</td>" .
                         "<td><center>" . $tiempo[0] . "</td>" .
                         "<td><center>" . $tiempo[1] . "</td>" .
                         "</tr>";
@@ -867,22 +866,21 @@ if (isset($_POST['frm'])) {
                     </tr></thead>";
                 $total = 0;
                 $ini = 0;
-                $consulta = "   SELECT *, SUM(peso) AS SUMA, CASE
-                                                                WHEN cortes LIKE '%cha%'
-                                                                THEN 'Chancho'
-                                                                WHEN cortes LIKE '%chi%'
-                                                                THEN 'Chivo'
-                                                                WHEN cortes LIKE '%res%'
-                                                                THEN 'Res'
-                                                                WHEN cortes LIKE '%pav%'
-                                                                THEN 'Pavo'
-                                                                WHEN cortes LIKE '%pol%'
-                                                                THEN 'Pollo'
-                                                                ELSE 'Embutido'
-                                                            END AS t_mat 
+                $consulta = "   SELECT *, CASE
+                                            WHEN cortes LIKE '%cha%'
+                                            THEN 'Chancho'
+                                            WHEN cortes LIKE '%chi%'
+                                            THEN 'Chivo'
+                                            WHEN cortes LIKE '%res%'
+                                            THEN 'Res'
+                                            WHEN cortes LIKE '%pav%'
+                                            THEN 'Pavo'
+                                            WHEN cortes LIKE '%pol%'
+                                            THEN 'Pollo'
+                                            ELSE 'Embutido'
+                                        END AS t_mat 
                                 FROM prod_final
                                 WHERE cortes LIKE '% de %' AND fecha_ingreso BETWEEN '$fecha' AND '$fecha2'
-                                GROUP BY cortes
                                 ORDER BY cortes";
                 $ctrl = '';
                 $last = '';
@@ -893,7 +891,7 @@ if (isset($_POST['frm'])) {
                         $html .= "<tr>" .
                             "<td ><center><b>" . "" . "</td>" .
                             "<td><center><b>" . $tot['cortes'] . "</td>" .
-                            "<td><center>" . round($tot['SUMA'], 3) . "</td>" .
+                            "<td><center>" . round($tot['peso'], 3) . "</td>" .
                             "<td><center>" . $tiempo[0] . "</td>" .
                             "<td><center>" . $tiempo[1] . "</td>" .
                             "</tr>";
@@ -901,7 +899,7 @@ if (isset($_POST['frm'])) {
                         $html .= "<tr>" .
                             "<td ><center><b>" . $tot['t_mat'] . "</td>" .
                             "<td><center><b>" . $tot['cortes'] . "</td>" .
-                            "<td><center>" . round($tot['SUMA'], 3) . "</td>" .
+                            "<td><center>" . round($tot['peso'], 3) . "</td>" .
                             "<td><center>" . $tiempo[0] . "</td>" .
                             "<td><center>" . $tiempo[1] . "</td>" .
                             "</tr>";

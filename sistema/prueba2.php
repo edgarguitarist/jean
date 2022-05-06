@@ -96,13 +96,13 @@ if (isset($_POST['frm'])) {
 	foreach ($conexion->query($consulta) as $tot) {
 		$cod_act = $tot['cod_pro'];
 		if ($temp > 0) {
-			if ($tot['peso'] >= $temp) {
-				$dif = $tot['peso'] - $temp;
+			if ($tot['peso_restante'] >= $temp) {
+				$dif = $tot['peso_restante'] - $temp;
 				$sql = mysqli_query($conexion, "UPDATE prod_terminado SET peso_restante = '$dif' WHERE cod_pro='$cod_act' AND cortes='$corte'");
 				$temp = 0;
 				echo '<h1>Datos Actualizados</h1>';
 			} else {
-				$temp = $temp - $tot['peso'];
+				$temp = $temp - $tot['peso_restante'];
 				$sql = mysqli_query($conexion, "UPDATE prod_terminado SET peso_restante = 0 WHERE cod_pro='$cod_act' AND cortes='$corte'");
 			}
 		}

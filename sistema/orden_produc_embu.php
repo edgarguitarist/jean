@@ -74,6 +74,7 @@ $namepdf = "Orden de Embutido - " . $hoy;
 																						) AS EXISTE
 																FROM
 																	lista_receta A
+																	left JOIN condimentos C on A.id_cond = C.id_cond
 																GROUP BY
 																	A.nom_rece");
 						$result_rol = mysqli_num_rows($query_rol);
@@ -81,11 +82,12 @@ $namepdf = "Orden de Embutido - " . $hoy;
 						<select name="rol_lis_re" id="rol_lis_re" onchange="reset_sub()">
 							<option value="">Seleccionar Ingrediente</option>
 							<?php
+							$condimento = "";
 							if ($result_rol > 0) {
 								while ($rol = mysqli_fetch_array($query_rol)) {
 									if ($rol["EXISTE"] == "NO") {
 							?>
-										<option value="<?php echo $rol["nom_rece"]; ?>"><?php echo $rol["nom_rece"] ?></option>
+										<option value="<?= $rol["nom_rece"]; ?>"><?= $rol["nom_rece"] ?></option>
 							<?php  	}
 								}
 							}
@@ -109,12 +111,18 @@ $namepdf = "Orden de Embutido - " . $hoy;
 						</select>
 					</div>
 
-					<input id="submito" type="submit" value="Generar Orden de Embutido" class="btn_guardar" style="width: auto; padding: 10px;" disabled>
+					<div class="wd30">
+						<label>Condimento</label>
+						<input type="text" disabled id="condimento" value="<?= $condimento ?>">
+					</div>
+
+					<input id="submito" type="submit" value="Generar Orden de Embutido" class="btn_guardar wd100" style="width: auto; padding: 10px;" disabled>
+
 				</form>
 				<center>
 
 					<div class="wd30">
-						<button id="imprimir" name="imprimir" onclick="genPDF('<?php echo $namepdf; ?>'); active_sub();" class="btn_guardar" style="width: auto; padding: 10px;" disabled>Imprimir Orden de Embutido</button>
+						<button id="imprimir" name="imprimir" onclick="genPDF('<?= $namepdf; ?>'); active_sub();" class="btn_guardar" style="width: auto; padding: 10px;" disabled>Imprimir Orden de Embutido</button>
 					</div>
 				</center>
 				<div id="pdf_container">
@@ -130,16 +138,24 @@ $namepdf = "Orden de Embutido - " . $hoy;
 								<td class="info_empresa wd50">
 
 									<div>
-										<H1 class="textcenter"><?php echo $nametitle; ?></H1>
+										<h1 class="textcenter"><?= $nametitle; ?></h1>
+										<br>
+										<br>
+										<h3>Condimento: <span id="condiment"></span></h3>
+
 									</div>
 
 								</td>
 								<td class="info_factura wd25">
 									<div class="round">
 										<h3 class="textcenter">Información</h3>
-										<p>Fecha: <?php echo $fecha; ?></p>
-										<p>Hora: <?php echo $hora; ?></p>
+										<p>Fecha: <?= $fecha; ?></p>
+										<p>Hora: <?= $hora; ?></p>
 									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
 								</td>
 							</tr>
 						</table>

@@ -109,7 +109,10 @@ if (isset($_POST['frm'])) {
                     });
         
                     </script>
-                    </div><BR>";
+                    </div><br>
+                    <div><h3>El desposte de la materia prima fue de " . $total_producto . " lbs. con una merma de " . $des . " lbs. obteniendo un porcentaje de " . round($merma, 3) . " %</h3><br>
+                    </div>
+                    ";
 
                     if ($ini > 0) {
                         $html .= $boton_reporte . "
@@ -280,7 +283,9 @@ if (isset($_POST['frm'])) {
                         });
             
                         </script>
-                        </div><BR>";
+                        </div><br>
+                        <div><h3>El desposte de la materia prima fue de " . $total_producto . " lbs. con una merma de " . $des . " lbs. obteniendo un porcentaje de " . round($merma, 3) . " %</h3><br>
+                    </div>";
 
                     if ($ini > 0) {
                         $html .= $boton_reporte . "<table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
@@ -457,6 +462,7 @@ if (isset($_POST['frm'])) {
 
             </script>
             </div><br>
+            <div><h3>Procesado: " . $pro . " No Procesado: " . $npro . "</h3></div>
             <h4>Total de Registros: " . $ini . "</h3><br>";
 
             //$html.= "<br><h1 style='text-align:center;'>".$data['nom_tip_mat']."</h1>";

@@ -464,7 +464,6 @@ $(document).ready(function () {
       $("#cant_lis").change(function () {
         $("#cant_lis option:selected").each(function () {
           id_cant = $(this).val();
-
           $.post(
             "ver_receta.php",
             { id_list: id_list, id_cant: id_cant },

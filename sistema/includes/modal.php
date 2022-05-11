@@ -15,13 +15,13 @@
 
   <script>
     function getSufijo() {
-        //var materia = document.getElementById("rol");
-        //var sufijo = document.getElementById("sufijo");
+      //var materia = document.getElementById("rol");
+      //var sufijo = document.getElementById("sufijo");
 
-        var combo = document.getElementById("rol");
-        var selected = combo.options[combo.selectedIndex].text;
-        materia= selected.toLowerCase();
-        $("#sufijo").val(materia);
+      var combo = document.getElementById("rol");
+      var selected = combo.options[combo.selectedIndex].text;
+      materia = selected.toLowerCase();
+      $("#sufijo").val(materia);
 
     }
   </script>
@@ -51,6 +51,18 @@
       <input type="hidden" name="sufijo" id="sufijo">
       <div id="alerta-corte" class="full-width"></div>
 
+      <input type="submit" value="Registrar" class="btn_guardar_usuario" style="width: auto; padding: 10px;">
+      <a href="#" class="btn_cerrarModal closeModal" onclick="closeModal();">Salir</a>
+    </form>
+  </div>
+</div>
+<div id="modal_condimento" class="modal">
+  <div class="bodyModal form_register">
+    <form class="form_modal" action="" id="formModal3" name="formModal3" method="post">
+      <h1 class="full-width">Nuevo Condimento</h1>
+      <label style="margin-left:0px;">Nombre del Condimento:</label>
+      <input type="text" name="nombre_condi" id="nombre_condi" placeholder="Ingrese el Nombre" maxlength="30" required="">
+      <div id="alerta-condimento" class="full-width"></div>
       <input type="submit" value="Registrar" class="btn_guardar_usuario" style="width: auto; padding: 10px;">
       <a href="#" class="btn_cerrarModal closeModal" onclick="closeModal();">Salir</a>
     </form>

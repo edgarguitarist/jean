@@ -356,8 +356,9 @@ $(document).ready(function () {
   $("#add_btn_lista").click(function (e) {
     //e.preventDefault();
 
-    var codproducto = $("#rol").val();
+    var codproducto = $("#pro").val();
     var cantidad = $("#cantidad_rece").val();
+    var cond = $("#cond").val();
     var action = "addProductoDetalle";
     var nom_rece = $("#nombr_rece").val();
     $.ajax({
@@ -368,6 +369,7 @@ $(document).ready(function () {
         action: action,
         producto: codproducto,
         cantidad: cantidad,
+        cond:cond,
         nom_re: nom_rece,
       },
 
@@ -1104,12 +1106,14 @@ $(document).ready(function () {
 });
 
 function closeModal() {
-  $(".modal").fadeOut();
-  $("#tip_mat_prim").val("");
-  $("#tipo_corte").val("");
-  $("#alerta-materia").html("");
-  $("#alerta-corte").html("");
-  location.reload();
+  $(".modal").fadeOut()
+  $("#tip_mat_prim").val("")
+  $("#tipo_corte").val("")
+  $("#nombre_condi").val("")
+  $("#alerta-materia").html("")
+  $("#alerta-corte").html("")
+   $("#alerta-condimento").html("")
+  location.reload()
 }
 
 $(document).ready(function () {
@@ -1143,6 +1147,28 @@ $(document).ready(function () {
     });
   });
 });
+//////////////// nuevo modal condimentos///////////////////
+$(document).ready(function () {
+  $(".add_condimento").click(function (e) {
+    e.preventDefault()
+    $("#modal_condimento").fadeIn()
+  })
+})
+$(document).ready(function () {
+  $("#formModal3").submit(function (e) {
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    var action = "addcondimento"
+    $.ajax({
+      type: "POST",
+      url: "list_receta.php",
+      data: $(this).serialize() + "&action=" + action,
+      success: function (response) {
+        $("#alerta-condimento").html(response)
+      },
+    })
+  })
+})
 
 //**********fUNCIONES DE ORDEN DE DESPOSTE PARA CHECKBOXES**********//
 

@@ -23,8 +23,9 @@ if (!empty($_POST)) {
       $cantidad = $_POST['cantidad'];
       $nom_rece = $_POST['nom_re'];
       $token = $_SESSION['idUser'];
+      $cond = $_POST['cond'];
 
-      $query_detalle_temp = mysqli_query($conexion, "CALL add_tempo_lista_receta($codproducto,$cantidad,'$nom_rece','$token')");
+      $query_detalle_temp = mysqli_query($conexion, "CALL add_tempo_lista_receta($codproducto,$cond,$cantidad,'$nom_rece','$token')");
       $result = mysqli_num_rows($query_detalle_temp);
 
       $detalleTabla = '';
@@ -108,6 +109,7 @@ if (!empty($_POST)) {
         echo json_encode($arrayData, JSON_UNESCAPED_UNICODE);
       } else {
         echo 'error';
+        echo $token;
       }
     }
     exit;
@@ -251,4 +253,30 @@ if (!empty($_POST)) {
     }
     echo $html;
   }
+}
+//////////// agregar condimento con modal ////////////////
+if ($_POST['action'] == 'addcondimento') {
+
+  if (empty($_POST['nombre_condi'])) {
+    $html = '<p class="msg_error">Los Campos Asignados son Obligatorios</p>';
+  } else {
+
+    $condimento = $_POST['nombre_condi'];
+
+    $verificar = mysqli_query($conexion, "SELECT * FROM condimentos WHERE nom_cond = '$condimento'");
+
+    $result = mysqli_fetch_array($verificar);
+    if ($result > 0) {
+      $html = '<p class="msg_error">El Condimento ya Existe</p>';
+    } else {
+      $insert = mysqli_query($conexion, "INSERT INTO condimentos(nom_cond) 
+    VALUES('$condimento')");
+      if ($insert) {
+        $html = '<p class="msg_guardar">El Condimento fue Registrada Correctamente.</p>';
+      } else {
+        $html = '<p class="msg_error">Error Al Registrar El Condimento.</p>';
+      }
+    }
+  }
+  echo $html;
 }

@@ -19,6 +19,7 @@ include "conexion.php";
 
 <body>
 	<?php include "includes/header.php"; ?>
+	<?php include "includes/modal.php"; ?>
 	<script type="text/javascript" src="funciones.js"></script>
 
 	<section id="container">
@@ -31,6 +32,7 @@ include "conexion.php";
 					<h4>Ingredientes</h4>
 					<a href="orden_produc_embu.php" class="btn_nusuario">Orden de Embutido</a>
 					<a href="#" class="btn_busuario" id="btn_limpiar">Limpiar Lista</a>
+					<a href="#" class="btn_nusuario add_condimento">Nuevo Condimento</a>
 				</div>
 				<form name="crear_receta" id="crear_receta" class="datos">
 					<input type="hidden" name="action" value="addProductoDetalle">
@@ -40,8 +42,32 @@ include "conexion.php";
 					<div class="wd30">
 						<label>Nombre de la Receta</label>
 						<input type="tex" name="nombr_rece" id="nombr_rece" placeholder="Nombre Recetas" maxlength="30" class="letras" required>
+
 					</div>
-					<div class="wd60" style="align-self: center;">
+					<div class="wd30">
+						<label> Condimentos:</label>
+						<?php
+						$query_cond = mysqli_query($conexion, "SELECT * FROM condimentos");
+
+						$result_cond = mysqli_num_rows($query_cond);
+
+						?>
+						<select name="cond" id="cond" required>
+							<?php
+							?>
+							<option value="">Seleccionar Condimento</option>
+							<?php
+							if ($result_cond > 0) {
+								while ($cond = mysqli_fetch_array($query_cond)) {
+							?>
+									<option value="<?= $cond["id_cond"]; ?>"><?= $cond["nom_cond"] ?></option>
+							<?php
+								}
+							}
+							?>
+						</select>
+					</div>
+					<div class="wd30" style="align-self: center;">
 						<h4 id="msg_error" class="msg_error" hidden>La cantidad mínima permitida es de 15 lbs.</h4>
 					</div>
 
@@ -53,7 +79,7 @@ include "conexion.php";
 						$result_rol = mysqli_num_rows($query_rol);
 
 						?>
-						<select name="rol" id="rol" required>
+						<select name="pro" id="pro" required>
 							<?php
 							?>
 							<option value="">Seleccionar Ingrediente</option>
@@ -61,7 +87,7 @@ include "conexion.php";
 							if ($result_rol > 0) {
 								while ($rol = mysqli_fetch_array($query_rol)) {
 							?>
-									<option value="<?php echo $rol["id_cortes"]; ?>"><?php echo $rol["cortes"] ?></option>
+									<option value="<?= $rol["id_cortes"]; ?>"><?= $rol["cortes"] ?></option>
 							<?php
 								}
 							}
@@ -107,7 +133,7 @@ include "conexion.php";
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			var usuarioid = '<?php echo $_SESSION['idUser']; ?>';
+			var usuarioid = '<?= $_SESSION['idUser']; ?>';
 			searchForDetalle(usuarioid);
 		});
 
@@ -129,7 +155,7 @@ include "conexion.php";
 			if ($("#detalle_venta tr").length >= 2) {
 				$("#crear_receta22").show();
 				$("#msg_error_ing").hide();
-				
+
 			} else {
 				$("#crear_receta22").hide();
 				$("#msg_error_ing").show();

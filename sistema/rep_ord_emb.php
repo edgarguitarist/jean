@@ -42,12 +42,12 @@ $namepdf = "Reporte_Ord_Emb - " . $hoy;
                         
 						<p style="text-align: center;">
 							<label for="fecha1">Fecha Inicial:</label>
-							<input onchange="ocultardata()" id="start_date" type="date" class="f16" name="start_date" step="1" min="2020-01-01" max="<?php echo $hoy; ?>" value="<?php echo "2020-02-25";//Dia de prueba  //echo date("Y-m-d"); ?>">
+							<input onchange="ocultardata()" id="start_date" type="date" class="f16" name="start_date" step="1" min="2021-12-15" max="<?php echo $hoy; ?>" value="<?php echo "2020-02-25";//Dia de prueba  //echo date("Y-m-d"); ?>">
 							
 						</p>
                         <p style="text-align: center;">
 							<label for="fecha2">Fecha Final:</label>
-							<input onchange="ocultardata();" id="end_date" type="date" class="f16" name="end_date" step="1" min="2020-01-01" max="<?php echo $hoy; ?>" value="<?php echo $hoy; ?>">
+							<input onchange="ocultardata();" id="end_date" type="date" class="f16" name="end_date" step="1" min="2021-12-15" max="<?php echo $hoy; ?>" value="<?php echo $hoy; ?>">
 							
 						</p>
 						<p class="full-width" style="text-align: center;">

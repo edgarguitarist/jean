@@ -44,13 +44,13 @@ $result_pro = mysqli_num_rows($query_pro);
 </select>
 
 <label for="fecha1" class="form" style="margin: 0px;">Fecha Inicial:</label>
-<input id="start_date" type="date" class="f16" name="start_date" step="1" min="2020-01-01" max="<?php echo $hoy; ?>" value="<?php if (isset($_GET['start_date'])) {
+<input id="start_date" type="date" class="f16" name="start_date" step="1" min="2021-12-15" max="<?php echo $hoy; ?>" value="<?php if (isset($_GET['start_date'])) {
 																																echo $_GET['start_date'];
 																															} else {
 																																echo '2020-01-01';
 																															} ?>">
 <label for="fecha2" class="form" style="margin: 0px;">Fecha Final:</label>
-<input id="end_date" type="date" class="f16" name="end_date" step="1" min="2020-01-01" max="<?php echo $hoy; ?>" value="<?php if (isset($_GET['end_date'])) {
+<input id="end_date" type="date" class="f16" name="end_date" step="1" min="2021-12-15" max="<?php echo $hoy; ?>" value="<?php if (isset($_GET['end_date'])) {
 																															echo $_GET['end_date'];
 																														} else {
 																															echo $hoy;

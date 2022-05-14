@@ -20,7 +20,7 @@ if(isset($_GET['enviar'])) {
 </head>
 <body>
     <form action="fechas.php" method="GET">
-        <input id ="datein" type="date" name="datein" step="1" min="2020-01-01" max="<?php date_default_timezone_set('America/Guayaquil'); echo date("Y-m-d");?>" value="<?php date_default_timezone_set('America/Guayaquil'); echo date("Y-m-d");?>">
+        <input id ="datein" type="date" name="datein" step="1" min="2021-12-15" max="<?php date_default_timezone_set('America/Guayaquil'); echo date("Y-m-d");?>" value="<?php date_default_timezone_set('America/Guayaquil'); echo date("Y-m-d");?>">
         <input type="text" name="sqldate" id="sqldate">
         <input type="submit" name="enviar" value="Enviar">
     </form>

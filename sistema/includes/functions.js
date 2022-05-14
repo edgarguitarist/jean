@@ -617,6 +617,7 @@ $(document).ready(function () {
         fecha_final,
       success: function (response) {
         $("#mostrar_data").html(response);
+        //$('#obt_cod').select2();
         //
         mostrar.style.display = "block";
         btn_export.style.display = "block";
@@ -624,7 +625,20 @@ $(document).ready(function () {
     });
   });
 });
+$(document).ready(function () {
+ //PONER QUE start_date SEA LA FECHA MINIMA EN END_DATE
+  $("#start_date").change(function () {
+    var fecha = $("#start_date").val();
+    //SETEAR MIN EN END_DATE
+    $("#end_date").attr("min", fecha);
+  });
+  $("#end_date").click(function () {
+    var fecha = $("#start_date").val();
+    //SETEAR MIN EN END_DATE
+    $("#end_date").attr("min", fecha);
+  });
 
+});
 $(document).ready(function () {
   $("#obt_cod").change(function (e) {
     var tipo = $("#tipo_reporte").val();

@@ -46,12 +46,12 @@ $namepdf = "Reporte_Mat_Pri - " . $hoy;
 						<p></p> <!-- Extrañamente necesario -->
 						<p style="text-align: center;">
 							<label for="fecha1">Fecha Inicial:</label>
-							<input onchange="ocultardata()" id="start_date" type="date" class="f16" name="start_date" step="1" min="2020-01-01" max="<?= $hoy; ?>" value="2020-01-01">
+							<input onchange="ocultardata()" id="start_date" type="date" class="f16" name="start_date" step="1" min="2021-12-15" max="<?= $hoy; ?>" value="2020-01-01">
 
 						</p>
 						<p style="text-align: center;">
 							<label for="fecha1">Fecha Final:</label>
-							<input onchange="ocultardata()" id="end_date" type="date" class="f16" name="end_date" step="1" min="2020-01-01" max="<?= $hoy; ?>" value="<?= $hoy; ?>">
+							<input onchange="ocultardata()" id="end_date" type="date" class="f16" name="end_date" step="1" min="2021-12-15" max="<?= $hoy; ?>" value="<?= $hoy; ?>">
 
 						</p>
 						<p class="full-width2" style="text-align: center;">

@@ -16,6 +16,8 @@ $namepdf = "Reporte_Merma - " . $hoy;
 	<meta charset="UTF-8">
 	<?php include "includes/scripts.php"; ?>
 	<title><?= $reporte; ?></title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 </head>
 
 <script>
@@ -33,6 +35,11 @@ $namepdf = "Reporte_Merma - " . $hoy;
 			document.getElementById("obt_cod").required = true;
 		}
 	}
+
+	$(document).ready(function() {
+		$('#obt_cod').select2();
+		console.log("funciona?")
+	});
 </script>
 
 <body onload="blockday()">
@@ -83,11 +90,11 @@ $namepdf = "Reporte_Merma - " . $hoy;
 
 						<p class="">
 							<label for="start_date" class="form" style="margin: 0px;">Fecha inicial:</label>
-							<input id="start_date" type="date" class="f16" name="start_date" step="1" min="2020-01-01" max="<?= $hoy; ?>" value="2022-01-27" onchange="getCodigos()">
+							<input id="start_date" type="date" class="f16" name="start_date" step="1" min="2021-12-15" max="<?= $hoy; ?>" value="2022-01-27" onchange="getCodigos()">
 						</p>
 						<p class="">
 							<label for="end_date" class="form" style="margin: 0px;">Fecha final:</label>
-							<input id="end_date" type="date" class="f16" name="end_date" step="1" min="2020-01-01" max="<?= $hoy; ?>" value="2022-01-28" onchange="getCodigos()">
+							<input id="end_date" type="date" class="f16" name="end_date" step="1" min="2021-12-15" max="<?= $hoy; ?>" value="<?= $hoy?>" onchange="getCodigos()">
 						</p>
 						<p class="full-width">
 							<label for="obt_cod">Materia Prima :</label>

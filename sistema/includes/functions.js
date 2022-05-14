@@ -369,7 +369,7 @@ $(document).ready(function () {
         action: action,
         producto: codproducto,
         cantidad: cantidad,
-        cond:cond,
+        cond: cond,
         nom_re: nom_rece,
       },
 
@@ -586,6 +586,7 @@ $(document).ready(function () {
   });
 });
 
+
 $(document).ready(function () {
   $("#form_reporte").submit(function (e) {
     var tipo = $("#tipo_reporte").val();
@@ -593,6 +594,7 @@ $(document).ready(function () {
     var cod_materia = $("#obt_cod").val();
     var fecha = $("#start_date").val();
     var fecha_final = $("#end_date").val();
+    var index = 1;
     var frm = "MERMA";
     var mostrar = document.getElementById("mostrar_data");
     var btn_export = document.getElementById("btn-export");
@@ -616,17 +618,19 @@ $(document).ready(function () {
         "&fecha_final=" +
         fecha_final,
       success: function (response) {
-        $("#mostrar_data").html(response);
-        //$('#obt_cod').select2();
-        //
+        $("#mostrar_data").html(response);      
         mostrar.style.display = "block";
         btn_export.style.display = "block";
       },
     });
   });
 });
+
+
+
+
 $(document).ready(function () {
- //PONER QUE start_date SEA LA FECHA MINIMA EN END_DATE
+  //PONER QUE start_date SEA LA FECHA MINIMA EN END_DATE
   $("#start_date").change(function () {
     var fecha = $("#start_date").val();
     //SETEAR MIN EN END_DATE
@@ -637,7 +641,6 @@ $(document).ready(function () {
     //SETEAR MIN EN END_DATE
     $("#end_date").attr("min", fecha);
   });
-
 });
 $(document).ready(function () {
   $("#obt_cod").change(function (e) {
@@ -648,6 +651,7 @@ $(document).ready(function () {
     var fecha_final = $("#end_date").val();
     var frm = "MERMA";
     var mostrar = document.getElementById("mostrar_data");
+    var mostrar_pagina = document.getElementById("mostrar_pagina");
     var btn_export = document.getElementById("btn-export");
     e.preventDefault();
     e.stopImmediatePropagation();
@@ -669,9 +673,52 @@ $(document).ready(function () {
         "&fecha_final=" +
         fecha_final,
       success: function (response) {
-        $("#mostrar_data").html(response);
-        //
+        $("#mostrar_data").html(response);        
         mostrar.style.display = "block";
+        mostrar_pagina.style.display = "block";
+        btn_export.style.display = "block";
+      },
+    });
+  });
+});
+
+$(document).ready(function () {
+  $("#index").change(function (e) {
+    console.log("cambio")
+    var tipo = $("#tipo_reporte").val();
+    var materia = $("#tip_ma_m").val();
+    var cod_materia = $("#obt_cod").val();
+    var fecha = $("#start_date").val();
+    var fecha_final = $("#end_date").val();
+    var frm = "MERMA";
+    var index = $("#index").val();
+    var mostrar = document.getElementById("mostrar_data");
+    var mostrar_pagina = document.getElementById("mostrar_pagina");
+    var btn_export = document.getElementById("btn-export");
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    $.ajax({
+      type: "POST",
+      url: "t_reporte.php",
+      data:
+        $(this).serialize() +
+        "&frm=" +
+        frm +
+        "&tipo=" +
+        tipo +
+        "&cod_materia=" +
+        cod_materia +
+        "&materia=" +
+        materia +
+        "&fecha=" +
+        fecha +
+        "&fecha_final=" +
+        fecha_final +
+        "&index=" + index,
+      success: function (response) {
+        $("#mostrar_data").html(response);        
+        mostrar.style.display = "block";
+        mostrar_pagina.style.display = "block";
         btn_export.style.display = "block";
       },
     });
@@ -1119,14 +1166,14 @@ $(document).ready(function () {
 });
 
 function closeModal() {
-  $(".modal").fadeOut()
-  $("#tip_mat_prim").val("")
-  $("#tipo_corte").val("")
-  $("#nombre_condi").val("")
-  $("#alerta-materia").html("")
-  $("#alerta-corte").html("")
-   $("#alerta-condimento").html("")
-  location.reload()
+  $(".modal").fadeOut();
+  $("#tip_mat_prim").val("");
+  $("#tipo_corte").val("");
+  $("#nombre_condi").val("");
+  $("#alerta-materia").html("");
+  $("#alerta-corte").html("");
+  $("#alerta-condimento").html("");
+  location.reload();
 }
 
 $(document).ready(function () {
@@ -1163,25 +1210,25 @@ $(document).ready(function () {
 //////////////// nuevo modal condimentos///////////////////
 $(document).ready(function () {
   $(".add_condimento").click(function (e) {
-    e.preventDefault()
-    $("#modal_condimento").fadeIn()
-  })
-})
+    e.preventDefault();
+    $("#modal_condimento").fadeIn();
+  });
+});
 $(document).ready(function () {
   $("#formModal3").submit(function (e) {
-    e.preventDefault()
-    e.stopImmediatePropagation()
-    var action = "addcondimento"
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    var action = "addcondimento";
     $.ajax({
       type: "POST",
       url: "list_receta.php",
       data: $(this).serialize() + "&action=" + action,
       success: function (response) {
-        $("#alerta-condimento").html(response)
+        $("#alerta-condimento").html(response);
       },
-    })
-  })
-})
+    });
+  });
+});
 
 //**********fUNCIONES DE ORDEN DE DESPOSTE PARA CHECKBOXES**********//
 

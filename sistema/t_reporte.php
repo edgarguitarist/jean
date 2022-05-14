@@ -21,6 +21,13 @@ if (isset($_POST['fecha2'])) {
 if (isset($_POST['fecha_final'])) {
     $fecha_final = $_POST['fecha_final'];
 }
+if (isset($_POST['index'])) {
+    $index = $_POST['index']-1;
+    $limit = " LIMIT $index, 10";
+} else {
+    $index = 0;
+    $limit = " LIMIT $index, 10";
+}
 
 
 $PorcentajeDeMerma = 0.1;
@@ -57,7 +64,8 @@ if (isset($_POST['frm'])) {
                 WHERE
                     pt.fecha_ingre BETWEEN '$fecha' AND '$fecha2'
                 GROUP BY mp.cod_mat_pri
-                ORDER BY mp.id_mat";
+                ORDER BY mp.id_mat
+                $limit";
 
                 foreach ($conexion->query($consulta2) as $tot) {
 
@@ -116,7 +124,7 @@ if (isset($_POST['frm'])) {
 
                     if ($ini > 0) {
                         $html .= $boton_reporte . "
-                <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
+                <table border='0' class='table' id='example' aria-describedby='tabla'>
                 <thead>
                 <tr style='background: #325459 !important;'>
                 <tr style='background: #325459 !important;'>
@@ -129,7 +137,7 @@ if (isset($_POST['frm'])) {
 
 
 
-                        $html .= "<tr>" .
+                        $html .= "<tbody><tr>" .
                             "<td><center><b>" . $nombre . "</td>" .
                             "<td><center>" . round($total, 3) . "</td>" .
                             "<td><center><b class='camporesalta'>" . round($total_producto, 3) . "</td>" .
@@ -140,7 +148,7 @@ if (isset($_POST['frm'])) {
                         $html = '';
                     }
 
-
+                    $html .= "";
                     foreach ($conexion->query($consulta2) as $fila) {
                         $pes_des = $fila['Peso'] - $fila['total_producto'];
                         $merma = ($pes_des / $fila['Peso']) * 100;
@@ -152,6 +160,8 @@ if (isset($_POST['frm'])) {
                             "<td><center>" . round($merma, 3) . "%</td>" .
                             "</tr>";
                     }
+                    $html .= "</tbody>";
+                    
 
 
                     if ($html == '') {
@@ -163,7 +173,7 @@ if (isset($_POST['frm'])) {
                     $html = "<div style='width: 100%;'>
                 <h1 style='display:; text-align:center;'>" . $nombre . "</h1> <br>";
                     $html .= "
-                <table id = 'tabla' style='margin: auto; width: 90%; border-spacing: 10px 5px;'>
+                <table border='0' class='table' id='example' aria-describedby='tabla'>
                 <thead>
                 <tr style='background: #325459 !important;'>
                 <tr style='background: #325459 !important;'>
@@ -194,13 +204,13 @@ if (isset($_POST['frm'])) {
                     foreach ($conexion->query($consulta) as $fila) {
                         $pes_des = $fila['Peso'] - $fila['total_producto'];
                         $merma = ($pes_des / $fila['Peso']) * 100;
-                        $html .= "<tr>" .
+                        $html .= "<tbody><tr>" .
                             "<td><center>" . $fila['Codigo'] . "</td>" .
                             "<td><center>" . round($fila['Peso'], 3) . "</td>" .
                             "<td><center>" . round($fila['total_producto'], 3) . "</td>" .
                             "<td><center>" . round($pes_des, 3) . " lbs.</td>" .
                             "<td><center>" . round($merma, 3) . "%</td>" .
-                            "</tr>";
+                            "</tr></tbody>";
                         $ini++;
                     }
                     if ($ini > 0) {

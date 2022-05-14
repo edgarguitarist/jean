@@ -15,6 +15,7 @@ $namepdf = "Reporte_Merma - " . $hoy;
 <head>
 	<meta charset="UTF-8">
 	<?php include "includes/scripts.php"; ?>
+
 	<title><?= $reporte; ?></title>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
@@ -94,7 +95,7 @@ $namepdf = "Reporte_Merma - " . $hoy;
 						</p>
 						<p class="">
 							<label for="end_date" class="form" style="margin: 0px;">Fecha final:</label>
-							<input id="end_date" type="date" class="f16" name="end_date" step="1" min="2021-12-15" max="<?= $hoy; ?>" value="<?= $hoy?>" onchange="getCodigos()">
+							<input id="end_date" type="date" class="f16" name="end_date" step="1" min="2021-12-15" max="<?= $hoy; ?>" value="<?= $hoy ?>" onchange="getCodigos()">
 						</p>
 						<p class="full-width">
 							<label for="obt_cod">Materia Prima :</label>
@@ -140,6 +141,18 @@ $namepdf = "Reporte_Merma - " . $hoy;
 				</div>
 				<br><br>
 				<div class="datosp full-width" id="mostrar_data" style="display: none;"></div>
+				<br><br>
+				<div id="mostrar_pagina" style='display:none;'>
+					<label class='wd50'>Pagina: </label>
+					<select class='wd50' name='index' id='index'>
+						<option value='1'>1</option>
+						<option value='2'>2</option>
+						<option value='3'>3</option>
+						<option value='4'>4</option>
+						<option value='5'>5</option>
+					</select>
+				</div>
+
 			</div>
 		</div>
 	</section>

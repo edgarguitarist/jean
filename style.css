@@ -983,3 +983,32 @@ body {
   color: #F44336;
   font-weight: bold;
 }
+
+.pager {
+  margin: 20px 0;
+}
+.pager i {
+  width: 35px;
+  height: 35px;
+  line-height: 17.5px;
+  text-align: center;
+  display: inline-block;
+  padding: 10px;
+  margin: 0 3.33333333px 0 0;
+  background: #fff;
+  color: #aaa;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.pager i:hover {
+  color: #333;
+}
+.pager i.active {
+  color: #fff;
+  background: #6cf;
+}
+.material-icons,
+.mshow,
+.carrier img {
+  display: none;
+}

@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('America/Guayaquil'); 
 if (empty($_SESSION['active'])) {
     header('location: login.php');
 }

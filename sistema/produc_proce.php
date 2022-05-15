@@ -1,6 +1,8 @@
 <?php
 session_start();
 include "conexion.php";
+date_default_timezone_set('America/Guayaquil'); 
+$fecha_base = date("Y-m-d H:i:s");
 
 if (!empty($_POST)) {
 
@@ -12,8 +14,8 @@ if (!empty($_POST)) {
 		$prod_procesa   =  $_POST['prod_proce'];
 		$peso_sal      =  $_POST['peso_sali'];
 
-		$insert = mysqli_query($conexion, "INSERT INTO prod_procesar(cod_pro,pes_pro ) 
-		VALUES('$prod_procesa','$peso_sal')"); // agregar estado
+		$insert = mysqli_query($conexion, "INSERT INTO prod_procesar(cod_pro,pes_pro,fecha_sali_proce ) 
+		VALUES('$prod_procesa','$peso_sal', '$fecha_base')"); // agregar estado
 
 		if ($insert) {
 			$alert = '<p class="msg_guardar">Registrado Correctamente.</p>';

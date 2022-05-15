@@ -5,6 +5,8 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 }
 
 include "conexion.php";
+date_default_timezone_set('America/Guayaquil'); 
+$fecha_base = date("Y-m-d H:i:s");
 if (!empty($_POST)) {
 
 	$alert = '';
@@ -30,8 +32,8 @@ if (!empty($_POST)) {
 		if ($result > 0) {
 			$alert = '<p class="msg_error">El Usuario O Cedula ya Existe</p>';
 		} else {
-			$insert = mysqli_query($conexion, "INSERT INTO usuario(ced_usu,nom_usu,ape_usu,cel_usu,tel_usu,dir_usu,cor_usu,cod_tip_usu,usu_usu,cla_usu) 
-			VALUES('$cedula_usu','$nombre_usu','$apellido_usu','$celular_usu','$telefono_usu','$direccion_usu','$correo_usu','$codigo_tipo_usu','$usuario_usu','$clave_usu')");
+			$insert = mysqli_query($conexion, "INSERT INTO usuario(ced_usu,nom_usu,ape_usu,cel_usu,tel_usu,dir_usu,cor_usu,cod_tip_usu,usu_usu,cla_usu,fech_reg_usu) 
+			VALUES('$cedula_usu','$nombre_usu','$apellido_usu','$celular_usu','$telefono_usu','$direccion_usu','$correo_usu','$codigo_tipo_usu','$usuario_usu','$clave_usu','$fecha_base')");
 			$error = mysqli_errno($conexion);
 
 			if ($insert) {

@@ -1,5 +1,7 @@
 <?php
 include "conexion.php";
+date_default_timezone_set('America/Guayaquil'); 
+$fecha_base = date("Y-m-d H:i:s");
 
 if (isset($_POST['obt_cod'])) {
 
@@ -109,7 +111,7 @@ if (isset($_POST['frm'])) {
 	}
 
 	if ($temp == 0) {
-		$insert = mysqli_query($conexion, "INSERT INTO prod_final(cortes, peso) VALUES('$corte','$peso')");
+		$insert = mysqli_query($conexion, "INSERT INTO prod_final(cortes, peso, fecha_ingreso) VALUES('$corte','$peso','$fecha_base')");
 	}
 }
 

@@ -5,6 +5,8 @@ if ($_SESSION['rol'] !=1 && $_SESSION['rol'] !=2)  {
 	header("location: login.php");
 }
 include "conexion.php";
+date_default_timezone_set('America/Guayaquil'); 
+$fecha_base = date("Y-m-d H:i:s");
 if (!empty($_POST))
 {
 
@@ -38,8 +40,8 @@ $result = mysqli_fetch_array($verificar);
 if($result > 0){
 	$alert='<p class="msg_error">El Usuario O Cedula ya Existe</p>';	
 }else{
-	$insert = mysqli_query($conexion,"INSERT INTO proveedor(ced_pro,nom_pro,ape_pro,cel_pro,cor_pro,dir_pro,ruc_emp,raz_emp,nom_emp,dir_emp,cor_emp,tel_emp,id_tip_emp,id_usu) 
-		VALUES('$cedula_prove','$nombre_prove','$apellido_prove','$celular_prove','$correo_prove','$direccion_prove','$ruc_empe','$razon_emp','$nombre_emp','$direccion_emp','$correo_emp','$telefono_emp','$tipo_prove','$usua_id')");
+	$insert = mysqli_query($conexion,"INSERT INTO proveedor(ced_pro,nom_pro,ape_pro,cel_pro,cor_pro,dir_pro,ruc_emp,raz_emp,nom_emp,dir_emp,cor_emp,tel_emp,id_tip_emp,id_usu,fech_reg_pro) 
+		VALUES('$cedula_prove','$nombre_prove','$apellido_prove','$celular_prove','$correo_prove','$direccion_prove','$ruc_empe','$razon_emp','$nombre_emp','$direccion_emp','$correo_emp','$telefono_emp','$tipo_prove','$usua_id','$fecha_base')");
 	
 if($insert){
 	$alert='<p class="msg_guardar">Proveedor Registrado Correctamente.</p>';

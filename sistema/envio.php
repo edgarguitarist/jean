@@ -2,7 +2,8 @@
 include 'conexion.php';
 $val = '';
 session_start();
-
+date_default_timezone_set('America/Guayaquil'); 
+$fecha_base = date("Y-m-d H:i:s");
 
 if (isset($_POST['s1des'])) {
     $s1des = $_POST['s1des'];
@@ -20,7 +21,7 @@ if (isset($_POST['s1des'])) {
             $regs3 = $checkbox;
         }
         //$check = substr($val, 0, -1); //quitamos la ultima coma
-        $insert = "INSERT INTO orden_despost(tip_mat_pri,lot_mat_pri,cor_pro) VALUES ('{$regs1[0]}','{$regs2[0]}','{$regs3}')";
+        $insert = "INSERT INTO orden_despost(tip_mat_pri,lot_mat_pri,cor_pro,fec_despo) VALUES ('{$regs1[0]}','{$regs2[0]}','{$regs3}', '$fecha_base')";
         $resultado_insert = mysqli_query($conexion, $insert);
         if ($resultado_insert) {
             //success    
@@ -37,7 +38,7 @@ if (isset($_POST['s1des'])) {
             mysqli_close($conexion);
         }
     } else {
-        $insert = "INSERT INTO orden_despost(tip_mat_pri,lot_mat_pri) VALUES ('{$regs1[0]}','{$regs2[0]}')";
+        $insert = "INSERT INTO orden_despost(tip_mat_pri,lot_mat_pri,fec_despo) VALUES ('{$regs1[0]}','{$regs2[0]}','$fecha_base')";
         $resultado_insert = mysqli_query($conexion, $insert);
         if ($resultado_insert) {
             //success  
@@ -60,7 +61,7 @@ if (isset($_POST['s1des'])) {
     $selpro = $_POST['selpro'];
     $peso_lle = $_POST['peso_lle'];
 
-    $insert = "INSERT INTO prod_terminado(cod_pro, cortes, peso, peso_restante, id_usu) VALUES ('{$selordpro}','{$selpro}','{$peso_lle}','{$peso_lle}','{$_SESSION['idUser']}')";
+    $insert = "INSERT INTO prod_terminado(cod_pro, cortes, peso, peso_restante, id_usu,fecha_ingre) VALUES ('{$selordpro}','{$selpro}','{$peso_lle}','{$peso_lle}','{$_SESSION['idUser']}', '$fecha_base')";
     $resultado_insert = mysqli_query($conexion, $insert);
 
     //Actualizacion de productos
@@ -127,7 +128,7 @@ if (isset($_POST['s1des'])) {
         }
     }
 
-    $insert = "INSERT INTO prod_terminado(cod_pro, cortes, peso, peso_restante, cantidad, id_usu) VALUES ('{$salida}','{$selordpro}','{$peso_lle}','{$peso_lle}','{$cantidad}','{$_SESSION['idUser']}')";
+    $insert = "INSERT INTO prod_terminado(cod_pro, cortes, peso, peso_restante, cantidad, id_usu,fecha_ingre) VALUES ('{$salida}','{$selordpro}','{$peso_lle}','{$peso_lle}','{$cantidad}','{$_SESSION['idUser']}', '$fecha_base')";
     $resultado_insert = mysqli_query($conexion, $insert);
 
     //REVISAR DONDE DEBE ESTAR LA ACTUALIZACION

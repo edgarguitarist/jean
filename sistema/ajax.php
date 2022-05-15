@@ -1,6 +1,8 @@
 <?php
 session_start();
 include "conexion.php";
+date_default_timezone_set('America/Guayaquil'); 
+$fecha_base = date("Y-m-d H:i:s");
 
 if (!empty($_POST)) {
   //buscar proveedor//
@@ -67,8 +69,8 @@ if (!empty($_POST)) {
 
     //debug_to_console('sal '.$salida.'pro '.$id_proveed.'tip '.$tipo_mate.'pes '.$peso_llega.'us '.$id_usuar);
 
-    $insert = mysqli_query($conexion,"INSERT INTO mat_prima (cod_mat_pri,id_prov,id_tip_mat,peso_lle,id_usu) 
-            VALUES('$salida','$id_proveed','$tipo_mate','$peso_llega','$id_usuar')");
+    $insert = mysqli_query($conexion,"INSERT INTO mat_prima (cod_mat_pri,id_prov,id_tip_mat,peso_lle,id_usu, fech_reg_mat) 
+            VALUES('$salida','$id_proveed','$tipo_mate','$peso_llega','$id_usuar', '$fecha_base')");
     echo "Registro de Materia Prima Correcto!";
     exit;   
   }

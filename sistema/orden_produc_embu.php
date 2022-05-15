@@ -4,7 +4,8 @@ if ($_SESSION['rol'] != 1 && $_SESSION['rol'] != 2) {
 	header("location: login.php");
 }
 include "conexion.php";
-
+date_default_timezone_set('America/Guayaquil'); 
+$fecha_base = date("Y-m-d H:i:s");
 
 if (!empty($_POST)) {
 	$alert = '';
@@ -13,8 +14,8 @@ if (!empty($_POST)) {
 	} else {
 		$nombre_orde     = $_POST['rol_lis_re'];
 		$canti_orde    = $_POST['cant_lis'];
-		$insert = mysqli_query($conexion, "INSERT INTO orden_embut(nom_ord,cant_ord) 
-		VALUES('$nombre_orde','$canti_orde')");
+		$insert = mysqli_query($conexion, "INSERT INTO orden_embut(nom_ord,cant_ord,fecha_ord_emb) 
+		VALUES('$nombre_orde','$canti_orde','$fecha_base')");
 		if ($insert) {
 			$alert = '<p class="msg_guardar">Orden Realizada Correctamente.</p>';
 		} else {

@@ -1,7 +1,25 @@
 <div id="modal_materia" class="modal">
   <div class="bodyModal form_register">
     <form class="form_modal" action="" id="formModal1" name="formModal1" method="post">
+
       <h1 class="full-width">Nueva Materia Prima</h1>
+      <label style="margin-left:0px;">Tipo De Materia:</label>
+      <?php
+      $query_rol = mysqli_query($conexion, "SELECT * FROM tipo_empresa");
+      $result_rol = mysqli_num_rows($query_rol);
+      ?>
+      <select onchange="getSufijo();" name="id_tip_emp" id="id_tip_emp">
+        <option value="">Seleccionar Tipo Materia</option>
+        <?php
+        if ($result_rol > 0) {
+          while ($rol = mysqli_fetch_array($query_rol)) {
+        ?>
+            <option value="<?php echo $rol["id_tip_emp"]; ?>"><?php echo $rol["nom_tip_emp"] ?></option>
+        <?php
+          }
+        }
+        ?>
+      </select>
       <label style="margin-left:0px;">Nombre de Materia Prima:</label>
       <input type="text" name="tip_mat_prim" id="tip_mat_prim" placeholder="Ingrese el Nombre" maxlength="20" required="">
       <div id="alerta-materia" class="full-width"></div>

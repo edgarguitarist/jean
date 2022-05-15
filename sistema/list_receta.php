@@ -137,6 +137,27 @@ if (!empty($_POST)) {
     exit;
   }
 
+  if ($_POST['action'] == 'getMaterias') {
+    $ced_proveedor = $_POST['ced_proveedor'];
+
+    $query = mysqli_query($conexion, "SELECT tm.id_tip_mat, tm.nom_tip_mat FROM proveedor pro INNER JOIN tipo_mat tm ON pro.id_tip_emp = tm.id_tip_emp WHERE ced_pro = '$ced_proveedor'");
+  
+    $result = mysqli_num_rows($query);
+    $arrayData = array();
+    $arrayData['options'] = '<option value="">Seleccionar Materia Prima</option>';
+    if ($result > 0) {
+      while ($data = mysqli_fetch_assoc($query)) {
+        $id = $data['id_tip_mat'];
+        $nombre = $data['nom_tip_mat'];
+        $arrayData['options'] .= "<option value='$id'> $nombre </option>";
+      }
+    } else {
+      $arrayData[] = 0;
+    }
+    echo json_encode($arrayData, JSON_UNESCAPED_UNICODE);
+    exit;
+  }
+
   ///////////////////////////////////////ELIMINAR datos RECETAS///////////////////////////
   if ($_POST['action'] == 'delProductoDetalle') {
     if (empty($_POST['id_detalle'])) {
@@ -225,6 +246,7 @@ if (!empty($_POST)) {
     } else {
 
       $tip_mat_pri = $_POST['tip_mat_prim'];
+      $id_tip_emp = $_POST['id_tip_emp'];
 
       $verificar = mysqli_query($conexion, "SELECT * FROM tipo_mat WHERE nom_tip_mat = '$tip_mat_pri'");
 
@@ -232,8 +254,9 @@ if (!empty($_POST)) {
       if ($result > 0) {
         $html = '<p class="msg_error">La Materia Prima ya Existe</p>';
       } else {
-        $insert = mysqli_query($conexion, "INSERT INTO tipo_mat(nom_tip_mat) 
-      VALUES('$tip_mat_pri')");
+        
+        $insert = mysqli_query($conexion, "INSERT INTO tipo_mat(nom_tip_mat, id_tip_emp) 
+      VALUES('$tip_mat_pri', '$id_tip_emp')");
         if ($insert) {
           $html = '<p class="msg_guardar">Materia Prima fue Registrada Correctamente.</p>';
         } else {

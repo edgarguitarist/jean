@@ -108,13 +108,13 @@ include "conexion.php";
 						$query_pro = mysqli_query($conexion, "SELECT * FROM proveedor");
 						$result_pro = mysqli_num_rows($query_pro);
 						?>
-						<select name="ced_proveedor" id="ced_proveedor" onchange="getProveedor()" required>
+						<select name="ced_proveedor" id="ced_proveedor" onchange="getProveedor(); getMaterias();" required>
 							<option value="">Seleccionar Proveedor</option>
 							<?php
 							if ($result_pro > 0) {
 								while ($pro = mysqli_fetch_array($query_pro)) {
 							?>
-									<option value="<?php echo $pro["ced_pro"]; ?>"><?php echo $pro["nom_pro"] . " " . $pro["ape_pro"] ?></option>
+									<option value="<?= $pro["ced_pro"]; ?>"><?= $pro["nom_pro"] . " " . $pro["ape_pro"] ?></option>
 							<?php
 								}
 							}
@@ -141,23 +141,8 @@ include "conexion.php";
 					</div>
 					<div class="wd30">
 						<label for="Materia Prima">Materia Prima:</label>
-						<?php
-						$query_tipo = mysqli_query($conexion, "SELECT * FROM tipo_mat");
-						$result_tipo = mysqli_num_rows($query_tipo);
-						?>
 						<select name="tipo_mate" id="tipo_mate" required>
-							<?php
-							?>
-							<option value="">Seleccionar Materia Prima</option>
-							<?php
-							if ($result_tipo > 0) {
-								while ($tipo = mysqli_fetch_array($query_tipo)) {
-							?>
-									<option value="<?php echo $tipo["id_tip_mat"]; ?>"><?php echo $tipo["nom_tip_mat"] ?></option>
-							<?php
-								}
-							}
-							?>
+							
 						</select>
 					</div>
 					<div class="wd30">

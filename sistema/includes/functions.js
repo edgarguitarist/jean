@@ -1339,6 +1339,22 @@ function getUnidades (){
   });
 }
 
+function getMaterias (){
+  var action = "getMaterias";
+  var ced_proveedor = document.getElementById("ced_proveedor").value;
+  $.ajax({
+    type: "POST",
+    url: "list_receta.php",
+    data: "ced_proveedor=" + ced_proveedor + "&action=" + action,
+    success: function (response) {
+      response = JSON.parse(response);
+      //asignar el valor de la respuesta a un input hidden
+     $("#tipo_mate").html(response.options);
+      return response.unidades;
+    },
+  });
+}
+
 function checkCantidadUnidades(){
   const unidades = document.getElementById("cantidadh").value;
   const cantidad = document.getElementById("cantidad").value;

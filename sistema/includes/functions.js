@@ -358,6 +358,7 @@ $(document).ready(function () {
 
     var codproducto = $("#pro").val();
     var cantidad = $("#cantidad_rece").val();
+    var unidades = $("#cantidad_uni_rece").val();
     var cond = $("#cond").val();
     var action = "addProductoDetalle";
     var nom_rece = $("#nombr_rece").val();
@@ -371,12 +372,13 @@ $(document).ready(function () {
         cantidad: cantidad,
         cond: cond,
         nom_re: nom_rece,
+        unidades: unidades,
       },
 
       success: function (response) {
         //console.log(response);
         if (response != "error") {
-          console.log(response);
+          //console.log(response);
           var info = JSON.parse(response);
           $("#detalle_venta").html(info.detalle);
 
@@ -429,7 +431,7 @@ $(document).ready(function () {
 ///////////CREAR RECETA/////////////////
 $(document).ready(function () {
   $("#crear_receta22").click(function (e) {
-    //e.preventDefault()
+    e.preventDefault()
     var rows = $("#detalle_venta tr").length;
     if (rows > 0) {
       var action = "procesarLista";
@@ -1089,11 +1091,19 @@ function searchForDetalle(id) {
     data: { action: action, user: user },
 
     success: function (response) {
-      if (response != "error") {
+      if (response == "error1") {
+        return
+      }
+      if (response != "error") {        
         var info = JSON.parse(response);
+        console.log(info);
         $("#detalle_venta").html(info.detalle);
         $("#nombr_rece").val(info.totales);
-
+        $("#nombr_rece").prop('disabled', true);
+        $("#cond").val(info.cond);
+        $("#cond").prop('disabled', true);
+        $("#cantidad_uni_rece").val(info.unidades);
+        $("#cantidad_uni_rece").prop('disabled', true);
         $("#rol").val("");
         $("#cantidad_rece").val("0");
 
@@ -1310,4 +1320,35 @@ function cambiarValor(elementID) {
   input = document.getElementById(elementID);
   input2 = document.getElementById(elementID + "2");
   input2.value = input.value;
+}
+
+function getUnidades (){
+  var action = "getUnidades";
+  var nom_rece = document.getElementById("ord_desp").value;
+  $.ajax({
+    type: "POST",
+    url: "list_receta.php",
+    data: "nom_rece=" + nom_rece + "&action=" + action,
+    success: function (response) {
+      response = JSON.parse(response);
+      //asignar el valor de la respuesta a un input hidden
+      document.getElementById("cantidadh").value = response.unidades;
+      console.log(response.unidades);
+      return response.unidades;
+    },
+  });
+}
+
+function checkCantidadUnidades(){
+  const unidades = document.getElementById("cantidadh").value;
+  const cantidad = document.getElementById("cantidad").value;
+  const cantidad_baja = parseInt(unidades) - 5;
+  const cantidad_alta = parseInt(unidades) + 5;
+  if(cantidad < cantidad_baja || cantidad > cantidad_alta){
+    $("#msg_error_pro3").show();
+    $("#msg_error_pro3").html("La cantidad debe estar entre " + cantidad_baja + " y " + cantidad_alta);
+  }else{
+    $("#msg_error_pro3").hide();
+  }
+
 }

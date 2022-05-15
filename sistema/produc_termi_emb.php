@@ -28,13 +28,15 @@ include "conexion.php"; // Mostrar de la tabla    prod_procesar
 					<div class="wd30">
 						<label for="ord_desp">Orden A Procesar :</label>
 						<?php
+						$nom_rece = '';
 						$query_rol1 = mysqli_query($conexion, "SELECT *, (SELECT SUM(lr.cant_rece) * oe.cant_ord FROM lista_receta lr WHERE lr.nom_rece = oe.nom_ord GROUP BY lr.nom_rece) AS total FROM orden_embut oe WHERE oe.estado = '1' GROUP BY oe.nom_ord");
 						$result_rol1 = mysqli_num_rows($query_rol1);
 						?>
-						<select name="ord_desp" id="ord_desp" onchange="revisar2(); checkPeso2();" required>
+						<select name="ord_desp" id="ord_desp" onchange="revisar2(); checkPeso2(); getUnidades();" required>
 							<option selected disabled value="">Seleccionar Producto</option>
 							<?php
 							$data = array("prueba" => 1);
+							$cantidad = 100;
 							if ($result_rol1 > 0) {
 								while ($rol = mysqli_fetch_array($query_rol1)) {
 									$data[$rol["nom_ord"]] = $rol["total"];
@@ -49,16 +51,22 @@ include "conexion.php"; // Mostrar de la tabla    prod_procesar
 					<div class="wd30">
 						<label for="peso_lle">Peso</label>
 						<input type="hidden" name="peso_lle" id="peso_lle">
-						<input type="text" name="peso_lle2" id="peso_lle2"  value="0" disabled required>
+						<input type="text" name="peso_lle2" id="peso_lle2" value="0" disabled required>
 					</div>
 					<!-- TODO: Agregar Cantidad -->
 					<div class="wd30">
 						<label for="">Cantidad</label>
-						<input type="number" name="cantidad" id="cantidad" class="solo-numero" minlength="2" min="30" value="" onfocus="checkSelect();" onchange="revisar2(); checkPeso2();" onkeyup="revisar2(); checkPeso2();" required>
+						<input type="hidden" id="cantidadh">
+						<input type="number" name="cantidad" id="cantidad" class="solo-numero" minlength="2" min="30" value="" onfocus="checkSelect();" onchange="revisar2(); checkPeso2();" onkeyup="revisar2(); checkPeso2();" onblur="checkCantidadUnidades();" required>
 					</div>
-					<div class="wd100">
+					<div class="wd30">
+					</div>
+					<div class="wd30">
 						<h4 id="msg_error_pro" class="msg_error v-margin" hidden>Primero debe Seleccionar un Producto</h4>
 						<h4 id="msg_error_pro2" class="msg_error v-margin" hidden>El peso ingresado supera el peso de llegada del producto</h4>
+					</div>
+					<div class="wd30">
+						<h4 id="msg_error_pro3" class="msg_error v-margin" hidden>La cantidad no es la esperada</h4>
 					</div>
 					<input id="submitemb" type="submit" value="Guardar Producto" class="btn_guardar" style="width: auto; padding: 10px;" disabled>
 				</form>
@@ -104,6 +112,7 @@ include "conexion.php"; // Mostrar de la tabla    prod_procesar
 			var selpro = $("#ord_desp").val();
 			submito = document.getElementById('submitemb');
 			var arreglo = <?php echo json_encode($data); ?>
+
 
 			if (selpro != null) {
 				var valor = parseFloat(arreglo[selpro]).toFixed(3);

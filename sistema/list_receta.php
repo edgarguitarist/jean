@@ -24,14 +24,15 @@ if (!empty($_POST)) {
       $nom_rece = $_POST['nom_re'];
       $token = $_SESSION['idUser'];
       $cond = $_POST['cond'];
+      $unidades = $_POST['unidades'];
 
-      $query_detalle_temp = mysqli_query($conexion, "CALL add_tempo_lista_receta($codproducto,$cond,$cantidad,'$nom_rece','$token')");
+      $query_detalle_temp = mysqli_query($conexion, "CALL add_tempo_lista_receta($codproducto,$cond,$unidades,$cantidad,'$nom_rece','$token')");
+      echo $query_detalle_temp;
       $result = mysqli_num_rows($query_detalle_temp);
-
       $detalleTabla = '';
       $arrayData = array();
       console_log($query_detalle_temp);
-      
+
       if ($result > 0) {
 
         while ($data = mysqli_fetch_assoc($query_detalle_temp)) {
@@ -69,7 +70,7 @@ if (!empty($_POST)) {
 
       $token = $_SESSION['idUser'];
 
-      $query = mysqli_query($conexion, "SELECT tmp.correlativo, tmp.id_cortes, tmp.cant, p.cortes, tmp.no_rece FROM tempo_lista_receta tmp
+      $query = mysqli_query($conexion, "SELECT tmp.correlativo, tmp.id_cortes, tmp.cant, p.cortes, tmp.no_rece, tmp.id_cond, tmp.unidades, (SELECT SUM(cant) FROM tempo_lista_receta GROUP by no_rece) total FROM tempo_lista_receta tmp
                                                  INNER JOIN tipo_cortes p
                                                  ON tmp.id_cortes = p.id_cortes
                                                  WHERE tmp.token_user = token_user;  ");
@@ -90,6 +91,9 @@ if (!empty($_POST)) {
 
         while ($data = mysqli_fetch_assoc($query)) {
           $nom_re = $data['no_rece'];
+          $cond = $data['id_cond'];
+          $total = $data['total'];
+          $unidades = $data['unidades'];
           $detalleTabla .= '<tr>        
               <td colspan="1" >' . $data['id_cortes'] . '</td>
               <td class="textcenter">' . $data['cortes'] . '</td>
@@ -102,7 +106,9 @@ if (!empty($_POST)) {
         }
 
         $detalleNom = $nom_re;
-
+        $arrayData['cond'] = $cond;
+        $arrayData['total'] = $total;
+        $arrayData['unidades'] = $unidades;
         $arrayData['detalle'] = $detalleTabla;
         $arrayData['totales'] = $detalleNom;
 
@@ -116,7 +122,20 @@ if (!empty($_POST)) {
   }
 
 
-
+  if ($_POST['action'] == 'getUnidades') {
+    $nom_rece = $_POST['nom_rece'];
+    $query = mysqli_query($conexion, "SELECT *, (oe.cant_ord * lr.unidades) AS unidades_totales FROM orden_embut oe INNER JOIN lista_receta lr ON oe.nom_ord = lr.nom_rece WHERE oe.nom_ord = '$nom_rece' GROUP BY oe.nom_ord");
+    $result = mysqli_num_rows($query);
+    $arrayData = array();
+    if ($result > 0) {
+      $result = mysqli_fetch_assoc($query);
+      $arrayData['unidades'] = $result['unidades_totales'];
+    } else {
+      $arrayData['unidades'] = 0;
+    }
+    echo json_encode($arrayData, JSON_UNESCAPED_UNICODE);
+    exit;
+  }
 
   ///////////////////////////////////////ELIMINAR datos RECETAS///////////////////////////
   if ($_POST['action'] == 'delProductoDetalle') {
@@ -182,20 +201,20 @@ if (!empty($_POST)) {
 
     $token = $_SESSION['idUser'];
 
-    
-      $query_procesar = mysqli_query($conexion, "CALL procesar_lista('$token')");
-      $result_detalle = mysqli_num_rows($query_procesar);
-      //console_log($query_procesar);
-      echo $query_procesar;
-      //console_log($result_detalle);
-      echo $result_detalle;
-      if ($result_detalle > 0) {
-        $data = mysqli_fetch_assoc($query_procesar);
-        echo json_encode($data, JSON_UNESCAPED_UNICODE);
-      } else {
-        echo "error1pro";
-      }
-    
+
+    $query_procesar = mysqli_query($conexion, "CALL procesar_lista('$token')");
+    $result_detalle = mysqli_num_rows($query_procesar);
+    //console_log($query_procesar);
+    echo $query_procesar;
+    //console_log($result_detalle);
+    echo $result_detalle;
+    if ($result_detalle > 0) {
+      $data = mysqli_fetch_assoc($query_procesar);
+      echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    } else {
+      echo "error1pro";
+    }
+
     exit;
   }
   ///////////// agregar materia prima con modal ////////////////
@@ -233,7 +252,7 @@ if (!empty($_POST)) {
       $tipo = ucfirst($_POST['tipo_corte']);
       $tip_cortes = $tipo . ' de ' . $sufijo;
       $codi_tipo_mat = $_POST['rol'];
- 
+
       $verificar = mysqli_query($conexion, "SELECT * FROM tipo_cortes WHERE cortes = '$tip_cortes' AND  tipo_mat_despo = '$codi_tipo_mat'");
 
       $result = mysqli_fetch_array($verificar);

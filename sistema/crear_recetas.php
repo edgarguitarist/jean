@@ -48,9 +48,7 @@ include "conexion.php";
 						<label> Condimentos:</label>
 						<?php
 						$query_cond = mysqli_query($conexion, "SELECT * FROM condimentos");
-
 						$result_cond = mysqli_num_rows($query_cond);
-
 						?>
 						<select name="cond" id="cond" required>
 							<?php
@@ -67,7 +65,7 @@ include "conexion.php";
 							?>
 						</select>
 					</div>
-					<div class="wd30" style="align-self: center;">
+					<div class="wd30">
 						<h4 id="msg_error" class="msg_error" hidden>La cantidad mínima permitida es de 15 lbs.</h4>
 					</div>
 
@@ -101,6 +99,11 @@ include "conexion.php";
 						<input type="number" name="cantidad_rece" id="cantidad_rece" placeholder="Cantidad en libras" min="15" onkeyup="cr_check()" maxlength="10" class="solo-numero" required>
 					</div>
 					<div class="wd30">
+						
+						<label>Cantidad Aproximada</label>
+						<input type="number" name="cantidad_uni_rece" id="cantidad_uni_rece" placeholder="Cantidad de Unidades" min="30" maxlength="10" class="solo-numero" required>
+					</div>
+					<div class="wd100">
 						<input id="add_btn_lista" type="submit" value="Agregar A La Lista" class="btn_guardar" style="width: auto; padding: 10px;" disabled>
 					</div>
 
@@ -151,6 +154,7 @@ include "conexion.php";
 			}
 		}
 
+
 		function viewProcesar() {
 			if ($("#detalle_venta tr").length >= 2) {
 				$("#crear_receta22").show();
@@ -159,6 +163,10 @@ include "conexion.php";
 			} else {
 				$("#crear_receta22").hide();
 				$("#msg_error_ing").show();
+			}
+			if ($("#detalle_venta tr").length >= 1) {
+				//deshabilitar select cond 
+				//$("#cond").prop('disabled', true);
 			}
 		}
 	</script>
